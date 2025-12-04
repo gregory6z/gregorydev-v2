@@ -1,0 +1,13 @@
+{
+	"nav": {
+		"home": "Inicio",
+		"projects": "Proyectos",
+		"about": "Sobre",
+		"contact": "Contacto",
+		"cta": "Hablemos"
+	},
+	"footer": {
+		"rights": "Todos los derechos reservados",
+		"builtWith": "Hecho con"
+	}
+}

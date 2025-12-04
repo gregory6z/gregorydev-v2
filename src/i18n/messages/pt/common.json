@@ -1,0 +1,13 @@
+{
+	"nav": {
+		"home": "Home",
+		"projects": "Projetos",
+		"about": "Sobre",
+		"contact": "Contato",
+		"cta": "Vamos Conversar"
+	},
+	"footer": {
+		"rights": "Todos os direitos reservados",
+		"builtWith": "Feito com"
+	}
+}
