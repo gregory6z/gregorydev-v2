@@ -12,10 +12,11 @@
   --font-heading: var(--font-space-grotesk);
 }
 
-/* Logo scroll animations - synchronized for 8 logos per side */
-/* Each logo: 44px (w-11) + 96px (px-12 = 48px * 2) = 140px */
-/* 8 logos = 1120px, duplicated = 2240px total */
-/* Animation: logos são ABSORVIDOS pelo avatar */
+/* ==========================================
+   DESKTOP - Logo scroll animations
+   8 logos per side: 44px (w-11) + 96px (px-12) = 140px each
+   8 logos = 1120px, duplicated = 2240px total
+   ========================================== */
 
 @keyframes scroll-to-center-left {
   0% {
@@ -36,11 +37,176 @@
 }
 
 .animate-scroll-left {
-  animation: scroll-to-center-right 50s linear infinite;
+  animation: scroll-to-center-right 150s linear infinite;
   width: 2240px;
 }
 
 .animate-scroll-right {
-  animation: scroll-to-center-left 50s linear infinite;
+  animation: scroll-to-center-left 150s linear infinite;
   width: 2240px;
+}
+
+/* ==========================================
+   MOBILE - Single marquee animation
+   16 logos: 32px (w-8) + 48px (px-6) = 80px each
+   16 logos = 1280px, duplicated = 2560px total
+   ========================================== */
+
+@keyframes scroll-mobile {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-1280px);
+  }
+}
+
+.animate-scroll-mobile {
+  animation: scroll-mobile 140s linear infinite;
+  width: 2560px;
+}
+
+/* ==========================================
+   Sheet/Drawer animations (Radix UI)
+   ========================================== */
+
+@keyframes slide-in-from-right {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-out-to-right {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes slide-in-from-left {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-out-to-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes slide-in-from-top {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-out-to-top {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-100%);
+  }
+}
+
+@keyframes slide-in-from-bottom {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-out-to-bottom {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* Radix animation classes */
+.data-\[state\=open\]\:animate-in[data-state="open"] {
+  animation-duration: 300ms;
+  animation-fill-mode: both;
+}
+
+.data-\[state\=closed\]\:animate-out[data-state="closed"] {
+  animation-duration: 200ms;
+  animation-fill-mode: both;
+}
+
+.data-\[state\=open\]\:fade-in-0[data-state="open"] {
+  animation-name: fade-in;
+}
+
+.data-\[state\=closed\]\:fade-out-0[data-state="closed"] {
+  animation-name: fade-out;
+}
+
+.data-\[state\=open\]\:slide-in-from-right[data-state="open"] {
+  animation-name: slide-in-from-right;
+}
+
+.data-\[state\=closed\]\:slide-out-to-right[data-state="closed"] {
+  animation-name: slide-out-to-right;
+}
+
+.data-\[state\=open\]\:slide-in-from-left[data-state="open"] {
+  animation-name: slide-in-from-left;
+}
+
+.data-\[state\=closed\]\:slide-out-to-left[data-state="closed"] {
+  animation-name: slide-out-to-left;
+}
+
+.data-\[state\=open\]\:slide-in-from-top[data-state="open"] {
+  animation-name: slide-in-from-top;
+}
+
+.data-\[state\=closed\]\:slide-out-to-top[data-state="closed"] {
+  animation-name: slide-out-to-top;
+}
+
+.data-\[state\=open\]\:slide-in-from-bottom[data-state="open"] {
+  animation-name: slide-in-from-bottom;
+}
+
+.data-\[state\=closed\]\:slide-out-to-bottom[data-state="closed"] {
+  animation-name: slide-out-to-bottom;
 }

@@ -2,10 +2,15 @@
 	"greeting": "Hey!",
 	"name": "Gregory Praxedes",
 	"specialty": "Développeur Full Stack • UI/UX • Automatisation",
+	"specialtyShort": "Dév Full Stack • UI/UX",
 	"tagline": "Le code est mon art. Résoudre des problèmes, mon obsession.",
+	"taglineShort": "Le code est mon art.",
 	"description": "Des années à perfectionner l'art de créer des expériences digitales. Des interfaces qui ont du sens. Des systèmes qui ne cassent pas.",
+	"descriptionShort": "Créant des expériences digitales incroyables.",
 	"cta": {
 		"projects": "Voir Projets",
-		"contact": "Me Contacter"
+		"projectsShort": "Projets",
+		"contact": "Me Contacter",
+		"contactShort": "Contact"
 	}
 }
