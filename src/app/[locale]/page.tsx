@@ -2,6 +2,8 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { StarsBackground } from "@/components/ui/stars";
 import { MobileBottomCTA } from "@/components/mobile-bottom-cta";
+import { AboutSection } from "@/components/sections/about";
+import { ProjectsSection } from "@/components/sections/projects";
 import {
   SiReact,
   SiNextdotjs,
@@ -52,6 +54,7 @@ export default function HomePage() {
   const t = useTranslations("hero");
 
   return (
+    <>
     <StarsBackground
       className="min-h-screen"
       speed={400}
@@ -200,8 +203,15 @@ export default function HomePage() {
         </div>
       </main>
 
-      {/* Mobile Bottom CTA - Fixed na thumb zone */}
-      <MobileBottomCTA />
+      {/* About Section */}
+      <AboutSection />
     </StarsBackground>
+
+    {/* Projects Section - Sem stars background */}
+    <ProjectsSection />
+
+    {/* Mobile Bottom CTA - Fixed na thumb zone */}
+    <MobileBottomCTA />
+  </>
   );
 }

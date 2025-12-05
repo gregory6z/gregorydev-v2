@@ -1,0 +1,26 @@
+{
+	"sectionTitle": "About",
+	"intro": "I turn ideas into digital products that work. Clean code, intuitive interfaces, real results.",
+	"experience": {
+		"years": "+5",
+		"label": "years of experience",
+		"description": "Building solutions that scale. From MVPs to complex systems, every project is an opportunity to solve real problems."
+	},
+	"specialization": {
+		"title": "Specialization",
+		"description": "Full Stack focused on React/Next.js and Node.js. From design to infrastructure, I can deliver the complete solution."
+	},
+	"differential": {
+		"title": "Differential",
+		"description": "I understand the business before writing code. I think about user experience. I automate the repetitive. I deliver performance. Every technical decision has purpose."
+	},
+	"skills": {
+		"title": "Technologies & Skills",
+		"categories": {
+			"frontend": "Frontend",
+			"backend": "Backend",
+			"tools": "Tools",
+			"databases": "Databases"
+		}
+	}
+}

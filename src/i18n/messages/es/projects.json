@@ -1,0 +1,37 @@
+{
+	"sectionTitle": "Proyectos",
+	"count": "6",
+	"viewProject": "Ver proyecto",
+	"items": [
+		{
+			"title": "E-commerce Platform",
+			"tags": "Full Stack, Next.js, Prisma",
+			"description": "Plataforma completa de e-commerce con panel admin"
+		},
+		{
+			"title": "SaaS Dashboard",
+			"tags": "React, Node.js, GraphQL",
+			"description": "Dashboard analytics para gestión de métricas"
+		},
+		{
+			"title": "Mobile App",
+			"tags": "React Native, Firebase",
+			"description": "Aplicación de delivery con rastreo en tiempo real"
+		},
+		{
+			"title": "API Gateway",
+			"tags": "NestJS, Docker, Redis",
+			"description": "Microservicios con autenticación y rate limiting"
+		},
+		{
+			"title": "Fintech Platform",
+			"tags": "Next.js, Supabase, Stripe",
+			"description": "Sistema de pagos con integración bancaria"
+		},
+		{
+			"title": "CRM System",
+			"tags": "React, PostgreSQL, WebSocket",
+			"description": "Gestión de clientes con chat en tiempo real"
+		}
+	]
+}

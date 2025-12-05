@@ -1,0 +1,26 @@
+{
+	"sectionTitle": "Sobre",
+	"intro": "Transformo ideias em produtos digitais que funcionam. Código limpo, interfaces intuitivas, resultados reais.",
+	"experience": {
+		"years": "+5",
+		"label": "anos de experiência",
+		"description": "Construindo soluções que escalam. De MVPs a sistemas complexos, cada projeto é uma oportunidade de resolver problemas de verdade."
+	},
+	"specialization": {
+		"title": "Especialização",
+		"description": "Full Stack focado em React/Next.js e Node.js. Do design à infraestrutura, sou capaz de entregar a solução completa."
+	},
+	"differential": {
+		"title": "Diferencial",
+		"description": "Entendo o negócio antes de escrever código. Penso na experiência do usuário. Automatizo o que é repetitivo. Entrego performance. Cada decisão técnica tem propósito."
+	},
+	"skills": {
+		"title": "Tecnologias & Skills",
+		"categories": {
+			"frontend": "Frontend",
+			"backend": "Backend",
+			"tools": "Ferramentas",
+			"databases": "Databases"
+		}
+	}
+}
