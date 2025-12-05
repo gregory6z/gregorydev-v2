@@ -20,7 +20,8 @@
 			"frontend": "Frontend",
 			"backend": "Backend",
 			"tools": "Herramientas",
-			"databases": "Databases"
+			"databases": "Databases",
+			"platforms": "Plataformas"
 		}
 	}
 }

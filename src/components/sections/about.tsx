@@ -26,6 +26,11 @@ import {
   SiPulumi,
   SiRailway,
   SiAmazonwebservices,
+  SiN8N,
+  SiPrismic,
+  SiCalendly,
+  SiResend,
+  SiStripe,
 } from "react-icons/si";
 
 // Star rating component
@@ -81,6 +86,13 @@ const skills = {
     { Icon: SiPulumi, name: "Pulumi", rating: 2 },
     { Icon: SiRailway, name: "Railway", rating: 4 },
     { Icon: SiAmazonwebservices, name: "AWS", rating: 2 },
+  ],
+  platforms: [
+    { Icon: SiN8N, name: "n8n", rating: 3 },
+    { Icon: SiStripe, name: "Stripe", rating: 4 },
+    { Icon: SiPrismic, name: "Prismic", rating: 3 },
+    { Icon: SiCalendly, name: "Cal.com", rating: 3 },
+    { Icon: SiResend, name: "Resend", rating: 4 },
   ],
 };
 
@@ -142,7 +154,7 @@ export function AboutSection() {
             {t("skills.title")}
           </h3>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
             {/* Frontend */}
             <div>
               <h4 className="text-xs uppercase tracking-wider text-white/40 mb-4 text-center">
@@ -225,6 +237,27 @@ export function AboutSection() {
               </h4>
               <div className="flex flex-col gap-3">
                 {skills.tools.map((skill) => (
+                  <div
+                    key={skill.name}
+                    className="flex items-center gap-3 p-3 rounded-lg border border-white/5 bg-white/[0.02] hover:bg-white/[0.05] transition-colors"
+                  >
+                    <skill.Icon className="h-5 w-5 text-white/50 flex-shrink-0" />
+                    <div className="flex flex-col gap-1 min-w-0">
+                      <span className="text-sm text-white/70 truncate">{skill.name}</span>
+                      <StarRating rating={skill.rating} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Platforms */}
+            <div>
+              <h4 className="text-xs uppercase tracking-wider text-white/40 mb-4 text-center">
+                {t("skills.categories.platforms")}
+              </h4>
+              <div className="flex flex-col gap-3">
+                {skills.platforms.map((skill) => (
                   <div
                     key={skill.name}
                     className="flex items-center gap-3 p-3 rounded-lg border border-white/5 bg-white/[0.02] hover:bg-white/[0.05] transition-colors"
