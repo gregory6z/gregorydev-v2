@@ -1,0 +1,62 @@
+{
+	"sectionTitle": "Jornada",
+	"intro": "Uma trajetória não convencional: da informática precoce à disciplina militar, até encontrar meu caminho como desenvolvedor.",
+	"timeline": {
+		"2008": {
+			"year": "2008",
+			"title": "Onde Tudo Começou",
+			"subtitle": "14 anos | Brasil",
+			"description": "Enquanto a maioria dos adolescentes de 14 anos estava preocupada apenas com escola e diversão, eu já passava horas desmontando computadores para entender como funcionavam. Consegui meu primeiro trabalho em uma LAN house do bairro, onde comecei reparando máquinas que travavam no meio das partidas de Counter-Strike.",
+			"expanded": "Foi ali, entre cabos de rede, placas-mãe queimadas e clientes impacientes, que descobri minha vocação: resolver problemas técnicos me dava uma satisfação que nenhuma outra atividade proporcionava. Cada computador recuperado era uma pequena vitória. Trabalhei nessa área dos 14 aos 18 anos, construindo uma base sólida de conhecimento em hardware e redes que carrego até hoje.",
+			"skills": ["Diagnóstico de problemas", "Atendimento ao cliente", "Persistência"]
+		},
+		"2012": {
+			"year": "2012",
+			"title": "Disciplina Forjada",
+			"subtitle": "18 anos | Forças Armadas Brasileiras",
+			"description": "Aos 18 anos, tomei uma decisão que mudaria minha vida: ingressar nas forças armadas brasileiras. O primeiro ano foi no esquadrão de combate - uma experiência intensa que testou todos os meus limites físicos e mentais.",
+			"expanded": "Acordar às 4h da manhã, treinos exaustivos, exercícios táticos sob sol escaldante ou chuva torrencial. Aprendi que a mente desiste muito antes do corpo, e que trabalho em equipe não é opcional quando vidas dependem disso. No segundo ano, fui designado para a célula de informática do quartel. Era uma ponte perfeita entre minhas duas paixões: a disciplina militar e a tecnologia. Reparava computadores, administrava sistemas Linux, instalava impressoras via terminal - habilidades que poucos soldados tinham.",
+			"skills": ["Disciplina extrema", "Liderança", "Resiliência mental", "Linux"]
+		},
+		"2013": {
+			"year": "2013",
+			"title": "Dois Mundos, Uma Missão",
+			"subtitle": "Faculdade Anhanguera | ADS",
+			"description": "Mesmo com a rotina intensa da vida militar, eu sabia que precisava de uma formação acadêmica sólida em tecnologia. Iniciei a graduação em Análise e Desenvolvimento de Sistemas, determinado a conciliar os dois mundos.",
+			"expanded": "Não foi fácil. Estudava nos intervalos, nas folgas, madrugadas adentro. Enquanto colegas de farda descansavam, eu estava debruçado sobre algoritmos, banco de dados e lógica de programação. Essa experiência me ensinou gestão de tempo de verdade - não a teoria dos livros de produtividade, mas a prática de quem não tinha outra opção senão fazer funcionar.",
+			"skills": ["Gestão de tempo", "Fundamentos de programação", "Determinação"]
+		},
+		"2017": {
+			"year": "2017",
+			"title": "Além das Fronteiras",
+			"subtitle": "França | Légion Étrangère",
+			"description": "Em 2017, tomei a decisão mais ousada da minha vida: deixar o Brasil e ingressar na lendária Légion Étrangère - a Legião Estrangeira Francesa. Uma das forças militares mais rigorosas e respeitadas do mundo.",
+			"expanded": "O processo seletivo é brutal: de centenas de candidatos, apenas uma fração é aceita. Cheguei na França sem falar francês, sem conhecer ninguém, apenas com a convicção de que queria testar meus limites. A Legião me ensinou que somos capazes de muito mais do que imaginamos. Convivi com pessoas de mais de 50 nacionalidades, aprendi a me comunicar além das palavras, a resolver problemas quando não há manual de instruções.",
+			"skills": ["Adaptação extrema", "Visão internacional", "Francês fluente"]
+		},
+		"2020": {
+			"year": "2020",
+			"title": "O Reencontro com o Código",
+			"subtitle": "França | Bootcamps Rocketseat",
+			"description": "Depois de anos dedicados à carreira militar, em 2020 decidi retomar minha paixão original: a programação. O mundo havia mudado - React, Node.js, TypeScript eram os novos padrões. Eu precisava me atualizar completamente.",
+			"expanded": "Mergulhei de cabeça nos bootcamps da Rocketseat. Foram meses intensos de estudo: acordava cedo, estudava antes do trabalho, continuava à noite. A disciplina militar que eu havia desenvolvido foi minha maior aliada. Enquanto muitos desistiam no meio dos cursos, eu tratava cada módulo como uma missão a ser cumprida.",
+			"skills": ["React", "Next.js", "Node.js", "TypeScript"]
+		},
+		"2021": {
+			"year": "2021",
+			"title": "Da Teoria à Prática",
+			"subtitle": "Freelancer | Clientes Globais",
+			"description": "Em 2021, dei o passo mais importante: comecei a trabalhar como desenvolvedor freelance. Não foi fácil conseguir os primeiros clientes - afinal, eu tinha conhecimento técnico mas zero portfólio profissional.",
+			"expanded": "Comecei aceitando projetos pequenos, às vezes por valores abaixo do mercado, apenas para construir experiência real. A vantagem de ser freelancer é que você é obrigado a dominar toda a stack - não tem colega para delegar. Do design no Figma ao deploy na AWS, eu fazia tudo. Isso me tornou um desenvolvedor completo.",
+			"skills": ["Gestão de projetos", "Entrega end-to-end", "Autonomia"]
+		},
+		"2024": {
+			"year": "2024",
+			"title": "O Próximo Nível",
+			"subtitle": "Amiltone | Consultoria Enterprise",
+			"description": "Em 2024, dei mais um passo na evolução da minha carreira: ingressei na Amiltone, uma consultoria de TI francesa com projetos enterprise de alto nível.",
+			"expanded": "Saí do mundo freelance para trabalhar em equipes estruturadas, com processos maduros e desafios de escala. Minha trajetória não convencional se tornou meu diferencial: trago a disciplina militar para cumprir prazos, a adaptabilidade da Legião para trabalhar com qualquer equipe, a mentalidade freelancer para entregar com autonomia.",
+			"skills": ["Trabalho enterprise", "Metodologias ágeis", "Arquitetura de sistemas"]
+		}
+	}
+}

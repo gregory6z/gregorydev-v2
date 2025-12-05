@@ -3,6 +3,7 @@ import { useTranslations } from "next-intl";
 import { StarsBackground } from "@/components/ui/stars";
 import { MobileBottomCTA } from "@/components/mobile-bottom-cta";
 import { AboutSection } from "@/components/sections/about";
+import { ExperienceSection } from "@/components/sections/experience";
 import { ProjectsSection } from "@/components/sections/projects";
 import {
   SiReact,
@@ -209,6 +210,9 @@ export default function HomePage() {
 
     {/* Projects Section - Sem stars background */}
     <ProjectsSection />
+
+    {/* Experience Section - Timeline da jornada */}
+    <ExperienceSection />
 
     {/* Mobile Bottom CTA - Fixed na thumb zone */}
     <MobileBottomCTA />

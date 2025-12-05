@@ -1,0 +1,62 @@
+{
+	"sectionTitle": "Journey",
+	"intro": "An unconventional path: from early IT skills to military discipline, until finding my way as a developer.",
+	"timeline": {
+		"2008": {
+			"year": "2008",
+			"title": "Where It All Began",
+			"subtitle": "14 years old | Brazil",
+			"description": "While most 14-year-olds were only worried about school and fun, I was already spending hours taking apart computers to understand how they worked. I got my first job at a neighborhood LAN house, where I started repairing machines that crashed in the middle of Counter-Strike matches.",
+			"expanded": "It was there, among network cables, burned motherboards, and impatient customers, that I discovered my calling: solving technical problems gave me a satisfaction that no other activity provided. Each recovered computer was a small victory. I worked in this field from 14 to 18, building a solid foundation of hardware and networking knowledge that I carry to this day.",
+			"skills": ["Problem diagnosis", "Customer service", "Persistence"]
+		},
+		"2012": {
+			"year": "2012",
+			"title": "Discipline Forged",
+			"subtitle": "18 years old | Brazilian Armed Forces",
+			"description": "At 18, I made a decision that would change my life: joining the Brazilian armed forces. The first year was in the combat squadron - an intense experience that tested all my physical and mental limits.",
+			"expanded": "Waking up at 4 AM, exhausting training, tactical exercises under scorching sun or torrential rain. I learned that the mind gives up long before the body, and that teamwork is not optional when lives depend on it. In the second year, I was assigned to the barracks' IT cell. It was a perfect bridge between my two passions: military discipline and technology. I repaired computers, managed Linux systems, installed printers via terminal - skills that few soldiers had.",
+			"skills": ["Extreme discipline", "Leadership", "Mental resilience", "Linux"]
+		},
+		"2013": {
+			"year": "2013",
+			"title": "Two Worlds, One Mission",
+			"subtitle": "Anhanguera University | Systems Analysis",
+			"description": "Even with the intense routine of military life, I knew I needed a solid academic background in technology. I started my degree in Systems Analysis and Development, determined to balance both worlds.",
+			"expanded": "It wasn't easy. I studied during breaks, on days off, late into the night. While fellow soldiers rested, I was poring over algorithms, databases, and programming logic. This experience taught me real time management - not the theory from productivity books, but the practice of someone who had no choice but to make it work.",
+			"skills": ["Time management", "Programming fundamentals", "Determination"]
+		},
+		"2017": {
+			"year": "2017",
+			"title": "Beyond Borders",
+			"subtitle": "France | Légion Étrangère",
+			"description": "In 2017, I made the boldest decision of my life: leaving Brazil and joining the legendary Légion Étrangère - the French Foreign Legion. One of the most rigorous and respected military forces in the world.",
+			"expanded": "The selection process is brutal: out of hundreds of candidates, only a fraction is accepted. I arrived in France without speaking French, without knowing anyone, only with the conviction that I wanted to test my limits. The Legion taught me that we are capable of much more than we imagine. I lived with people from over 50 nationalities, learned to communicate beyond words, to solve problems when there's no instruction manual.",
+			"skills": ["Extreme adaptation", "International vision", "Fluent French"]
+		},
+		"2020": {
+			"year": "2020",
+			"title": "The Reunion with Code",
+			"subtitle": "France | Rocketseat Bootcamps",
+			"description": "After years dedicated to military career, in 2020 I decided to return to my original passion: programming. The world had changed - React, Node.js, TypeScript were the new standards. I needed to completely update myself.",
+			"expanded": "I dove headfirst into Rocketseat bootcamps. It was months of intense study: waking up early, studying before work, continuing at night. The military discipline I had developed was my greatest ally. While many dropped out mid-course, I treated each module as a mission to be accomplished.",
+			"skills": ["React", "Next.js", "Node.js", "TypeScript"]
+		},
+		"2021": {
+			"year": "2021",
+			"title": "From Theory to Practice",
+			"subtitle": "Freelancer | Global Clients",
+			"description": "In 2021, I took the most important step: I started working as a freelance developer. It wasn't easy to get the first clients - after all, I had technical knowledge but zero professional portfolio.",
+			"expanded": "I started accepting small projects, sometimes for below-market rates, just to build real experience. The advantage of being a freelancer is that you're forced to master the entire stack - there's no colleague to delegate to. From design in Figma to deploy on AWS, I did everything. This made me a complete developer.",
+			"skills": ["Project management", "End-to-end delivery", "Autonomy"]
+		},
+		"2024": {
+			"year": "2024",
+			"title": "The Next Level",
+			"subtitle": "Amiltone | Enterprise Consulting",
+			"description": "In 2024, I took another step in my career evolution: I joined Amiltone, a French IT consulting firm with high-level enterprise projects.",
+			"expanded": "I left the freelance world to work in structured teams, with mature processes and scale challenges. My unconventional trajectory became my differential: I bring military discipline to meet deadlines, the Legion's adaptability to work with any team, the freelancer mindset to deliver with autonomy.",
+			"skills": ["Enterprise work", "Agile methodologies", "Systems architecture"]
+		}
+	}
+}

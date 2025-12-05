@@ -86,6 +86,7 @@ const skills = {
     { Icon: SiPulumi, name: "Pulumi", rating: 2 },
     { Icon: SiRailway, name: "Railway", rating: 4 },
     { Icon: SiAmazonwebservices, name: "AWS", rating: 2 },
+    { Icon: null, name: "Claude Code", rating: 4 },
   ],
   platforms: [
     { Icon: SiN8N, name: "n8n", rating: 3 },
@@ -241,7 +242,13 @@ export function AboutSection() {
                     key={skill.name}
                     className="flex items-center gap-3 p-3 rounded-lg border border-white/5 bg-white/[0.02] hover:bg-white/[0.05] transition-colors"
                   >
-                    <skill.Icon className="h-5 w-5 text-white/50 flex-shrink-0" />
+                    {skill.Icon ? (
+                      <skill.Icon className="h-5 w-5 text-white/50 flex-shrink-0" />
+                    ) : (
+                      <span className="h-5 w-5 flex items-center justify-center text-xs text-white/50 font-bold flex-shrink-0">
+                        {skill.name.charAt(0)}
+                      </span>
+                    )}
                     <div className="flex flex-col gap-1 min-w-0">
                       <span className="text-sm text-white/70 truncate">{skill.name}</span>
                       <StarRating rating={skill.rating} />

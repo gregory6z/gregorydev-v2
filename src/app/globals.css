@@ -3,6 +3,9 @@
 :root {
   --background: #000000;
   --foreground: #ffffff;
+  --white: rgba(255, 255, 255, 0.3);
+  --black: #000000;
+  --transparent: transparent;
 }
 
 @theme inline {
@@ -209,4 +212,59 @@
 
 .data-\[state\=closed\]\:slide-out-to-bottom[data-state="closed"] {
   animation-name: slide-out-to-bottom;
+}
+
+/* ==========================================
+   Aurora Background Animation
+   ========================================== */
+
+@keyframes aurora {
+  0% {
+    background-position: 50% 50%, 50% 50%;
+  }
+  50% {
+    background-position: 350% 50%, 350% 50%;
+  }
+  100% {
+    background-position: 50% 50%, 50% 50%;
+  }
+}
+
+.animate-aurora {
+  animation: aurora 60s linear infinite;
+}
+
+/* Scrollbar hide utility */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Smooth scroll snap */
+html {
+  scroll-behavior: smooth;
+}
+
+.snap-y {
+  scroll-snap-type: y mandatory;
+}
+
+.snap-mandatory {
+  scroll-snap-type: y mandatory;
+}
+
+.snap-start {
+  scroll-snap-align: start;
+}
+
+.snap-center {
+  scroll-snap-align: center;
+}
+
+.snap-always {
+  scroll-snap-stop: always;
 }
