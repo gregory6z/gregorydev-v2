@@ -1069,10 +1069,10 @@ function CodeEffect({ colors, isActive }: { colors: string[]; isActive: boolean 
         style={{
           background: `
             linear-gradient(145deg,
-              ${colors[0]}08 0%,
-              transparent 30%,
-              transparent 70%,
-              ${colors[2]}08 100%
+              ${colors[0]}20 0%,
+              transparent 40%,
+              transparent 60%,
+              ${colors[2]}18 100%
             )
           `,
         }}
@@ -1080,7 +1080,7 @@ function CodeEffect({ colors, isActive }: { colors: string[]; isActive: boolean 
 
       {/* Subtle grid pattern */}
       <div
-        className="absolute inset-0 opacity-[0.03]"
+        className="absolute inset-0 opacity-[0.05]"
         style={{
           backgroundImage: `
             linear-gradient(${colors[0]}40 1px, transparent 1px),
@@ -1094,7 +1094,7 @@ function CodeEffect({ colors, isActive }: { colors: string[]; isActive: boolean 
       <div
         className="absolute right-0 top-0 w-1/3 h-full"
         style={{
-          background: `radial-gradient(ellipse at 80% 50%, ${colors[0]}15, transparent 60%)`,
+          background: `radial-gradient(ellipse at 80% 50%, ${colors[0]}18, transparent 60%)`,
         }}
       />
     </motion.div>

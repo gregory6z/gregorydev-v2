@@ -146,49 +146,49 @@ export function AboutSection() {
   const t = useTranslations("about");
 
   return (
-    <section id="about" className="relative py-24 sm:py-32">
+    <section id="about" className="relative py-12 sm:py-24 md:py-32">
       <div className="mx-auto max-w-[1320px] px-4 sm:px-6">
         {/* Section Title */}
-        <h2 className="text-center text-sm uppercase tracking-[0.2em] text-white/40 mb-16">
+        <h2 className="text-center text-sm uppercase tracking-[0.2em] text-white/40 mb-8 sm:mb-16">
           {t("sectionTitle")}
         </h2>
 
         {/* Intro */}
-        <p className="mx-auto max-w-2xl text-center text-2xl sm:text-3xl font-heading font-bold leading-snug text-white mb-20">
+        <p className="mx-auto max-w-2xl text-center text-xl sm:text-2xl md:text-3xl font-heading font-bold leading-snug text-white mb-10 sm:mb-20">
           {t("intro")}
         </p>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-24">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mb-16 sm:mb-24">
           {/* Experience */}
-          <div className="text-center md:text-left p-8 rounded-2xl border border-white/5 bg-white/[0.02]">
-            <span className="text-6xl sm:text-7xl font-bold bg-gradient-to-b from-white to-white/60 bg-clip-text text-transparent">
+          <div className="text-center md:text-left p-5 sm:p-8 rounded-2xl border border-white/5 bg-white/[0.02]">
+            <span className="text-5xl sm:text-6xl md:text-7xl font-bold bg-gradient-to-b from-white to-white/60 bg-clip-text text-transparent">
               {t("experience.years")}
             </span>
-            <p className="text-white/50 text-base uppercase tracking-wider mt-2 font-medium">
+            <p className="text-white/50 text-sm sm:text-base uppercase tracking-wider mt-2 font-medium">
               {t("experience.label")}
             </p>
-            <p className="text-white/70 text-base mt-4 leading-relaxed">
+            <p className="text-white/70 text-sm sm:text-base mt-3 sm:mt-4 leading-relaxed">
               {t("experience.description")}
             </p>
           </div>
 
           {/* Specialization */}
-          <div className="text-center md:text-left p-8 rounded-2xl border border-white/5 bg-white/[0.02]">
-            <h3 className="text-xl font-bold text-white mb-4">
+          <div className="text-center md:text-left p-5 sm:p-8 rounded-2xl border border-white/5 bg-white/[0.02]">
+            <h3 className="text-lg sm:text-xl font-bold text-white mb-3 sm:mb-4">
               {t("specialization.title")}
             </h3>
-            <p className="text-white/70 text-base leading-relaxed">
+            <p className="text-white/70 text-sm sm:text-base leading-relaxed">
               {t("specialization.description")}
             </p>
           </div>
 
           {/* Differential */}
-          <div className="text-center md:text-left p-8 rounded-2xl border border-white/5 bg-white/[0.02]">
-            <h3 className="text-xl font-bold text-white mb-4">
+          <div className="text-center md:text-left p-5 sm:p-8 rounded-2xl border border-white/5 bg-white/[0.02]">
+            <h3 className="text-lg sm:text-xl font-bold text-white mb-3 sm:mb-4">
               {t("differential.title")}
             </h3>
-            <p className="text-white/70 text-base leading-relaxed">
+            <p className="text-white/70 text-sm sm:text-base leading-relaxed">
               {t("differential.description")}
             </p>
           </div>
@@ -196,21 +196,21 @@ export function AboutSection() {
 
         {/* Skills Section */}
         <div>
-          <h3 className="text-center text-lg font-semibold text-white/90 mb-12">
+          <h3 className="text-center text-lg font-semibold text-white/90 mb-6 sm:mb-12">
             {t("skills.title")}
           </h3>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6">
             {/* Frontend */}
             <div>
               <h4 className="text-xs uppercase tracking-wider text-white/40 mb-4 text-center">
                 {t("skills.categories.frontend")}
               </h4>
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-2 sm:gap-3">
                 {skills.frontend.map((skill) => (
                   <div
                     key={skill.name}
-                    className="flex items-center gap-3 p-3 rounded-lg border border-white/5 bg-white/[0.02] hover:bg-white/[0.05] transition-colors"
+                    className="flex items-center gap-2 sm:gap-3 p-2 sm:p-3 rounded-lg border border-white/5 bg-white/[0.02] hover:bg-white/[0.05] transition-colors"
                   >
                     {skill.Icon ? (
                       <skill.Icon className="h-5 w-5 text-white/50 flex-shrink-0" />
@@ -233,11 +233,11 @@ export function AboutSection() {
               <h4 className="text-xs uppercase tracking-wider text-white/40 mb-4 text-center">
                 {t("skills.categories.backend")}
               </h4>
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-2 sm:gap-3">
                 {skills.backend.map((skill) => (
                   <div
                     key={skill.name}
-                    className="flex items-center gap-3 p-3 rounded-lg border border-white/5 bg-white/[0.02] hover:bg-white/[0.05] transition-colors"
+                    className="flex items-center gap-2 sm:gap-3 p-2 sm:p-3 rounded-lg border border-white/5 bg-white/[0.02] hover:bg-white/[0.05] transition-colors"
                   >
                     {skill.Icon ? (
                       <skill.Icon className="h-5 w-5 text-white/50 flex-shrink-0" />
@@ -260,11 +260,11 @@ export function AboutSection() {
               <h4 className="text-xs uppercase tracking-wider text-white/40 mb-4 text-center">
                 {t("skills.categories.databases")}
               </h4>
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-2 sm:gap-3">
                 {skills.databases.map((skill) => (
                   <div
                     key={skill.name}
-                    className="flex items-center gap-3 p-3 rounded-lg border border-white/5 bg-white/[0.02] hover:bg-white/[0.05] transition-colors"
+                    className="flex items-center gap-2 sm:gap-3 p-2 sm:p-3 rounded-lg border border-white/5 bg-white/[0.02] hover:bg-white/[0.05] transition-colors"
                   >
                     <skill.Icon className="h-5 w-5 text-white/50 flex-shrink-0" />
                     <div className="flex flex-col gap-1 min-w-0">
@@ -281,11 +281,11 @@ export function AboutSection() {
               <h4 className="text-xs uppercase tracking-wider text-white/40 mb-4 text-center">
                 {t("skills.categories.tools")}
               </h4>
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-2 sm:gap-3">
                 {skills.tools.map((skill) => (
                   <div
                     key={skill.name}
-                    className="flex items-center gap-3 p-3 rounded-lg border border-white/5 bg-white/[0.02] hover:bg-white/[0.05] transition-colors"
+                    className="flex items-center gap-2 sm:gap-3 p-2 sm:p-3 rounded-lg border border-white/5 bg-white/[0.02] hover:bg-white/[0.05] transition-colors"
                   >
                     {skill.Icon ? (
                       <skill.Icon className="h-5 w-5 text-white/50 flex-shrink-0" />
@@ -308,11 +308,11 @@ export function AboutSection() {
               <h4 className="text-xs uppercase tracking-wider text-white/40 mb-4 text-center">
                 {t("skills.categories.platforms")}
               </h4>
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-2 sm:gap-3">
                 {skills.platforms.map((skill) => (
                   <div
                     key={skill.name}
-                    className="flex items-center gap-3 p-3 rounded-lg border border-white/5 bg-white/[0.02] hover:bg-white/[0.05] transition-colors"
+                    className="flex items-center gap-2 sm:gap-3 p-2 sm:p-3 rounded-lg border border-white/5 bg-white/[0.02] hover:bg-white/[0.05] transition-colors"
                   >
                     <skill.Icon className="h-5 w-5 text-white/50 flex-shrink-0" />
                     <div className="flex flex-col gap-1 min-w-0">
@@ -326,15 +326,15 @@ export function AboutSection() {
           </div>
 
           {/* Soft Skills */}
-          <div className="mt-12">
+          <div className="mt-8 sm:mt-12">
             <h4 className="text-xs uppercase tracking-wider text-white/40 mb-4 text-center">
               {t("skills.categories.softSkills")}
             </h4>
-            <div className="flex flex-wrap justify-center gap-3">
+            <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
               {skills.softSkills.map((skillKey) => (
                 <span
                   key={skillKey}
-                  className="px-4 py-2 text-sm rounded-full border border-white/10 bg-white/[0.02] text-white/70"
+                  className="px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm rounded-full border border-white/10 bg-white/[0.02] text-white/70"
                 >
                   {t(`skills.softSkills.${skillKey}`)}
                 </span>
@@ -344,17 +344,17 @@ export function AboutSection() {
         </div>
 
         {/* Formations Section */}
-        <div className="mt-24">
-          <h3 className="text-center text-lg font-semibold text-white/90 mb-12">
+        <div className="mt-12 sm:mt-24">
+          <h3 className="text-center text-lg font-semibold text-white/90 mb-6 sm:mb-12">
             {t("formations.title")}
           </h3>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Anhanguera */}
-            <div className="p-6 rounded-2xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-colors">
-              <div className="flex items-start gap-4">
-                <div className="p-3 rounded-xl bg-white/5">
-                  <GraduationCap className="h-6 w-6 text-white/60" />
+            <div className="p-4 sm:p-6 rounded-2xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-colors">
+              <div className="flex items-start gap-3 sm:gap-4">
+                <div className="p-2 sm:p-3 rounded-xl bg-white/5">
+                  <GraduationCap className="h-5 w-5 sm:h-6 sm:w-6 text-white/60" />
                 </div>
                 <div className="flex-1">
                   <h4 className="text-lg font-semibold text-white">{formations.anhanguera.school}</h4>
@@ -366,10 +366,10 @@ export function AboutSection() {
             </div>
 
             {/* Rocketseat */}
-            <div className="p-6 rounded-2xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-colors">
-              <div className="flex items-start gap-4">
-                <div className="p-3 rounded-xl bg-white/5">
-                  <GraduationCap className="h-6 w-6 text-white/60" />
+            <div className="p-4 sm:p-6 rounded-2xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-colors">
+              <div className="flex items-start gap-3 sm:gap-4">
+                <div className="p-2 sm:p-3 rounded-xl bg-white/5">
+                  <GraduationCap className="h-5 w-5 sm:h-6 sm:w-6 text-white/60" />
                 </div>
                 <div className="flex-1">
                   <h4 className="text-lg font-semibold text-white">{formations.rocketseat.school}</h4>
