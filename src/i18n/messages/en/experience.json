@@ -1,6 +1,6 @@
 {
 	"sectionTitle": "Journey",
-	"intro": "An unconventional path: from early IT skills to military discipline, until finding my way as a developer.",
+	"intro": "From technology to military discipline, a unique path to development.",
 	"timeline": {
 		"2008": {
 			"year": "2008",
@@ -53,10 +53,10 @@
 		"2024": {
 			"year": "2024",
 			"title": "The Next Level",
-			"subtitle": "Amiltone | Enterprise Consulting",
-			"description": "In 2024, I took another step in my career evolution: I joined Amiltone, a French IT consulting firm with high-level enterprise projects.",
-			"expanded": "I left the freelance world to work in structured teams, with mature processes and scale challenges. My unconventional trajectory became my differential: I bring military discipline to meet deadlines, the Legion's adaptability to work with any team, the freelancer mindset to deliver with autonomy.",
-			"skills": ["Enterprise work", "Agile methodologies", "Systems architecture"]
+			"subtitle": "Amiltone | IT Consultant",
+			"description": "In 2024, I joined Amiltone as an IT Consultant. This consulting model allows me to work on diverse missions at major French companies, constantly enriching my expertise.",
+			"expanded": "Each mission is an opportunity to learn new technologies, methodologies, and corporate cultures. My unconventional path became my differential: military discipline to meet deadlines, the Legion's adaptability to quickly integrate into any team, and the freelancer mindset to deliver with autonomy.",
+			"skills": ["Enterprise missions", "Adaptability", "Agile methodologies"]
 		}
 	}
 }

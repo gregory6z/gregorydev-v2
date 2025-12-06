@@ -1,6 +1,6 @@
 {
 	"sectionTitle": "Parcours",
-	"intro": "Un parcours atypique : de l'informatique précoce à la discipline militaire, jusqu'à trouver ma voie en tant que développeur.",
+	"intro": "De la technologie à la discipline militaire, un chemin unique vers le développement.",
 	"timeline": {
 		"2008": {
 			"year": "2008",
@@ -53,10 +53,10 @@
 		"2024": {
 			"year": "2024",
 			"title": "Le Niveau Suivant",
-			"subtitle": "Amiltone | Conseil Enterprise",
-			"description": "En 2024, j'ai franchi une nouvelle étape dans l'évolution de ma carrière : j'ai rejoint Amiltone, un cabinet de conseil IT français avec des projets enterprise de haut niveau.",
-			"expanded": "J'ai quitté le monde du freelance pour travailler en équipes structurées, avec des processus matures et des défis d'échelle. Mon parcours atypique est devenu mon différenciateur : j'apporte la discipline militaire pour respecter les délais, l'adaptabilité de la Légion pour travailler avec n'importe quelle équipe, la mentalité freelance pour livrer en autonomie.",
-			"skills": ["Travail enterprise", "Méthodologies agiles", "Architecture de systèmes"]
+			"subtitle": "Amiltone | Consultant Informatique",
+			"description": "En 2024, j'ai rejoint Amiltone en tant que Consultant Informatique. Ce modèle ESN me permet d'intervenir sur des missions variées chez des grands comptes français, enrichissant constamment mon expertise.",
+			"expanded": "Chaque mission est une opportunité d'apprendre de nouvelles technologies, méthodologies et cultures d'entreprise. Mon parcours atypique est devenu mon différenciateur : la discipline militaire pour respecter les délais, l'adaptabilité de la Légion pour m'intégrer rapidement dans n'importe quelle équipe, et la mentalité freelance pour livrer en autonomie.",
+			"skills": ["Missions grands comptes", "Adaptabilité", "Méthodologies agiles"]
 		}
 	}
 }

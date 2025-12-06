@@ -1,6 +1,6 @@
 {
 	"sectionTitle": "Jornada",
-	"intro": "Uma trajetória não convencional: da informática precoce à disciplina militar, até encontrar meu caminho como desenvolvedor.",
+	"intro": "Da tecnologia à disciplina militar, um caminho único para o desenvolvimento.",
 	"timeline": {
 		"2008": {
 			"year": "2008",
@@ -53,10 +53,10 @@
 		"2024": {
 			"year": "2024",
 			"title": "O Próximo Nível",
-			"subtitle": "Amiltone | Consultoria Enterprise",
-			"description": "Em 2024, dei mais um passo na evolução da minha carreira: ingressei na Amiltone, uma consultoria de TI francesa com projetos enterprise de alto nível.",
-			"expanded": "Saí do mundo freelance para trabalhar em equipes estruturadas, com processos maduros e desafios de escala. Minha trajetória não convencional se tornou meu diferencial: trago a disciplina militar para cumprir prazos, a adaptabilidade da Legião para trabalhar com qualquer equipe, a mentalidade freelancer para entregar com autonomia.",
-			"skills": ["Trabalho enterprise", "Metodologias ágeis", "Arquitetura de sistemas"]
+			"subtitle": "Amiltone | Consultor de TI",
+			"description": "Em 2024, ingressei na Amiltone como Consultor de TI. Esse modelo de consultoria me permite atuar em missões diversas em grandes empresas francesas, enriquecendo constantemente minha expertise.",
+			"expanded": "Cada missão é uma oportunidade de aprender novas tecnologias, metodologias e culturas empresariais. Minha trajetória não convencional se tornou meu diferencial: disciplina militar para cumprir prazos, adaptabilidade da Legião para integrar rapidamente qualquer equipe, e mentalidade freelancer para entregar com autonomia.",
+			"skills": ["Missões em grandes contas", "Adaptabilidade", "Metodologias ágeis"]
 		}
 	}
 }

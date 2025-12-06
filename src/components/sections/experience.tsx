@@ -53,9 +53,9 @@ const timelineData: {
   {
     year: "2020",
     icon: Code2,
-    gradient: "from-pink-500 to-rose-600",
+    gradient: "from-emerald-500 to-green-600",
     effect: "calm",
-    colors: ["#ec4899", "#f43f5e", "#db2777", "#be185d"] // Pink - Pandemic/Calm particles
+    colors: ["#10b981", "#22c55e", "#34d399", "#059669"] // Green - Code revival/Terminal
   },
   {
     year: "2021",
@@ -67,9 +67,9 @@ const timelineData: {
   {
     year: "2024",
     icon: Building2,
-    gradient: "from-indigo-500 to-blue-600",
+    gradient: "from-purple-600 to-fuchsia-500",
     effect: "globe",
-    colors: ["#6366f1", "#4f46e5", "#3b82f6", "#2563eb"] // Indigo - Enterprise/Globe
+    colors: ["#9333ea", "#a855f7", "#c026d3", "#7c3aed"] // Purple/Fuchsia - Amiltone brand
   },
 ];
 
@@ -139,7 +139,7 @@ export function ExperienceSection() {
           <h2 className="text-sm uppercase tracking-[0.2em] text-white/40 mb-6">
             {t("sectionTitle")}
           </h2>
-          <p className="mx-auto max-w-3xl text-3xl sm:text-4xl md:text-5xl font-heading font-bold leading-snug text-white">
+          <p className="mx-auto max-w-2xl text-2xl sm:text-3xl md:text-4xl font-heading font-medium leading-relaxed text-white/90">
             {t("intro")}
           </p>
 
@@ -176,14 +176,17 @@ export function ExperienceSection() {
           </AnimatePresence>
         </div>
 
-        {/* Journey Path - Static line */}
-        <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 1 }}>
-          <div className="absolute left-1/2 top-0 bottom-0 -translate-x-1/2 w-[1px] bg-white/20" />
+        {/* Journey Path - Connection line between cards */}
+        <div className="absolute inset-0 pointer-events-none hidden lg:block" style={{ zIndex: 1 }}>
+          <div
+            className="absolute top-0 bottom-0 w-[1px] bg-gradient-to-b from-transparent via-white/15 to-transparent"
+            style={{ left: 'calc(11rem + 480px)' }}
+          />
         </div>
 
         <div className="mx-auto max-w-[1320px] px-4 sm:px-6 relative" style={{ zIndex: 2 }}>
-          {/* Content Area - Centralizado */}
-          <div className="max-w-4xl mx-auto">
+          {/* Content Area - Centralizado com timeline */}
+          <div className="lg:pl-36 xl:pl-44">
             {timelineData.map((item, index) => {
               const Icon = item.icon;
 
@@ -191,53 +194,53 @@ export function ExperienceSection() {
                 <div
                   key={item.year}
                   ref={(el) => { itemRefs.current[index] = el; }}
-                  className="min-h-screen h-screen flex items-center justify-center relative"
+                  className="min-h-screen h-screen flex items-center justify-start relative"
                 >
-                  <div className="w-full max-w-4xl mx-4 relative z-10">
-                    {/* Glass Card Container - Wide & Horizontal */}
-                    <div className="relative px-6 py-8 sm:px-10 sm:py-10 lg:px-14 lg:py-12 rounded-2xl backdrop-blur-xl bg-black/40 border border-white/10 shadow-2xl">
+                  <div className="w-full max-w-xl lg:max-w-xl xl:max-w-2xl relative z-10">
+                    {/* Glass Card Container - Same style as Projects */}
+                    <div className="relative px-8 py-10 sm:px-12 sm:py-12 lg:px-16 lg:py-14 rounded-3xl bg-[#141414] border border-white/10 shadow-2xl">
                       {/* Subtle gradient overlay */}
-                      <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-white/[0.03] via-transparent to-white/[0.03] pointer-events-none" />
+                      <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-white/[0.03] to-transparent pointer-events-none" />
 
                       {/* Content */}
                       <div className="relative z-10">
                         {/* Header: Icon + Year */}
-                        <div className="flex items-center justify-center gap-4 mb-6">
+                        <div className="flex items-center gap-3 mb-6">
                           <div
                             className={cn(
-                              "h-10 w-10 rounded-xl flex items-center justify-center bg-gradient-to-br shadow-lg",
+                              "h-9 w-9 rounded-lg flex items-center justify-center bg-gradient-to-br shadow-lg",
                               item.gradient
                             )}
                           >
-                            <Icon className="h-5 w-5 text-white" />
+                            <Icon className="h-4 w-4 text-white" />
                           </div>
-                          <span className="text-3xl sm:text-4xl font-bold text-white/20">
+                          <span className="text-2xl sm:text-3xl font-bold text-white/20">
                             {item.year}
                           </span>
                         </div>
 
                         {/* Title */}
-                        <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2 text-center">
+                        <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-3">
                           {t(`timeline.${item.year}.title`)}
                         </h3>
 
                         {/* Subtitle */}
-                        <p className="text-sm sm:text-base text-white/50 mb-6 text-center">
+                        <p className="text-base sm:text-lg text-white/50 mb-8">
                           {t(`timeline.${item.year}.subtitle`)}
                         </p>
 
                         {/* Description */}
-                        <p className="text-white/70 text-sm sm:text-base leading-relaxed mb-3 text-center max-w-2xl mx-auto">
+                        <p className="text-white/80 text-base sm:text-lg leading-relaxed mb-4">
                           {t(`timeline.${item.year}.description`)}
                         </p>
 
                         {/* Expanded */}
-                        <p className="text-white/40 text-xs sm:text-sm leading-relaxed mb-6 text-center max-w-2xl mx-auto">
+                        <p className="text-white/50 text-sm sm:text-base leading-relaxed mb-8">
                           {t(`timeline.${item.year}.expanded`)}
                         </p>
 
                         {/* Skills */}
-                        <div className="flex flex-wrap justify-center gap-2">
+                        <div className="flex flex-wrap gap-2">
                           {(t.raw(`timeline.${item.year}.skills`) as string[]).map((skill) => (
                             <span
                               key={skill}
@@ -257,7 +260,7 @@ export function ExperienceSection() {
         </div>
       </div>
 
-      {/* Timeline Navigation - FIXED, aparece só quando timeline visível */}
+      {/* Timeline Navigation - Minimal vertical dots with years */}
       <AnimatePresence>
         {isTimelineVisible && (
           <motion.div
@@ -267,55 +270,39 @@ export function ExperienceSection() {
             exit={{ opacity: 0, x: -20 }}
             transition={{ duration: 0.3 }}
           >
-            {/* Timeline Line */}
-            <div className="absolute left-3 top-0 h-full w-0.5 bg-white/10" />
-
-            {/* Progress Line */}
-            <motion.div
-              className="absolute left-3 top-0 w-0.5 bg-white/60 origin-top"
-              animate={{
-                height: `${((activeCard + 1) / timelineData.length) * 100}%`,
-              }}
-              transition={{ duration: 0.3 }}
-            />
-
-            {/* Year Items */}
-            <div className="space-y-8 relative">
+            <div className="flex flex-col gap-2">
               {timelineData.map((item, index) => {
-                const Icon = item.icon;
                 const isActive = index === activeCard;
                 const isPast = index < activeCard;
 
                 return (
-                  <motion.button
+                  <button
                     key={item.year}
-                    className="flex items-center gap-4 cursor-pointer text-left"
-                    animate={{
-                      opacity: isActive ? 1 : isPast ? 0.6 : 0.3,
-                    }}
+                    className="flex items-center gap-2 hover:translate-x-0.5 transition-transform"
                     onClick={() => handleTimelineClick(index)}
                   >
-                    <motion.div
-                      className={cn(
-                        "relative z-10 h-6 w-6 rounded-full flex items-center justify-center transition-all duration-300",
-                        isActive
-                          ? `bg-gradient-to-br ${item.gradient}`
-                          : "bg-white/10 border border-white/20"
-                      )}
-                      animate={{ scale: isActive ? 1.3 : 1 }}
-                    >
-                      {isActive && <Icon className="h-3 w-3 text-white" />}
-                    </motion.div>
+                    {/* Dot */}
+                    <div
+                      className="rounded-full transition-all duration-300 flex-shrink-0"
+                      style={{
+                        width: isActive ? 10 : 6,
+                        height: isActive ? 10 : 6,
+                        backgroundColor: isActive ? item.colors[0] : isPast ? item.colors[0] : 'rgba(255,255,255,0.4)',
+                        boxShadow: isActive ? `0 0 10px ${item.colors[0]}` : 'none',
+                      }}
+                    />
 
-                    <motion.span
-                      className={cn(
-                        "font-bold text-base transition-colors duration-300",
-                        isActive ? "text-white" : "text-white/40"
-                      )}
+                    {/* Year */}
+                    <span
+                      className="font-mono text-xs transition-all duration-300"
+                      style={{
+                        color: isActive ? item.colors[0] : 'rgba(255,255,255,0.6)',
+                        fontWeight: isActive ? 600 : 400,
+                      }}
                     >
                       {item.year}
-                    </motion.span>
-                  </motion.button>
+                    </span>
+                  </button>
                 );
               })}
             </div>
