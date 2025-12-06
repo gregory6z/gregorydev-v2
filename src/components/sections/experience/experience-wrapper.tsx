@@ -105,10 +105,9 @@ export function ExperienceWrapper({ children, timelineItems }: ExperienceWrapper
 
       {/* Journey Path - Connection line between cards */}
       <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 1 }}>
-        {/* Mobile line - left side */}
+        {/* Mobile line - centered */}
         <div
-          className="absolute top-0 bottom-0 w-[1px] bg-gradient-to-b from-transparent via-white/15 to-transparent lg:hidden"
-          style={{ left: '1rem' }}
+          className="absolute top-0 bottom-0 w-[1px] bg-gradient-to-b from-transparent via-white/15 to-transparent lg:hidden left-1/2 -translate-x-1/2"
         />
         {/* Desktop line */}
         <div
