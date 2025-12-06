@@ -1,6 +1,6 @@
 {
 	"sectionTitle": "Proyectos",
-	"count": "3",
+	"count": "6",
 	"viewProject": "Ver proyecto",
 	"items": [
 		{
@@ -16,6 +16,21 @@
 		{
 			"title": "Airwell IOT",
 			"tags": "Back End, Microservices",
+			"description": ""
+		},
+		{
+			"title": "Ragboost",
+			"tags": "SaaS Developer, Full Stack, Fundador",
+			"description": ""
+		},
+		{
+			"title": "Va beauty",
+			"tags": "Desarrollador Full Stack",
+			"description": ""
+		},
+		{
+			"title": "Signature Agence",
+			"tags": "Desarrollador Landing Page",
 			"description": ""
 		}
 	]
