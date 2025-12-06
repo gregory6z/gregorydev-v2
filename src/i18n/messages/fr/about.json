@@ -23,5 +23,31 @@
 			"databases": "Databases",
 			"platforms": "Plateformes"
 		}
+	},
+	"formations": {
+		"title": "Formations & Certifications",
+		"certifications": "Certifications",
+		"anhanguera": {
+			"title": "Analyse et Développement de Systèmes",
+			"description": "Bac+3 • Diplôme en technologie de l'information",
+			"skills": {
+				"algorithms": "Algorithmes",
+				"database": "Base de données",
+				"programming": "Programmation",
+				"networks": "Réseaux"
+			}
+		},
+		"rocketseat": {
+			"period": "Depuis 2020",
+			"description": "Formation intensive en création de sites et applications",
+			"certs": {
+				"igniteNode": "IGNITE 2023 Node.js (déc. 2023)",
+				"igniteReact": "IGNITE 2023 React.js (déc. 2023)",
+				"cleanCode": "Clean Code (mars 2024)",
+				"seo": "SEO for Devs (mars 2024)",
+				"figma": "Figma for Devs (janv. 2023)",
+				"gostack": "Formation FULLSTACK GOSTACK (févr. 2021)"
+			}
+		}
 	}
 }

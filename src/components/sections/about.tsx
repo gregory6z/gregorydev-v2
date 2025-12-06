@@ -1,5 +1,5 @@
 import { useTranslations } from "next-intl";
-import { Star } from "lucide-react";
+import { Star, GraduationCap } from "lucide-react";
 import {
   SiReact,
   SiNextdotjs,
@@ -95,6 +95,35 @@ const skills = {
     { Icon: SiCalendly, name: "Cal.com", rating: 3 },
     { Icon: SiResend, name: "Resend", rating: 4 },
   ],
+};
+
+const formations = {
+  anhanguera: {
+    school: "Universidade Anhanguera",
+    period: "2013 – 2016",
+    skillKeys: ["algorithms", "database", "programming", "networks"],
+  },
+  rocketseat: {
+    school: "Rocketseat",
+    title: "GoStack & Ignite Programs",
+    skills: [
+      "React",
+      "Next.js",
+      "Node.js",
+      "TypeScript",
+      "Clean Architecture",
+      "DDD",
+      "Docker",
+      "NestJS",
+      "Fastify",
+      "Prisma",
+      "SOLID",
+      "JWT",
+      "Vitest",
+      "Storybook",
+    ],
+    certKeys: ["igniteNode", "igniteReact", "cleanCode", "seo", "figma", "gostack"],
+  },
 };
 
 export function AboutSection() {
@@ -276,6 +305,83 @@ export function AboutSection() {
                     </div>
                   </div>
                 ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Formations Section */}
+        <div className="mt-24">
+          <h3 className="text-center text-lg font-semibold text-white/90 mb-12">
+            {t("formations.title")}
+          </h3>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Anhanguera */}
+            <div className="p-6 rounded-2xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-colors">
+              <div className="flex items-start gap-4">
+                <div className="p-3 rounded-xl bg-white/5">
+                  <GraduationCap className="h-6 w-6 text-white/60" />
+                </div>
+                <div className="flex-1">
+                  <h4 className="text-lg font-semibold text-white">{formations.anhanguera.school}</h4>
+                  <p className="text-sm text-white/40 mt-1">{formations.anhanguera.period}</p>
+                  <p className="text-base text-white/70 mt-2">{t("formations.anhanguera.title")}</p>
+                  <p className="text-sm text-white/50 mt-1">{t("formations.anhanguera.description")}</p>
+
+                  <div className="flex flex-wrap gap-2 mt-4">
+                    {formations.anhanguera.skillKeys.map((skillKey) => (
+                      <span
+                        key={skillKey}
+                        className="px-2 py-1 text-xs rounded-full bg-white/5 border border-white/10 text-white/60"
+                      >
+                        {t(`formations.anhanguera.skills.${skillKey}`)}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Rocketseat */}
+            <div className="p-6 rounded-2xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-colors">
+              <div className="flex items-start gap-4">
+                <div className="p-3 rounded-xl bg-white/5">
+                  <GraduationCap className="h-6 w-6 text-white/60" />
+                </div>
+                <div className="flex-1">
+                  <h4 className="text-lg font-semibold text-white">{formations.rocketseat.school}</h4>
+                  <p className="text-sm text-white/40 mt-1">{t("formations.rocketseat.period")}</p>
+                  <p className="text-base text-white/70 mt-2">{formations.rocketseat.title}</p>
+                  <p className="text-sm text-white/50 mt-1">{t("formations.rocketseat.description")}</p>
+
+                  <div className="flex flex-wrap gap-2 mt-4">
+                    {formations.rocketseat.skills.map((skill) => (
+                      <span
+                        key={skill}
+                        className="px-2 py-1 text-xs rounded-full bg-white/5 border border-white/10 text-white/60"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="mt-4 pt-4 border-t border-white/5">
+                    <p className="text-xs uppercase tracking-wider text-white/40 mb-2">
+                      {t("formations.certifications")}
+                    </p>
+                    <div className="flex flex-wrap gap-x-4 gap-y-1">
+                      {formations.rocketseat.certKeys.map((certKey) => (
+                        <span
+                          key={certKey}
+                          className="text-xs text-white/50"
+                        >
+                          {t(`formations.rocketseat.certs.${certKey}`)}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

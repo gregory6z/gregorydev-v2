@@ -23,5 +23,31 @@
 			"databases": "Databases",
 			"platforms": "Platforms"
 		}
+	},
+	"formations": {
+		"title": "Education & Certifications",
+		"certifications": "Certifications",
+		"anhanguera": {
+			"title": "Systems Analysis and Development",
+			"description": "Bachelor's Degree • Information Technology",
+			"skills": {
+				"algorithms": "Algorithms",
+				"database": "Databases",
+				"programming": "Programming",
+				"networks": "Networks"
+			}
+		},
+		"rocketseat": {
+			"period": "Since 2020",
+			"description": "Intensive training in web and mobile development",
+			"certs": {
+				"igniteNode": "IGNITE 2023 Node.js (Dec. 2023)",
+				"igniteReact": "IGNITE 2023 React.js (Dec. 2023)",
+				"cleanCode": "Clean Code (Mar. 2024)",
+				"seo": "SEO for Devs (Mar. 2024)",
+				"figma": "Figma for Devs (Jan. 2023)",
+				"gostack": "FULLSTACK GOSTACK Bootcamp (Feb. 2021)"
+			}
+		}
 	}
 }

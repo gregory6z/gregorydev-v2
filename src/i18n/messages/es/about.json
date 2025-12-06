@@ -23,5 +23,31 @@
 			"databases": "Databases",
 			"platforms": "Plataformas"
 		}
+	},
+	"formations": {
+		"title": "Formaciones & Certificaciones",
+		"certifications": "Certificaciones",
+		"anhanguera": {
+			"title": "Análisis y Desarrollo de Sistemas",
+			"description": "Grado Universitario • Tecnología de la Información",
+			"skills": {
+				"algorithms": "Algoritmos",
+				"database": "Bases de Datos",
+				"programming": "Programación",
+				"networks": "Redes"
+			}
+		},
+		"rocketseat": {
+			"period": "Desde 2020",
+			"description": "Formación intensiva en desarrollo web y mobile",
+			"certs": {
+				"igniteNode": "IGNITE 2023 Node.js (dic. 2023)",
+				"igniteReact": "IGNITE 2023 React.js (dic. 2023)",
+				"cleanCode": "Clean Code (mar. 2024)",
+				"seo": "SEO for Devs (mar. 2024)",
+				"figma": "Figma for Devs (ene. 2023)",
+				"gostack": "Formación FULLSTACK GOSTACK (feb. 2021)"
+			}
+		}
 	}
 }
