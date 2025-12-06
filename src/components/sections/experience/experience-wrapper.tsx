@@ -18,7 +18,19 @@ interface ExperienceWrapperProps {
 export function ExperienceWrapper({ children, timelineItems }: ExperienceWrapperProps) {
   const [activeCard, setActiveCard] = useState(0);
   const [isTimelineVisible, setIsTimelineVisible] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
   const timelineRef = useRef<HTMLDivElement>(null);
+
+  // Detectar se é desktop (md breakpoint = 768px)
+  useEffect(() => {
+    const checkIsDesktop = () => {
+      setIsDesktop(window.innerWidth >= 768);
+    };
+
+    checkIsDesktop();
+    window.addEventListener('resize', checkIsDesktop);
+    return () => window.removeEventListener('resize', checkIsDesktop);
+  }, []);
 
   // Detectar quando estamos dentro da seção timeline
   useEffect(() => {
@@ -75,19 +87,21 @@ export function ExperienceWrapper({ children, timelineItems }: ExperienceWrapper
 
   return (
     <div ref={timelineRef} className="relative">
-      {/* Dynamic Background Effects - Hidden on mobile */}
-      <div className="hidden md:block fixed inset-0 overflow-hidden pointer-events-none" style={{ zIndex: 0 }}>
-        <AnimatePresence mode="wait">
-          {isTimelineVisible && timelineItems[activeCard] && (
-            <TimelineEffect
-              key={timelineItems[activeCard].effect}
-              effect={timelineItems[activeCard].effect}
-              colors={timelineItems[activeCard].colors}
-              isActive={true}
-            />
-          )}
-        </AnimatePresence>
-      </div>
+      {/* Dynamic Background Effects - Only on desktop */}
+      {isDesktop && (
+        <div className="fixed inset-0 overflow-hidden pointer-events-none" style={{ zIndex: 0 }}>
+          <AnimatePresence mode="wait">
+            {isTimelineVisible && timelineItems[activeCard] && (
+              <TimelineEffect
+                key={timelineItems[activeCard].effect}
+                effect={timelineItems[activeCard].effect}
+                colors={timelineItems[activeCard].colors}
+                isActive={true}
+              />
+            )}
+          </AnimatePresence>
+        </div>
+      )}
 
       {/* Journey Path - Connection line between cards */}
       <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 1 }}>
