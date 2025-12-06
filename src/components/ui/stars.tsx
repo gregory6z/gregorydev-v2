@@ -117,13 +117,13 @@ export function StarsBackground({
 		>
 			<motion.div style={{ x: springX, y: springY }}>
 				<StarLayer
-					count={100}
+					count={200}
 					size={1}
 					transition={{ repeat: Number.POSITIVE_INFINITY, duration: speed, ease: "linear" }}
 					starColor={starColor}
 				/>
 				<StarLayer
-					count={40}
+					count={80}
 					size={2}
 					transition={{
 						repeat: Number.POSITIVE_INFINITY,
@@ -133,7 +133,7 @@ export function StarsBackground({
 					starColor={starColor}
 				/>
 				<StarLayer
-					count={20}
+					count={40}
 					size={3}
 					transition={{
 						repeat: Number.POSITIVE_INFINITY,
