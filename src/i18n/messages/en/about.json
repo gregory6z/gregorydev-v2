@@ -29,13 +29,7 @@
 		"certifications": "Certifications",
 		"anhanguera": {
 			"title": "Systems Analysis and Development",
-			"description": "Bachelor's Degree • Information Technology",
-			"skills": {
-				"algorithms": "Algorithms",
-				"database": "Databases",
-				"programming": "Programming",
-				"networks": "Networks"
-			}
+			"description": "Bachelor's Degree • Brazil"
 		},
 		"rocketseat": {
 			"period": "Since 2020",

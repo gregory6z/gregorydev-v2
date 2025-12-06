@@ -61,6 +61,7 @@ const skills = {
     { Icon: SiFramer, name: "Framer Motion", rating: 3 },
     { Icon: null, name: "Zustand", rating: 3 },
     { Icon: SiZod, name: "Zod", rating: 4 },
+    { Icon: null, name: "UI/UX", rating: 5 },
   ],
   backend: [
     { Icon: SiNodedotjs, name: "Node.js", rating: 5 },
@@ -71,10 +72,11 @@ const skills = {
     { Icon: null, name: "Elysia", rating: 2 },
     { Icon: SiGraphql, name: "GraphQL", rating: 1 },
     { Icon: SiPrisma, name: "Prisma", rating: 5 },
+    { Icon: null, name: "TypeORM", rating: 3 },
   ],
   databases: [
-    { Icon: SiPostgresql, name: "PostgreSQL", rating: 3 },
-    { Icon: SiMysql, name: "MySQL", rating: 3 },
+    { Icon: SiPostgresql, name: "PostgreSQL", rating: 2 },
+    { Icon: SiMysql, name: "MySQL", rating: 2 },
     { Icon: SiRedis, name: "Redis", rating: 2 },
     { Icon: SiSupabase, name: "Supabase", rating: 2 },
   ],
@@ -101,7 +103,6 @@ const formations = {
   anhanguera: {
     school: "Universidade Anhanguera",
     period: "2013 – 2016",
-    skillKeys: ["algorithms", "database", "programming", "networks"],
   },
   rocketseat: {
     school: "Rocketseat",
@@ -328,17 +329,6 @@ export function AboutSection() {
                   <p className="text-sm text-white/40 mt-1">{formations.anhanguera.period}</p>
                   <p className="text-base text-white/70 mt-2">{t("formations.anhanguera.title")}</p>
                   <p className="text-sm text-white/50 mt-1">{t("formations.anhanguera.description")}</p>
-
-                  <div className="flex flex-wrap gap-2 mt-4">
-                    {formations.anhanguera.skillKeys.map((skillKey) => (
-                      <span
-                        key={skillKey}
-                        className="px-2 py-1 text-xs rounded-full bg-white/5 border border-white/10 text-white/60"
-                      >
-                        {t(`formations.anhanguera.skills.${skillKey}`)}
-                      </span>
-                    ))}
-                  </div>
                 </div>
               </div>
             </div>

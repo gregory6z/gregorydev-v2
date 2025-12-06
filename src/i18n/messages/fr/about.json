@@ -29,13 +29,7 @@
 		"certifications": "Certifications",
 		"anhanguera": {
 			"title": "Analyse et Développement de Systèmes",
-			"description": "Bac+3 • Diplôme en technologie de l'information",
-			"skills": {
-				"algorithms": "Algorithmes",
-				"database": "Base de données",
-				"programming": "Programmation",
-				"networks": "Réseaux"
-			}
+			"description": "Bac+3 • Brésil"
 		},
 		"rocketseat": {
 			"period": "Depuis 2020",

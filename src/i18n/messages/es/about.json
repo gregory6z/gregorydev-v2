@@ -29,13 +29,7 @@
 		"certifications": "Certificaciones",
 		"anhanguera": {
 			"title": "Análisis y Desarrollo de Sistemas",
-			"description": "Grado Universitario • Tecnología de la Información",
-			"skills": {
-				"algorithms": "Algoritmos",
-				"database": "Bases de Datos",
-				"programming": "Programación",
-				"networks": "Redes"
-			}
+			"description": "Grado Universitario • Brasil"
 		},
 		"rocketseat": {
 			"period": "Desde 2020",

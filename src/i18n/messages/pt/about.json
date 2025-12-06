@@ -29,13 +29,7 @@
 		"certifications": "Certificações",
 		"anhanguera": {
 			"title": "Análise e Desenvolvimento de Sistemas",
-			"description": "Graduação em Tecnologia da Informação",
-			"skills": {
-				"algorithms": "Algoritmos",
-				"database": "Banco de Dados",
-				"programming": "Programação",
-				"networks": "Redes"
-			}
+			"description": "Graduação • Brasil"
 		},
 		"rocketseat": {
 			"period": "Desde 2020",
