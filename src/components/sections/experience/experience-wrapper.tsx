@@ -170,11 +170,11 @@ export function ExperienceWrapper({ children, timelineItems }: ExperienceWrapper
         )}
       </AnimatePresence>
 
-      {/* Progress Dots - Mobile */}
+      {/* Progress Dots - Mobile (above fixed CTA buttons) */}
       <AnimatePresence>
         {isTimelineVisible && (
           <motion.div
-            className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 flex gap-2 lg:hidden"
+            className="fixed bottom-28 left-1/2 -translate-x-1/2 z-50 flex gap-2 lg:hidden"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
