@@ -115,52 +115,55 @@ function TerminalEffect({ colors, isActive }: { colors: string[]; isActive: bool
       exit={{ opacity: 0 }}
       transition={{ duration: 1 }}
     >
-      {terminals.map((terminal) => (
-        <div
-          key={terminal.id}
-          className="terminal-window absolute rounded-lg overflow-hidden"
-          style={{
-            top: terminal.top,
-            bottom: terminal.bottom,
-            right: terminal.right,
-            background: 'rgba(0, 0, 0, 0.7)',
-            border: `1px solid ${colors[0]}30`,
-            boxShadow: `0 0 30px ${colors[0]}15, inset 0 0 30px rgba(0,0,0,0.5)`,
-            minWidth: '180px',
-          }}
-        >
-          {/* Terminal header */}
+      {/* Wrapper for responsive positioning */}
+      <div className="absolute inset-0 translate-x-[10%] xl:translate-x-0">
+        {terminals.map((terminal) => (
           <div
-            className="flex items-center gap-1.5 px-3 py-2"
-            style={{ background: `${colors[0]}15`, borderBottom: `1px solid ${colors[0]}20` }}
+            key={terminal.id}
+            className="terminal-window absolute rounded-lg overflow-hidden"
+            style={{
+              top: terminal.top,
+              bottom: terminal.bottom,
+              right: terminal.right,
+              background: 'rgba(0, 0, 0, 0.7)',
+              border: `1px solid ${colors[0]}30`,
+              boxShadow: `0 0 30px ${colors[0]}15, inset 0 0 30px rgba(0,0,0,0.5)`,
+              minWidth: '180px',
+            }}
           >
-            <div className="w-2 h-2 rounded-full bg-red-500/60" />
-            <div className="w-2 h-2 rounded-full bg-yellow-500/60" />
-            <div className="w-2 h-2 rounded-full bg-green-500/60" />
-            <span className="ml-2 text-[10px] font-mono" style={{ color: `${colors[0]}60` }}>terminal</span>
-          </div>
+            {/* Terminal header */}
+            <div
+              className="flex items-center gap-1.5 px-3 py-2"
+              style={{ background: `${colors[0]}15`, borderBottom: `1px solid ${colors[0]}20` }}
+            >
+              <div className="w-2 h-2 rounded-full bg-red-500/60" />
+              <div className="w-2 h-2 rounded-full bg-yellow-500/60" />
+              <div className="w-2 h-2 rounded-full bg-green-500/60" />
+              <span className="ml-2 text-[10px] font-mono" style={{ color: `${colors[0]}60` }}>terminal</span>
+            </div>
 
-          {/* Terminal content */}
-          <div className="p-3 font-mono text-xs leading-relaxed">
-            {terminal.lines.map((line, lineIdx) => (
-              <div
-                key={lineIdx}
-                className="terminal-line overflow-hidden whitespace-nowrap"
-                style={{ color: colors[0], opacity: 0.8 }}
-              >
-                {line.endsWith('_') ? (
-                  <>
-                    {line.slice(0, -1)}
-                    <span className="terminal-cursor inline-block w-2 h-3 ml-0.5" style={{ background: colors[0] }} />
-                  </>
-                ) : (
-                  line
-                )}
-              </div>
-            ))}
+            {/* Terminal content */}
+            <div className="p-3 font-mono text-xs leading-relaxed">
+              {terminal.lines.map((line, lineIdx) => (
+                <div
+                  key={lineIdx}
+                  className="terminal-line overflow-hidden whitespace-nowrap"
+                  style={{ color: colors[0], opacity: 0.8 }}
+                >
+                  {line.endsWith('_') ? (
+                    <>
+                      {line.slice(0, -1)}
+                      <span className="terminal-cursor inline-block w-2 h-3 ml-0.5" style={{ background: colors[0] }} />
+                    </>
+                  ) : (
+                    line
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
 
       {/* Background gradient - Tech/Matrix vibes */}
       <div
@@ -297,7 +300,7 @@ function RadarEffect({ colors, isActive }: { colors: string[]; isActive: boolean
     >
       {/* Radar Display - Center-Right */}
       <div
-        className="absolute right-[12%] top-1/2 -translate-y-1/2"
+        className="absolute right-[4%] xl:right-[12%] top-1/2 -translate-y-1/2"
         style={{ width: '300px', height: '300px' }}
       >
         {/* Radar background */}
@@ -509,7 +512,7 @@ function DataFlowEffect({ colors, isActive }: { colors: string[]; isActive: bool
       transition={{ duration: 1 }}
     >
       {/* Data Flow Diagram - positioned center-right */}
-      <div className="absolute right-[15%] top-1/2 -translate-y-1/2" style={{ width: '250px', height: '320px' }}>
+      <div className="absolute right-[4%] xl:right-[15%] top-1/2 -translate-y-1/2" style={{ width: '250px', height: '320px' }}>
 
         {/* Process Box 1 - Input */}
         <div
@@ -765,7 +768,7 @@ function FlightPathEffect({ colors, isActive }: { colors: string[]; isActive: bo
     >
       {/* SVG Flight Path - compact, positioned center-right */}
       <svg
-        className="absolute right-[12%] top-1/2 -translate-y-1/2"
+        className="absolute right-[4%] xl:right-[12%] top-1/2 -translate-y-1/2"
         style={{ width: '280px', height: '350px' }}
         viewBox="0 0 280 350"
       >
@@ -963,7 +966,7 @@ function CodeEffect({ colors, isActive }: { colors: string[]; isActive: boolean 
     >
       {/* VS Code Editor Window */}
       <div
-        className="vscode-editor absolute right-[12%] top-1/2 -translate-y-1/2 rounded-lg overflow-hidden"
+        className="vscode-editor absolute right-[4%] xl:right-[12%] top-1/2 -translate-y-1/2 rounded-lg overflow-hidden"
         style={{
           width: '320px',
           background: '#1e1e1e',
@@ -1219,7 +1222,7 @@ function LevelUpEffect({ colors, isActive }: { colors: string[]; isActive: boole
     >
       {/* Level Up Panel - Center-Right */}
       <div
-        className="absolute right-[12%] top-1/2 -translate-y-1/2 rounded-xl p-5"
+        className="absolute right-[4%] xl:right-[12%] top-1/2 -translate-y-1/2 rounded-xl p-5"
         style={{
           width: '280px',
           background: 'rgba(0,0,0,0.6)',
@@ -1455,7 +1458,7 @@ function CorporateBadgeEffect({ colors, isActive }: { colors: string[]; isActive
       transition={{ duration: 1 }}
     >
       {/* Badge Container - Center-Right */}
-      <div className="absolute right-[15%] top-1/2 -translate-y-1/2 flex flex-col items-center">
+      <div className="absolute right-[4%] xl:right-[15%] top-1/2 -translate-y-1/2 flex flex-col items-center">
 
         {/* Lanyard */}
         <div
