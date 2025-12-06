@@ -39,6 +39,11 @@ export default async function LocaleLayout({ children, params }: Props) {
 
 	return (
 		<html lang={locale} className="dark">
+			<head>
+				{/* Debug console for mobile - REMOVE AFTER DEBUGGING */}
+				<script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+				<script dangerouslySetInnerHTML={{ __html: 'eruda.init();' }} />
+			</head>
 			<body
 				className={`${inter.variable} ${spaceGrotesk.variable} bg-black font-sans text-white antialiased`}
 			>
