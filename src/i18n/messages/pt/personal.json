@@ -1,0 +1,15 @@
+{
+	"sectionTitle": "Pessoal",
+	"paragraph1": "Além das linhas de código, existe uma vida inteira que me define. Sou pai de um filho incrível e marido de uma esposa que me apoia em cada decisão - minha família é meu projeto mais importante e minha maior motivação para crescer todos os dias.",
+	"paragraph2": "A disciplina que trago pro trabalho vem dos anos como militar: acordar cedo, manter o foco e nunca desistir diante dos obstáculos. Essa mentalidade moldou quem sou hoje, tanto como profissional quanto como pessoa.",
+	"paragraph3": "Nas horas vagas, você me encontra planejando a próxima viagem em família, jogando videogame para descontrair, ou... programando mais um projeto pessoal. Confesso: quando você ama o que faz, a linha entre trabalho e hobby desaparece.",
+	"closing": "Família, foco e código. É isso que me move.",
+	"hobbies": {
+		"family": "Família",
+		"fitness": "Musculação",
+		"travel": "Viagens",
+		"gaming": "Games",
+		"coding": "Código",
+		"passion": "Paixão"
+	}
+}

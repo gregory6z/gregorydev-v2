@@ -1,0 +1,15 @@
+{
+	"sectionTitle": "Personal",
+	"paragraph1": "Beyond the lines of code, there's a whole life that defines me. I'm the father of an amazing son and husband to a wife who supports me in every decision - my family is my most important project and my greatest motivation to grow every day.",
+	"paragraph2": "The discipline I bring to work comes from my years in the military: waking up early, staying focused, and never giving up in the face of obstacles. This mindset shaped who I am today, both as a professional and as a person.",
+	"paragraph3": "In my free time, you'll find me planning the next family trip, playing video games to unwind, or... coding yet another personal project. I confess: when you love what you do, the line between work and hobby disappears.",
+	"closing": "Family, focus, and code. That's what drives me.",
+	"hobbies": {
+		"family": "Family",
+		"fitness": "Fitness",
+		"travel": "Travel",
+		"gaming": "Gaming",
+		"coding": "Coding",
+		"passion": "Passion"
+	}
+}

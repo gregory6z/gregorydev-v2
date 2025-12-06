@@ -2,8 +2,11 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { StarsBackground } from "@/components/ui/stars";
 import { MobileBottomCTA } from "@/components/mobile-bottom-cta";
+import { Footer } from "@/components/footer";
 import { AboutSection } from "@/components/sections/about";
+import { CTASection } from "@/components/sections/cta";
 import { ExperienceSection } from "@/components/sections/experience";
+import { PersonalSection } from "@/components/sections/personal";
 import { ProjectsSection } from "@/components/sections/projects";
 import {
   SiReact,
@@ -213,6 +216,15 @@ export default function HomePage() {
 
     {/* Experience Section - Timeline da jornada */}
     <ExperienceSection />
+
+    {/* Personal Section - Sobre mim pessoal */}
+    <PersonalSection />
+
+    {/* CTA Section */}
+    <CTASection />
+
+    {/* Footer */}
+    <Footer />
 
     {/* Mobile Bottom CTA - Fixed na thumb zone */}
     <MobileBottomCTA />
