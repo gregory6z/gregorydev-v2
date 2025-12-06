@@ -21,7 +21,23 @@
 			"backend": "Backend",
 			"tools": "Outils",
 			"databases": "Databases",
-			"platforms": "Plateformes"
+			"platforms": "Plateformes",
+			"softSkills": "Soft Skills"
+		},
+		"softSkills": {
+			"adaptability": "Adaptabilité",
+			"problemSolving": "Résolution de problèmes",
+			"agile": "Méthodologies agiles",
+			"leadership": "Leadership",
+			"communication": "Communication",
+			"teamwork": "Travail en équipe",
+			"autonomy": "Autonomie",
+			"timeManagement": "Gestion du temps",
+			"continuousLearning": "Apprentissage continu",
+			"criticalThinking": "Pensée critique",
+			"proactivity": "Proactivité",
+			"attentionToDetail": "Attention aux détails",
+			"versatile": "Polyvalent"
 		}
 	},
 	"formations": {

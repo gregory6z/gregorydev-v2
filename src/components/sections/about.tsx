@@ -97,6 +97,21 @@ const skills = {
     { Icon: SiCalendly, name: "Cal.com", rating: 3 },
     { Icon: SiResend, name: "Resend", rating: 4 },
   ],
+  softSkills: [
+    "adaptability",
+    "problemSolving",
+    "agile",
+    "leadership",
+    "communication",
+    "teamwork",
+    "autonomy",
+    "timeManagement",
+    "continuousLearning",
+    "criticalThinking",
+    "proactivity",
+    "attentionToDetail",
+    "versatile",
+  ],
 };
 
 const formations = {
@@ -307,6 +322,23 @@ export function AboutSection() {
                   </div>
                 ))}
               </div>
+            </div>
+          </div>
+
+          {/* Soft Skills */}
+          <div className="mt-12">
+            <h4 className="text-xs uppercase tracking-wider text-white/40 mb-4 text-center">
+              {t("skills.categories.softSkills")}
+            </h4>
+            <div className="flex flex-wrap justify-center gap-3">
+              {skills.softSkills.map((skillKey) => (
+                <span
+                  key={skillKey}
+                  className="px-4 py-2 text-sm rounded-full border border-white/10 bg-white/[0.02] text-white/70"
+                >
+                  {t(`skills.softSkills.${skillKey}`)}
+                </span>
+              ))}
             </div>
           </div>
         </div>
