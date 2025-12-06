@@ -1,37 +1,22 @@
 {
 	"sectionTitle": "Proyectos",
-	"count": "6",
+	"count": "3",
 	"viewProject": "Ver proyecto",
 	"items": [
 		{
-			"title": "E-commerce Platform",
-			"tags": "Full Stack, Next.js, Prisma",
-			"description": "Plataforma completa de e-commerce con panel admin"
+			"title": "La bonne réponse",
+			"tags": "Full Stack JS, React, Node, Nest",
+			"description": ""
 		},
 		{
-			"title": "SaaS Dashboard",
-			"tags": "React, Node.js, GraphQL",
-			"description": "Dashboard analytics para gestión de métricas"
+			"title": "Les Performeurs",
+			"tags": "Front End Developer",
+			"description": ""
 		},
 		{
-			"title": "Mobile App",
-			"tags": "React Native, Firebase",
-			"description": "Aplicación de delivery con rastreo en tiempo real"
-		},
-		{
-			"title": "API Gateway",
-			"tags": "NestJS, Docker, Redis",
-			"description": "Microservicios con autenticación y rate limiting"
-		},
-		{
-			"title": "Fintech Platform",
-			"tags": "Next.js, Supabase, Stripe",
-			"description": "Sistema de pagos con integración bancaria"
-		},
-		{
-			"title": "CRM System",
-			"tags": "React, PostgreSQL, WebSocket",
-			"description": "Gestión de clientes con chat en tiempo real"
+			"title": "Airwell IOT",
+			"tags": "Back End, Microservices",
+			"description": ""
 		}
 	]
 }
