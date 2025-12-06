@@ -1,9 +1,7 @@
-"use client"
+import { getTranslations } from "next-intl/server";
 
-import { useTranslations } from "next-intl"
-
-export function MobileBottomCTA() {
-	const t = useTranslations("hero")
+export async function MobileBottomCTA() {
+	const t = await getTranslations("hero");
 
 	return (
 		<div className="fixed bottom-0 left-0 right-0 z-40 p-4 pb-6 sm:hidden">

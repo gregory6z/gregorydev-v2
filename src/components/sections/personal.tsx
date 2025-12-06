@@ -1,8 +1,5 @@
-"use client";
-
-import React from "react";
 import Image from "next/image";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import {
   Dumbbell,
   Gamepad2,
@@ -21,8 +18,8 @@ const hobbies = [
   { icon: Heart, labelKey: "passion" },
 ];
 
-export function PersonalSection() {
-  const t = useTranslations("personal");
+export async function PersonalSection() {
+  const t = await getTranslations("personal");
 
   return (
     <section id="personal" className="relative bg-black pt-16 pb-24 sm:pt-20 sm:pb-32">

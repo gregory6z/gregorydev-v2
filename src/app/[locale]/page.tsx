@@ -1,11 +1,11 @@
 import Image from "next/image";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import { StarsBackground } from "@/components/ui/stars";
 import { MobileBottomCTA } from "@/components/mobile-bottom-cta";
 import { Footer } from "@/components/footer";
 import { AboutSection } from "@/components/sections/about";
 import { CTASection } from "@/components/sections/cta";
-import { ExperienceSection } from "@/components/sections/experience";
+import { ExperienceSection } from "@/components/sections/experience/index";
 import { PersonalSection } from "@/components/sections/personal";
 import { ProjectsSection } from "@/components/sections/projects";
 import {
@@ -54,8 +54,8 @@ const rightLogos = [
 // Todos os logos combinados para mobile
 const allLogos = [...leftLogos, ...rightLogos];
 
-export default function HomePage() {
-  const t = useTranslations("hero");
+export default async function HomePage() {
+  const t = await getTranslations("hero");
 
   return (
     <>

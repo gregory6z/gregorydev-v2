@@ -1,7 +1,7 @@
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 
-export function ProjectsSection() {
-  const t = useTranslations("projects");
+export async function ProjectsSection() {
+  const t = await getTranslations("projects");
 
   const items = t.raw("items") as Array<{
     title: string;

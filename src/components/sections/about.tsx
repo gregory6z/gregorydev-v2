@@ -1,4 +1,4 @@
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import { Star, GraduationCap } from "lucide-react";
 import {
   SiReact,
@@ -142,8 +142,8 @@ const formations = {
   },
 };
 
-export function AboutSection() {
-  const t = useTranslations("about");
+export async function AboutSection() {
+  const t = await getTranslations("about");
 
   return (
     <section id="about" className="relative py-12 sm:py-24 md:py-32">

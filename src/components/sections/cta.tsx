@@ -1,11 +1,9 @@
-"use client";
-
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import { SplineScene } from "@/components/ui/spline";
 import { Spotlight } from "@/components/ui/spotlight";
 
-export function CTASection() {
-  const t = useTranslations("cta");
+export async function CTASection() {
+  const t = await getTranslations("cta");
 
   return (
     <section id="contact" className="relative bg-black py-16 sm:py-24">
