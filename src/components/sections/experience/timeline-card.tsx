@@ -33,9 +33,9 @@ export async function TimelineCard({ year, iconName, gradient }: TimelineCardPro
   const skills = t.raw(`timeline.${year}.skills`) as string[];
 
   return (
-    <div className="w-full max-w-xl lg:max-w-xl xl:max-w-2xl relative z-10">
+    <div className="w-full max-w-xl lg:max-w-lg xl:max-w-2xl relative z-10">
       {/* Glass Card Container */}
-      <div className="relative px-5 py-6 sm:px-8 sm:py-10 md:px-12 md:py-12 lg:px-16 lg:py-14 rounded-2xl md:rounded-3xl bg-[#141414] border border-white/10 shadow-2xl">
+      <div className="relative px-5 py-6 sm:px-8 sm:py-10 md:px-12 md:py-12 lg:px-10 lg:py-10 xl:px-16 xl:py-14 rounded-2xl md:rounded-3xl bg-[#141414] border border-white/10 shadow-2xl">
         {/* Subtle gradient overlay */}
         <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-white/[0.03] to-transparent pointer-events-none" />
 

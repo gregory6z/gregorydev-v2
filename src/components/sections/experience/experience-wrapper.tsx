@@ -109,16 +109,21 @@ export function ExperienceWrapper({ children, timelineItems }: ExperienceWrapper
         <div
           className="absolute top-0 bottom-0 w-[1px] bg-gradient-to-b from-transparent via-white/15 to-transparent lg:hidden left-1/2 -translate-x-1/2"
         />
-        {/* Desktop line */}
+        {/* Desktop line - lg */}
         <div
-          className="absolute top-0 bottom-0 w-[1px] bg-gradient-to-b from-transparent via-white/15 to-transparent hidden lg:block"
-          style={{ left: 'calc(11rem + 480px)' }}
+          className="absolute top-0 bottom-0 w-[1px] bg-gradient-to-b from-transparent via-white/15 to-transparent hidden lg:block xl:hidden"
+          style={{ left: 'calc(2rem + 520px)' }}
+        />
+        {/* Desktop line - xl+ */}
+        <div
+          className="absolute top-0 bottom-0 w-[1px] bg-gradient-to-b from-transparent via-white/15 to-transparent hidden xl:block"
+          style={{ left: 'calc(11rem + 680px)' }}
         />
       </div>
 
       {/* Server-rendered cards */}
       <div className="mx-auto max-w-[1320px] px-4 sm:px-6 relative" style={{ zIndex: 2 }}>
-        <div className="lg:pl-36 xl:pl-44">
+        <div className="lg:pl-8 xl:pl-44">
           {children}
         </div>
       </div>
