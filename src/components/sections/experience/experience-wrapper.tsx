@@ -41,7 +41,11 @@ export function ExperienceWrapper({ children, timelineItems }: ExperienceWrapper
 
   // Detectar qual card está visível usando data-index
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+
     const cards = document.querySelectorAll('[data-timeline-card]');
+    if (!cards.length) return;
+
     const observers: IntersectionObserver[] = [];
 
     cards.forEach((card) => {
@@ -62,6 +66,7 @@ export function ExperienceWrapper({ children, timelineItems }: ExperienceWrapper
   }, []);
 
   const handleTimelineClick = (index: number) => {
+    if (typeof window === 'undefined') return;
     const card = document.querySelector(`[data-timeline-card="${index}"]`);
     if (card) {
       card.scrollIntoView({ behavior: "smooth", block: "center" });
