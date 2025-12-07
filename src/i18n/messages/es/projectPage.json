@@ -420,8 +420,8 @@
 				"myRole": "Como fundador y desarrollador full stack, diseñé e implementé toda la arquitectura del sistema. En el backend, desarrollé Clean Architecture con Either Monad, Use Case Pattern y Domain Events. En el frontend, implementé TanStack Query con Optimistic Updates, sistema de autenticación cross-subdomain, y enrutamiento file-based con TanStack Router. También hice todo el diseño UI/UX y las integraciones con Stripe, servicio RAG open source, y sistema de emails."
 			},
 			"stack": {
-				"frontend": ["React 19", "TypeScript", "Vite", "TanStack Router", "TanStack Query", "Tailwind CSS 4", "shadcn/ui", "Radix UI", "React Hook Form", "Zod", "i18next", "Recharts", "Axios", "Sonner"],
-				"backend": ["Fastify", "TypeScript", "Prisma", "PostgreSQL", "JWT", "Stripe", "Nodemailer", "Swagger", "Zod", "Docker"]
+				"frontend": ["React", "TypeScript", "Vite", "TanStack Router", "TanStack Query", "Tailwind CSS", "shadcn/ui", "Radix UI", "React Hook Form", "Zod", "i18next", "Recharts", "Axios", "Sonner", "Lucide React"],
+				"backend": ["Fastify", "TypeScript", "Prisma", "PostgreSQL", "JWT", "bcryptjs", "Stripe", "Nodemailer", "Swagger", "Zod"]
 			},
 			"subProjects": [
 				{
