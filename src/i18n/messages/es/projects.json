@@ -6,32 +6,38 @@
 		{
 			"title": "La bonne réponse",
 			"tags": "Full Stack JS, React, Node, Nest",
-			"description": ""
+			"description": "",
+			"slug": "la-bonne-reponse"
 		},
 		{
 			"title": "Les Performeurs",
 			"tags": "Front End Developer",
-			"description": ""
+			"description": "",
+			"slug": "les-performeurs"
 		},
 		{
-			"title": "Airwell IOT",
-			"tags": "Back End, Microservices",
-			"description": ""
+			"title": "Airwell IoT Router",
+			"tags": "Back End, Microservices, NestJS",
+			"description": "",
+			"slug": "airwell-iot-router"
 		},
 		{
 			"title": "Ragboost",
 			"tags": "SaaS Developer, Full Stack, Fundador",
-			"description": ""
+			"description": "",
+			"slug": ""
 		},
 		{
 			"title": "Va beauty",
 			"tags": "Desarrollador Full Stack",
-			"description": ""
+			"description": "",
+			"slug": ""
 		},
 		{
 			"title": "Signature Agence",
 			"tags": "Desarrollador Landing Page",
-			"description": ""
+			"description": "",
+			"slug": ""
 		}
 	]
 }

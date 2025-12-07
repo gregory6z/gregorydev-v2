@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowLeft, ExternalLink } from "lucide-react";
 import { Footer } from "@/components/footer";
 import { SubProjectCard } from "@/components/project-page";
@@ -23,6 +24,10 @@ import {
   SiVite,
   SiStripe,
   SiSwagger,
+  SiRedis,
+  SiNodedotjs,
+  SiAwslambda,
+  SiJest,
 } from "react-icons/si";
 import { TbBrandFramerMotion } from "react-icons/tb";
 
@@ -65,15 +70,51 @@ const techIcons: Record<string, React.ComponentType<{ className?: string }>> = {
   "Winston": TbBrandFramerMotion,
   "react-i18next": SiReact,
   "react-dropzone": SiReact,
+  "nuqs": SiTypescript,
+  "Recharts": SiReact,
+  "API REST PHP (équipe House of Coding)": SiPhp,
+  "API REST PHP (equipe House of Coding)": SiPhp,
+  "API REST PHP (team House of Coding)": SiPhp,
+  "Ferramenta RAG": TbBrandFramerMotion,
+  "Herramienta RAG": TbBrandFramerMotion,
+  "RAG Tool": TbBrandFramerMotion,
+  "Outil RAG": TbBrandFramerMotion,
+  // IoT Router
+  "React Native (debugging + relatórios para equipe Airwell)": SiReact,
+  "React Native (debugging + reports for Airwell team)": SiReact,
+  "React Native (debugging + rapports pour équipe Airwell)": SiReact,
+  "React Native (debugging + informes para equipo Airwell)": SiReact,
+  "Node.js": SiNodedotjs,
+  "Redis": SiRedis,
+  "ioredis": SiRedis,
+  "Bull": SiRedis,
+  "BullMQ": SiRedis,
+  "AWS Lambda": SiAwslambda,
+  "AWS EventBridge": SiAwslambda,
+  "Jest": SiJest,
+  "class-validator": SiNestjs,
+  "class-transformer": SiNestjs,
+  "OAuth 2.0": TbBrandFramerMotion,
+  "JWT": SiNestjs,
+  "AES-256-GCM": TbBrandFramerMotion,
+  "@nestjs/axios": SiNestjs,
+  "AJV": SiTypescript,
+  "jsonpath-plus": SiTypescript,
 };
 
 // Valid project slugs
-const validSlugs = ["la-bonne-reponse", "les-performeurs"];
+const validSlugs = ["la-bonne-reponse", "les-performeurs", "airwell-iot-router"];
 
 // Project external links
 const projectLinks: Record<string, string> = {
   "la-bonne-reponse": "https://www.la-bonne-reponse.pro/",
   "les-performeurs": "https://www.lesperformeurs.fr/",
+  "airwell-iot-router": "https://airwell.com/",
+};
+
+// Project hero images
+const projectImages: Record<string, string> = {
+  "airwell-iot-router": "/images/projects/router-iot.svg",
 };
 
 type SubProject = {
@@ -141,17 +182,31 @@ export default async function ProjectPage({ params }: Props) {
 
           {/* Hero Image */}
           <section className="mb-12">
-            <div className="aspect-video w-full rounded-3xl bg-[#1a1a1a] border border-white/5 overflow-hidden relative">
-              {/* Placeholder for main project image */}
-              <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent" />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-center">
-                  <div className="w-20 h-20 mx-auto mb-4 rounded-2xl bg-white/5 flex items-center justify-center">
-                    <span className="text-white/10 text-4xl font-bold">01</span>
+            <div className="aspect-[16/10] w-full rounded-2xl overflow-hidden relative border border-white/10">
+              {projectImages[slug] ? (
+                <>
+                  <Image
+                    src={projectImages[slug]}
+                    alt={project.title}
+                    fill
+                    className="object-cover"
+                    priority
+                  />
+                </>
+              ) : (
+                <>
+                  {/* Placeholder for main project image */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent" />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="text-center">
+                      <div className="w-20 h-20 mx-auto mb-4 rounded-2xl bg-white/5 flex items-center justify-center">
+                        <span className="text-white/10 text-4xl font-bold">01</span>
+                      </div>
+                      <span className="text-white/20 text-sm">Main Project Image</span>
+                    </div>
                   </div>
-                  <span className="text-white/20 text-sm">Main Project Image</span>
-                </div>
-              </div>
+                </>
+              )}
             </div>
           </section>
 
@@ -176,9 +231,15 @@ export default async function ProjectPage({ params }: Props) {
                     <span className="text-white/40">{t("period")}: </span>
                     <span className="text-white/80">{project.period}</span>
                   </div>
-                  <div className="px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
-                    <span className="text-emerald-400">{project.status}</span>
-                  </div>
+                  {project.status.includes("Desenvolvimento") || project.status.includes("Development") || project.status.includes("Développement") || project.status.includes("Desarrollo") ? (
+                    <div className="px-3 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20">
+                      <span className="text-amber-400">{project.status}</span>
+                    </div>
+                  ) : (
+                    <div className="px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
+                      <span className="text-emerald-400">{project.status}</span>
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -209,7 +270,7 @@ export default async function ProjectPage({ params }: Props) {
             <div className="space-y-6">
               {/* Context & Solution */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div className="p-6 rounded-2xl bg-[#1a1a1a] border border-white/5">
+                <div className="p-6 rounded-2xl bg-[#1a1a1a] border border-white/5 transition-all duration-300 hover:border-white/10 hover:bg-[#1c1c1c]">
                   <h3 className="text-sm font-medium text-white/40 uppercase tracking-wider mb-3">
                     {t("overview.context")}
                   </h3>
@@ -217,7 +278,7 @@ export default async function ProjectPage({ params }: Props) {
                     {project.overview.context}
                   </p>
                 </div>
-                <div className="p-6 rounded-2xl bg-[#1a1a1a] border border-white/5">
+                <div className="p-6 rounded-2xl bg-[#1a1a1a] border border-white/5 transition-all duration-300 hover:border-white/10 hover:bg-[#1c1c1c]">
                   <h3 className="text-sm font-medium text-white/40 uppercase tracking-wider mb-3">
                     {t("overview.solution")}
                   </h3>
@@ -244,7 +305,7 @@ export default async function ProjectPage({ params }: Props) {
             <h2 className="text-2xl font-bold text-white mb-8">{t("stack.title")}</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Frontend */}
-              <div className="p-6 rounded-2xl bg-[#1a1a1a] border border-white/5">
+              <div className="p-6 rounded-2xl bg-[#1a1a1a] border border-white/5 transition-all duration-300 hover:border-white/10">
                 <h3 className="text-sm font-medium text-white/40 uppercase tracking-wider mb-4">
                   {t("stack.frontend")}
                 </h3>
@@ -254,7 +315,7 @@ export default async function ProjectPage({ params }: Props) {
                     return (
                       <div
                         key={tech}
-                        className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 border border-white/10"
+                        className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 border border-white/10 transition-all duration-300 hover:bg-white/10 hover:border-white/20 hover:scale-105"
                       >
                         {Icon && <Icon className="w-4 h-4 text-white/60" />}
                         <span className="text-sm text-white/80">{tech}</span>
@@ -264,7 +325,7 @@ export default async function ProjectPage({ params }: Props) {
                 </div>
               </div>
               {/* Backend */}
-              <div className="p-6 rounded-2xl bg-[#1a1a1a] border border-white/5">
+              <div className="p-6 rounded-2xl bg-[#1a1a1a] border border-white/5 transition-all duration-300 hover:border-white/10">
                 <h3 className="text-sm font-medium text-white/40 uppercase tracking-wider mb-4">
                   {t("stack.backend")}
                 </h3>
@@ -274,7 +335,7 @@ export default async function ProjectPage({ params }: Props) {
                     return (
                       <div
                         key={tech}
-                        className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 border border-white/10"
+                        className="flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 border border-white/10 transition-all duration-300 hover:bg-white/10 hover:border-white/20 hover:scale-105"
                       >
                         {Icon && <Icon className="w-4 h-4 text-white/60" />}
                         <span className="text-sm text-white/80">{tech}</span>
@@ -327,26 +388,28 @@ export default async function ProjectPage({ params }: Props) {
             </div>
           </section>
 
-          {/* Gallery Section - Placeholders */}
-          <section className="mb-16">
-            <h2 className="text-2xl font-bold text-white mb-8">{t("gallery.title")}</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {/* Placeholder squares for future images */}
-              {[1, 2, 3, 4, 5, 6].map((index) => (
-                <div
-                  key={index}
-                  className="aspect-video rounded-2xl bg-[#1a1a1a] border border-white/5 flex items-center justify-center overflow-hidden"
-                >
-                  <div className="text-center">
-                    <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-white/5 flex items-center justify-center">
-                      <span className="text-white/20 text-2xl font-bold">{index}</span>
+          {/* Gallery Section - Hidden for backend-only projects */}
+          {slug !== "airwell-iot-router" && (
+            <section className="mb-16">
+              <h2 className="text-2xl font-bold text-white mb-8">{t("gallery.title")}</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {/* Placeholder squares for future images */}
+                {[1, 2, 3, 4, 5, 6].map((index) => (
+                  <div
+                    key={index}
+                    className="aspect-video rounded-2xl bg-[#1a1a1a] border border-white/5 flex items-center justify-center overflow-hidden transition-all duration-300 hover:border-white/10 hover:bg-[#1c1c1c] hover:scale-[1.02] cursor-pointer group"
+                  >
+                    <div className="text-center transition-transform duration-300 group-hover:scale-110">
+                      <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-white/5 flex items-center justify-center transition-all duration-300 group-hover:bg-white/10">
+                        <span className="text-white/20 text-2xl font-bold group-hover:text-white/40 transition-colors duration-300">{index}</span>
+                      </div>
+                      <span className="text-white/20 text-sm group-hover:text-white/40 transition-colors duration-300">Image {index}</span>
                     </div>
-                    <span className="text-white/20 text-sm">Image {index}</span>
                   </div>
-                </div>
-              ))}
-            </div>
-          </section>
+                ))}
+              </div>
+            </section>
+          )}
 
           {/* Back to Projects */}
           <div className="flex justify-center">

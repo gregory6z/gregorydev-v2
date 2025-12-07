@@ -1,4 +1,11 @@
 import { getTranslations } from "next-intl/server";
+import Link from "next/link";
+import Image from "next/image";
+
+// Project card images
+const projectImages: Record<string, string> = {
+  "airwell-iot-router": "/images/projects/router-iot.svg",
+};
 
 export async function ProjectsSection() {
   const t = await getTranslations("projects");
@@ -7,6 +14,7 @@ export async function ProjectsSection() {
     title: string;
     tags: string;
     description: string;
+    slug: string;
   }>;
 
   return (
@@ -23,39 +31,70 @@ export async function ProjectsSection() {
         </div>
 
         {/* Projects Grid - Style like lucasassis.com.br */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-          {items.map((project, index) => (
-            <div
-              key={index}
-              className="group relative rounded-3xl bg-[#141414] overflow-hidden cursor-pointer hover:bg-[#1a1a1a] transition-colors duration-300"
-            >
-              {/* Image Placeholder Area - Taller aspect ratio */}
-              <div className="aspect-[3/4] bg-[#1a1a1a] group-hover:bg-[#202020] transition-colors relative overflow-hidden">
-                {/* Placeholder gradient/pattern */}
-                <div className="absolute inset-0 bg-gradient-to-br from-white/[0.03] to-transparent" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-white/[0.06] text-8xl lg:text-9xl font-bold">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+          {items.map((project, index) => {
+            const cardContent = (
+              <>
+                {/* Image Area */}
+                <div className="aspect-[16/10] bg-[#0a0a0a] group-hover:bg-[#111] transition-colors relative overflow-hidden">
+                  {projectImages[project.slug] ? (
+                    <>
+                      <Image
+                        src={projectImages[project.slug]}
+                        alt={project.title}
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    </>
+                  ) : (
+                    <>
+                      {/* Placeholder gradient/pattern */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-white/[0.03] to-transparent" />
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <span className="text-white/[0.06] text-8xl lg:text-9xl font-bold">
+                          {String(index + 1).padStart(2, "0")}
+                        </span>
+                      </div>
+                    </>
+                  )}
+                </div>
+
+                {/* Project Info */}
+                <div className="p-6 flex items-center justify-between">
+                  <div>
+                    <h3 className="text-lg font-semibold text-white mb-1">
+                      {project.title}
+                    </h3>
+                    <p className="text-sm text-white/50">{project.tags}</p>
+                  </div>
+                  <span className="text-sm text-white/30 font-mono">
                     {String(index + 1).padStart(2, "0")}
                   </span>
                 </div>
-              </div>
+              </>
+            );
 
-              {/* Project Info */}
-              <div className="p-6 flex items-center justify-between">
-                <div>
-                  <h3 className="text-lg font-semibold text-white mb-1">
-                    {project.title}
-                  </h3>
-                  <p className="text-sm text-white/50">
-                    {project.tags}
-                  </p>
-                </div>
-                <span className="text-sm text-white/30 font-mono">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
+            const cardClassName =
+              "group relative rounded-3xl bg-[#141414] overflow-hidden cursor-pointer hover:bg-[#1a1a1a] transition-colors duration-300";
+
+            if (project.slug) {
+              return (
+                <Link
+                  key={index}
+                  href={`/projects/${project.slug}`}
+                  className={cardClassName}
+                >
+                  {cardContent}
+                </Link>
+              );
+            }
+
+            return (
+              <div key={index} className={cardClassName}>
+                {cardContent}
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

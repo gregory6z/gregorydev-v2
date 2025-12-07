@@ -25,7 +25,7 @@ export function DecisionsSection({ decisions, labels }: DecisionsSectionProps) {
       {/* Decisions List */}
       <div className="space-y-5">
         {decisions.map((item, index) => (
-          <div key={index} className="border-l border-white/10 pl-4">
+          <div key={index} className="border-l border-white/10 pl-4 transition-all duration-300 hover:border-white/30 hover:pl-5">
             <p className="text-sm font-medium text-white/90 mb-1">
               {item.decision}
             </p>

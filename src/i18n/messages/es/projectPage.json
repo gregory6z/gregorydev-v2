@@ -209,60 +209,192 @@
 		},
 		"les-performeurs": {
 			"title": "Les Performeurs",
-			"subtitle": "Ecosistema de Gamificación para Aprendices de Construcción",
-			"role": "Lead Front End Developer",
-			"period": "Febrero 2025 - Actual",
+			"subtitle": "Plataformas de Formación Profesional",
+			"role": "Lead Front End Developer | UI/UX Designer",
+			"period": "Marzo 2025 - Actual",
 			"status": "En Producción",
-			"client": "Les Performeurs (via House of Coding)",
+			"client": "Les Performeurs (via House of Coding / Amiltone)",
 			"overview": {
-				"context": "Les Performeurs es una empresa francesa especializada en formación de aprendices del sector de la construcción. El desafío: seguir la evolución de cientos de aprendices en sus trayectorias prácticas, validar sus competencias mediante pruebas reales, y mantener la motivación a través de un sistema de progresión. La solución: dos aplicaciones complementarias que digitalizan todo el proceso de seguimiento y gamifican la experiencia de aprendizaje.",
-				"solution": "El ecosistema consiste en dos plataformas: (1) Link Parcour - Back Office para gestión de usuarios (administradores, tutores, aprendices), creación de talleres prácticos, y sistema de gamificación con niveles que evolucionan desde 'básicos' hasta misiones de construcción reales; (2) Tuto Mission - App de chat donde los aprendices envían pruebas (fotos/videos) de sus tareas y los tutores validan o rechazan, aumentando el nivel del aprendiz.",
-				"myRole": "Actué como Lead Front End, responsable del desarrollo completo de ambas aplicaciones. En Link Parcour, creé el diseño UI/UX e implementé el sistema de navegación inteligente. En Tuto Mission, implementé el diseño recibido via Figma de House of Codesign, desarrollando el sistema de cache optimista para sensación de tiempo real incluso con API PHP legacy."
+				"context": "Les Performeurs es un organismo de formación profesional francés que acompaña a los aprendices en su trayectoria de desarrollo. Cada aprendiz es acompañado por un tutor que valida sus misiones y etapas de aprendizaje. El problema: seguimiento pedagógico fragmentado en hojas de cálculo y emails, sin trazabilidad centralizada del progreso, evaluaciones manuales dispersas (PIX, Cléa, soft skills), y comunicación tutor-aprendiz sin historial organizado.",
+				"solution": "El ecosistema consiste en dos plataformas complementarias: (1) LINK-Parcours - Dashboard administrativo enterprise-grade para gestión de sesiones de formación, usuarios con 8 niveles de roles, evaluaciones de posicionamiento (PIX, Cléa, soft skills), y seguimiento de progreso (béabas, missions); (2) Tuto-Mission - PWA mobile-first para acompañamiento pedagógico en tiempo real, donde los tutores monitorean aprendices a través de chat con soporte de media y validación de etapas.",
+				"myRole": "En LINK-Parcours, actué como Lead Front End y UI/UX Designer, creando todo el diseño de la interfaz administrativa e implementando el sistema completo. En Tuto-Mission, implementé el diseño recibido via Figma de House of Coding, desarrollando estrategias de cache avanzadas para compensar API legacy y crear una experiencia fluida."
 			},
 			"stack": {
-				"frontend": ["React", "TypeScript", "Tailwind CSS", "React Query (TanStack Query)", "TanStack Table", "React Hook Form", "React Router DOM", "Shadcn UI", "Sonner", "Lucide Icons", "ESLint", "Prettier", "Jira", "GitHub"],
-				"backend": ["PHP", "API REST (equipo House of Coding)"]
+				"frontend": ["React", "TypeScript", "Vite", "Tailwind CSS", "Radix UI", "shadcn/ui", "TanStack React Query", "TanStack Table", "React Hook Form", "Zod", "React Router", "nuqs", "Lucide React", "react-i18next", "Sonner", "Recharts", "react-dropzone"],
+				"backend": ["API REST PHP (equipo House of Coding)"]
 			},
 			"subProjects": [
 				{
-					"title": "Link Parcour",
-					"subtitle": "Back Office de Gestión y Gamificación",
-					"description": "Plataforma administrativa para gestión completa de aprendices, tutores y su progreso. Sistema de gamificación con niveles y misiones de construcción. Diseño UI/UX creado por mí.",
+					"title": "LINK-Parcours",
+					"subtitle": "Dashboard Administrativo de Formación",
+					"description": "Plataforma administrativa completa para gestión de sesiones de formación, usuarios y evaluaciones. Creé todo el diseño UI/UX e implementé el sistema con control de acceso basado en 8 niveles de roles, tablas paginadas server-side, y formularios complejos con validación i18n.",
 					"features": {
 						"frontend": [
-							{"name": "Dashboard Administrativo", "description": "Interfaz completa para gestión de la plataforma"},
-							{"name": "Gestión de Usuarios", "description": "Administración de administradores, tutores y aprendices"},
-							{"name": "Seguimiento Apprenti/Tuteur", "description": "Visualización completa del progreso de cada aprendiz"},
-							{"name": "Sistema de Talleres", "description": "Creación y gestión de días de talleres prácticos"},
-							{"name": "Gamificación", "description": "Sistema de niveles: básicos → misiones de construcción"},
-							{"name": "Sistema de Validación", "description": "Interfaz para que tutores validen tareas"},
-							{"name": "Navegación Inteligente", "description": "Persistencia de filtros vía HTTP entre páginas"}
+							{"name": "Gestión de Usuarios", "description": "CRUD completo con 8 niveles de roles (superAdmin hasta aprendiz)"},
+							{"name": "Gestión de Sesiones", "description": "Creación de sesiones con múltiples días (session_jours) y participantes"},
+							{"name": "Evaluación de Posicionamiento", "description": "Scores PIX, resultados Cléa, soft skills games, entrevistas"},
+							{"name": "Seguimiento de Progreso", "description": "Béabas y missions con cálculo de porcentaje global"},
+							{"name": "Tablas Avanzadas", "description": "TanStack Table con ordenación, filtros, paginación server-side"},
+							{"name": "URL State Management", "description": "Filtros persistidos en URL via nuqs para compartir"},
+							{"name": "Formularios Validados", "description": "React Hook Form + Zod con mensajes i18n en francés"},
+							{"name": "Upload de Foto", "description": "Drag & drop con preview y gestión de perfil"},
+							{"name": "Dashboard con Gráficos", "description": "Visualizaciones con Recharts para métricas"},
+							{"name": "Sistema de Roles", "description": "RoleProtectedRoute + useRoleBasedRedirect para control de acceso"},
+							{"name": "Pre-inscripciones", "description": "Gestión de candidatos por sesión de formación"}
 						],
 						"backend": []
-					}
+					},
+					"metrics": {
+						"linesOfCode": "~21.500",
+						"files": "200+",
+						"components": "26+",
+						"hooks": "14",
+						"pages": "11"
+					},
+					"patterns": [
+						{"name": "Role-Based Access Control", "description": "8 niveles jerárquicos con RoleProtectedRoute y redirección automática"},
+						{"name": "Container/Presenter", "description": "Hooks de datos separados de componentes de tabla"},
+						{"name": "URL State Management", "description": "nuqs sincroniza filtros/paginación con query parameters"},
+						{"name": "Schema Validation", "description": "Zod dinámico con traducciones i18n para mensajes de error"},
+						{"name": "Composition Pattern", "description": "shadcn/ui + Radix UI con class-variance-authority"},
+						{"name": "Adapter Pattern", "description": "Hooks adaptan estructura API al formato UI"}
+					],
+					"decisions": [
+						{"decision": "Tailwind CSS v4", "reason": "Productividad aumentada, design system integrado, purge automático"},
+						{"decision": "Radix UI + shadcn/ui", "reason": "Primitives accesibles sin styling impuesto, control total sobre apariencia"},
+						{"decision": "nuqs para URL state", "reason": "Sincronización bidireccional automática, type-safe con parsers"},
+						{"decision": "Paginación Híbrida", "reason": "Server-side para users/sessions (gran volumen), client-side para aprendices (filtrado rápido)"},
+						{"decision": "React Hook Form + Zod", "reason": "Performance (menos re-renders), integración nativa, mejor TypeScript"}
+					],
+					"challenges": [
+						{"challenge": "8 Niveles de Roles", "solution": "Enum UserGroupCode con códigos numéricos jerárquicos, matriz de permisos por ruta"},
+						{"challenge": "Filtros Persistentes", "solution": "Estado en URL via nuqs + location.state para contexto de navegación"},
+						{"challenge": "Sistema de Posicionamiento", "solution": "Componentes dedicados por tipo (PIX, Cléa, soft skills) + hook usePositioning centralizado"},
+						{"challenge": "Formularios Multi-Etapas", "solution": "Tabs organizando secciones, schema Zod parcial por sección, validación en submit"}
+					]
 				},
 				{
-					"title": "Tuto Mission",
-					"subtitle": "Chat de Validación de Pruebas",
-					"description": "App de chat para comunicación entre tutor y aprendiz, con sistema de envío y validación de pruebas. Diseño recibido via Figma de House of Codesign.",
+					"title": "Tuto-Mission",
+					"subtitle": "PWA de Acompañamiento Pedagógico",
+					"description": "Aplicación mobile-first para acompañamiento pedagógico en tiempo real. Implementé el diseño recibido via Figma, desarrollando sistema de chat con soporte de media, validación de etapas, y estrategia de cache sofisticada para compensar API legacy.",
 					"features": {
 						"frontend": [
-							{"name": "Sistema de Chat", "description": "Mensajes entre tutor y aprendiz"},
-							{"name": "Envío de Pruebas", "description": "Upload de imágenes y videos como prueba de tareas"},
-							{"name": "Sistema de Validación", "description": "Aprobación/rechazo de pruebas por el tutor"},
-							{"name": "Progresión de Nivel", "description": "Aumento de nivel basado en validaciones"},
-							{"name": "Sistema de Notificaciones", "description": "Alertas de nuevos mensajes y validaciones"},
-							{"name": "Cache Optimista", "description": "Sensación de tiempo real con llamadas API en segundo plano"}
+							{"name": "Sistema de Chat", "description": "Mensajes en tiempo real tutor ↔ aprendiz con historial persistente"},
+							{"name": "Upload de Media", "description": "Fotos y videos pedagógicos con preview antes del envío"},
+							{"name": "Validación de Etapas", "description": "Tutor valida o solicita rehacerlo con feedback visual inmediato"},
+							{"name": "Videos con Timestamps", "description": "Player React Player con timestamps específicos por etapa"},
+							{"name": "Auto-scroll Inteligente", "description": "Hook useScrollToBottom observa cambios y ejecuta scroll"},
+							{"name": "Token Refresh Automático", "description": "Refresh JWT 10min antes de expiración, transparente al usuario"},
+							{"name": "Múltiples Aprendices", "description": "Selección automática si tutor tiene 1, página de selección si N"},
+							{"name": "Mensajes de Pedagogía", "description": "Mensajes automáticos del sistema con estilización diferenciada"},
+							{"name": "Optimistic Updates", "description": "Mensajes aparecen instantáneamente antes de confirmación del servidor"},
+							{"name": "Cache Performático", "description": "Stale-while-revalidate para navegación zero-latency"}
 						],
 						"backend": []
-					}
+					},
+					"metrics": {
+						"linesOfCode": "~4.200",
+						"files": "50+",
+						"components": "13",
+						"hooks": "5",
+						"pages": "6"
+					},
+					"patterns": [
+						{"name": "Provider Pattern", "description": "useAuth centraliza lógica de autenticación con variables globales"},
+						{"name": "Custom Hook Pattern", "description": "useMessages, useMissions encapsulan lógica de datos"},
+						{"name": "Compound Components", "description": "MessageText, MessagePhoto, MessageVideo por tipo de mensaje"},
+						{"name": "Observer Pattern", "description": "useScrollToBottom observa dependencias para auto-scroll"},
+						{"name": "Interceptor Pattern", "description": "interceptFetch wrappea requests con JWT y retry de token"},
+						{"name": "Optimistic Updates", "description": "React Query con mutaciones optimistas y rollback automático"}
+					],
+					"decisions": [
+						{"decision": "React Query vs Redux", "reason": "Cache automático, mutations con optimistic updates, menos boilerplate"},
+						{"decision": "CSS Puro", "reason": "Proyecto mobile-first pequeño, performance sin runtime CSS-in-JS"},
+						{"decision": "localStorage + Cookies", "reason": "JWT en cookie para seguridad, datos de usuario en localStorage para acceso rápido"},
+						{"decision": "Upload Directo via API", "reason": "Arquitectura más simple, backend controla validaciones"}
+					],
+					"challenges": [
+						{"challenge": "API Legacy Lenta", "solution": "Cache sofisticado: staleTime 5-10min, gcTime 30min, placeholderData para UX instantánea"},
+						{"challenge": "Refresh de Token Transparente", "solution": "Timer 10min antes de expiración + handleTokenExpiration global para errores 401"},
+						{"challenge": "Upload con Preview", "solution": "URL.createObjectURL() para preview local, envío separado de texto y media"},
+						{"challenge": "Scroll Automático en Chat", "solution": "Hook customizado observa [messages, isLoading] y ejecuta scrollIntoView"}
+					]
 				}
 			],
 			"challenges": [
-				{"challenge": "API PHP Legacy", "solution": "Implementación de cache optimista para compensar llamadas lentas"},
-				{"challenge": "Sensación de Tiempo Real", "solution": "Llamadas en segundo plano con actualizaciones optimistas en UI"},
-				{"challenge": "Navegación con Estado", "solution": "Sistema de persistencia de filtros vía parámetros HTTP"},
-				{"challenge": "Upload de Media", "solution": "Sistema optimizado para envío de imágenes y videos"}
+				{"challenge": "Dos Plataformas Complementarias", "solution": "Arquitectura consistente con React Query en ambas, patterns reutilizables"},
+				{"challenge": "API PHP Legacy Compartida", "solution": "Estrategias de cache en frontend para crear experiencia premium sin modificar backend"}
+			]
+		},
+		"airwell-iot-router": {
+			"title": "Airwell IoT Router",
+			"subtitle": "Capa de Abstracción para Dispositivos IoT",
+			"role": "Backend Developer",
+			"period": "Noviembre 2024 - Actual",
+			"status": "En Desarrollo",
+			"client": "Airwell (via House of Coding / Amiltone)",
+			"overview": {
+				"context": "Airwell es una empresa de climatización que ofrece dispositivos IoT (aire acondicionado, termostatos, sensores) controlados vía aplicación móvil. Para conectar dispositivos de múltiples fabricantes, la empresa utilizaba un servicio tercerizado como intermediario. El problema: costos recurrentes de licencia por dispositivo, vendor lock-in, latencia adicional, e imposibilidad de customizar sin depender del proveedor.",
+				"solution": "Desarrollé un IoT Router propio - una capa de abstracción que conecta directamente a las APIs de los fabricantes de dispositivos, normaliza los diferentes formatos en una API unificada, mantiene compatibilidad con el formato esperado por el mobile legacy, y escala para soportar nuevos fabricantes vía sistema de plugins. La solución eliminó costos mensuales y dio independencia tecnológica total a la empresa.",
+				"myRole": "Asumí un proyecto iniciado por un colega de Amiltone y realicé una refactorización masiva, definiendo buenas prácticas y adaptando la arquitectura para escalar. Diseñé la arquitectura de plugins para múltiples fabricantes, desarrollé sistema de rate limiting distribuido con Redis, e integré AWS Lambda para comandos programados. También hice intervenciones en la API server estándar de Airwell para integrar el IoT Router, y realicé debugging completo de la app mobile React Native que no funcionaba - identificando problemas y enviando informes al equipo."
+			},
+			"stack": {
+				"frontend": ["React Native (debugging + informes para equipo Airwell)"],
+				"backend": ["Node.js", "NestJS", "TypeScript", "MySQL", "TypeORM", "Redis", "Bull", "BullMQ", "AWS Lambda", "AWS EventBridge", "OAuth 2.0", "JWT", "AES-256-GCM", "Docker", "Jest", "Swagger", "class-validator"]
+			},
+			"subProjects": [
+				{
+					"title": "IoT Router",
+					"subtitle": "Sistema de Plugins Multi-Fabricante + Comandos Programados",
+					"description": "Capa de abstracción con arquitectura de plugins para integración con múltiples fabricantes IoT. Cada fabricante es un módulo aislado que implementa una interfaz común. Incluye sistema de comandos programados vía AWS Lambda + Bull Queue con retry automático.",
+					"features": {
+						"frontend": [],
+						"backend": [
+							{"name": "Plugin Architecture", "description": "Sistema extensible donde cada fabricante es un plugin aislado implementando IPartnerPlugin"},
+							{"name": "Discovery Handler", "description": "Descubrimiento automático de dispositivos por usuario y fabricante con extracción de metadatos"},
+							{"name": "Data Handler", "description": "Lectura de status, mediciones (temperatura, humedad, CO2) con normalización de unidades"},
+							{"name": "Command Handler", "description": "Ejecución de comandos (encender/apagar, ajustar temperatura) con retry automático"},
+							{"name": "Scheduled Commands", "description": "AWS EventBridge + Lambda + Bull Queue para comandos programados con retry exponencial"},
+							{"name": "OAuth 2.0 Flow", "description": "Flujo de autenticación completo con refresh automático de tokens cifrados"},
+							{"name": "Rate Limiting", "description": "Algoritmo sliding window en Redis con reglas customizadas por fabricante"},
+							{"name": "Adapter Pattern", "description": "Transformación de datos del formato fabricante hacia formato normalizado compatible con mobile"},
+							{"name": "Configuration as Code", "description": "Configuración de socios y dispositivos vía YAML validado por JSON Schema"},
+							{"name": "Entity Loaders", "description": "Repository pattern encapsulando acceso a datos con queries optimizadas"},
+							{"name": "Interceptors & Guards", "description": "Logging estructurado y manejo de errores consistente en toda la aplicación"}
+						]
+					},
+					"metrics": {
+						"linesOfCode": "~15.000+",
+						"files": "181",
+						"modules": "12",
+						"entities": "14"
+					},
+					"patterns": [
+						{"name": "Plugin Architecture", "description": "Fabricantes como módulos aislados implementando interfaz común (Open/Closed Principle)"},
+						{"name": "Handler Pattern", "description": "Separación de responsabilidades: handlers Discovery, Data y Command especializados"},
+						{"name": "Strategy Pattern", "description": "Cada plugin implementa su propia estrategia de autenticación (OAuth, API Key, propietaria)"},
+						{"name": "Adapter Pattern", "description": "Normalización de datos heterogéneos hacia formato único compatible con mobile legacy"},
+						{"name": "Queue Pattern", "description": "Bull Queue para comandos programados con desacoplamiento trigger/ejecución"},
+						{"name": "Repository Pattern", "description": "Entity Loaders encapsulando acceso a datos con queries centralizadas"},
+						{"name": "Factory Pattern", "description": "Rate limit calculators específicos por fabricante con reglas customizadas"},
+						{"name": "Decorator Pattern", "description": "Interceptors y filters decorando operaciones con logging y error handling"}
+					],
+					"decisions": [
+						{"decision": "Redis para Rate Limiting", "reason": "Distribuido, persistente, sliding window preciso, reutilizado para colas Bull"},
+						{"decision": "Bull Queue vs AWS SQS", "reason": "Ya tenemos Redis, UI de monitoreo (Bull Board), menos latencia que SQS"},
+						{"decision": "AES-256-GCM en Base", "reason": "Simplicidad operacional vs Vault dedicado, suficiente para el caso de uso"}
+					],
+					"challenges": [
+						{"challenge": "APIs Heterogéneas", "solution": "Plugin pattern aísla complejidad - cada plugin habla el 'idioma' del fabricante"},
+						{"challenge": "Rate Limiting Complejo", "solution": "Configuración por fabricante + sliding window Redis + métricas para ajuste fino"},
+						{"challenge": "Compatibilidad Mobile Legacy", "solution": "Adapter pattern normaliza respuestas al formato esperado por la app antigua"},
+						{"challenge": "Comandos Programados", "solution": "AWS EventBridge → Lambda → Bull Queue con retry exponencial y auditoría"}
+					]
+				}
+			],
+			"challenges": [
+				{"challenge": "Código Mobile Legacy Problemático (Mayor Desafío)", "solution": "Nada funcionaba - código sucio, sin patrones, errores en cascada. Realicé debugging completo identificando 73 errores críticos, refactoricé el backend para normalizar datos y minimizar intervenciones en el frontend legacy caótico"},
+				{"challenge": "Reemplazar Servicio Tercerizado", "solution": "Arquitectura de plugins permitió integración directa con fabricantes manteniendo compatibilidad mobile"}
 			]
 		}
 	}

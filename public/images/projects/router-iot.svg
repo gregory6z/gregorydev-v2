@@ -1,0 +1,158 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" fill="none">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a0a"/>
+      <stop offset="100%" style="stop-color:#1a1a1a"/>
+    </linearGradient>
+    <linearGradient id="nodeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6"/>
+      <stop offset="100%" style="stop-color:#1d4ed8"/>
+    </linearGradient>
+    <linearGradient id="centerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8b5cf6"/>
+      <stop offset="100%" style="stop-color:#6d28d9"/>
+    </linearGradient>
+    <linearGradient id="deviceGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#10b981"/>
+      <stop offset="100%" style="stop-color:#059669"/>
+    </linearGradient>
+
+    <!-- Glow filters -->
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="glowStrong" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="600" fill="url(#bgGrad)"/>
+
+  <!-- Grid pattern -->
+  <g opacity="0.05">
+    <line x1="0" y1="100" x2="800" y2="100" stroke="white" stroke-width="1"/>
+    <line x1="0" y1="200" x2="800" y2="200" stroke="white" stroke-width="1"/>
+    <line x1="0" y1="300" x2="800" y2="300" stroke="white" stroke-width="1"/>
+    <line x1="0" y1="400" x2="800" y2="400" stroke="white" stroke-width="1"/>
+    <line x1="0" y1="500" x2="800" y2="500" stroke="white" stroke-width="1"/>
+    <line x1="100" y1="0" x2="100" y2="600" stroke="white" stroke-width="1"/>
+    <line x1="200" y1="0" x2="200" y2="600" stroke="white" stroke-width="1"/>
+    <line x1="300" y1="0" x2="300" y2="600" stroke="white" stroke-width="1"/>
+    <line x1="400" y1="0" x2="400" y2="600" stroke="white" stroke-width="1"/>
+    <line x1="500" y1="0" x2="500" y2="600" stroke="white" stroke-width="1"/>
+    <line x1="600" y1="0" x2="600" y2="600" stroke="white" stroke-width="1"/>
+    <line x1="700" y1="0" x2="700" y2="600" stroke="white" stroke-width="1"/>
+  </g>
+
+  <!-- Connection lines from devices to router -->
+  <g stroke="#3b82f6" stroke-width="2" opacity="0.4">
+    <!-- Left side devices -->
+    <line x1="120" y1="150" x2="320" y2="280" stroke-dasharray="5,5">
+      <animate attributeName="stroke-dashoffset" values="10;0" dur="1s" repeatCount="indefinite"/>
+    </line>
+    <line x1="120" y1="300" x2="320" y2="300"/>
+    <line x1="120" y1="450" x2="320" y2="320" stroke-dasharray="5,5">
+      <animate attributeName="stroke-dashoffset" values="10;0" dur="1.5s" repeatCount="indefinite"/>
+    </line>
+
+    <!-- Right side - to cloud/API -->
+    <line x1="480" y1="280" x2="680" y2="180" stroke-dasharray="5,5">
+      <animate attributeName="stroke-dashoffset" values="0;10" dur="1s" repeatCount="indefinite"/>
+    </line>
+    <line x1="480" y1="300" x2="680" y2="300"/>
+    <line x1="480" y1="320" x2="680" y2="420" stroke-dasharray="5,5">
+      <animate attributeName="stroke-dashoffset" values="0;10" dur="1.5s" repeatCount="indefinite"/>
+    </line>
+  </g>
+
+  <!-- Central Router Node -->
+  <g filter="url(#glowStrong)">
+    <rect x="320" y="240" width="160" height="120" rx="16" fill="url(#centerGrad)"/>
+  </g>
+  <rect x="320" y="240" width="160" height="120" rx="16" fill="url(#centerGrad)" stroke="#a78bfa" stroke-width="2"/>
+
+  <!-- Router icon inside -->
+  <g fill="white">
+    <rect x="360" y="280" width="80" height="8" rx="2"/>
+    <rect x="360" y="295" width="80" height="8" rx="2"/>
+    <rect x="360" y="310" width="80" height="8" rx="2"/>
+    <circle cx="430" cy="284" r="3" fill="#10b981"/>
+    <circle cx="430" cy="299" r="3" fill="#10b981"/>
+    <circle cx="430" cy="314" r="3" fill="#f59e0b"/>
+  </g>
+  <text x="400" y="340" text-anchor="middle" fill="white" font-family="system-ui" font-size="12" font-weight="600">IoT ROUTER</text>
+
+  <!-- Left side - IoT Devices -->
+  <!-- Device 1 - Thermostat -->
+  <g filter="url(#glow)">
+    <circle cx="120" cy="150" r="40" fill="url(#deviceGrad)"/>
+  </g>
+  <circle cx="120" cy="150" r="40" fill="url(#deviceGrad)" stroke="#34d399" stroke-width="2"/>
+  <text x="120" y="145" text-anchor="middle" fill="white" font-family="system-ui" font-size="20">🌡️</text>
+  <text x="120" y="165" text-anchor="middle" fill="white" font-family="system-ui" font-size="8">THERMO</text>
+
+  <!-- Device 2 - AC -->
+  <g filter="url(#glow)">
+    <circle cx="120" cy="300" r="40" fill="url(#deviceGrad)"/>
+  </g>
+  <circle cx="120" cy="300" r="40" fill="url(#deviceGrad)" stroke="#34d399" stroke-width="2"/>
+  <text x="120" y="295" text-anchor="middle" fill="white" font-family="system-ui" font-size="20">❄️</text>
+  <text x="120" y="315" text-anchor="middle" fill="white" font-family="system-ui" font-size="8">A/C</text>
+
+  <!-- Device 3 - Sensor -->
+  <g filter="url(#glow)">
+    <circle cx="120" cy="450" r="40" fill="url(#deviceGrad)"/>
+  </g>
+  <circle cx="120" cy="450" r="40" fill="url(#deviceGrad)" stroke="#34d399" stroke-width="2"/>
+  <text x="120" y="445" text-anchor="middle" fill="white" font-family="system-ui" font-size="20">📡</text>
+  <text x="120" y="465" text-anchor="middle" fill="white" font-family="system-ui" font-size="8">SENSOR</text>
+
+  <!-- Right side - APIs/Cloud -->
+  <!-- API 1 -->
+  <g filter="url(#glow)">
+    <rect x="640" y="140" width="80" height="80" rx="12" fill="url(#nodeGrad)"/>
+  </g>
+  <rect x="640" y="140" width="80" height="80" rx="12" fill="url(#nodeGrad)" stroke="#60a5fa" stroke-width="2"/>
+  <text x="680" y="175" text-anchor="middle" fill="white" font-family="system-ui" font-size="16">☁️</text>
+  <text x="680" y="200" text-anchor="middle" fill="white" font-family="system-ui" font-size="10" font-weight="500">API 1</text>
+
+  <!-- API 2 - Mobile -->
+  <g filter="url(#glow)">
+    <rect x="640" y="260" width="80" height="80" rx="12" fill="url(#nodeGrad)"/>
+  </g>
+  <rect x="640" y="260" width="80" height="80" rx="12" fill="url(#nodeGrad)" stroke="#60a5fa" stroke-width="2"/>
+  <text x="680" y="295" text-anchor="middle" fill="white" font-family="system-ui" font-size="16">📱</text>
+  <text x="680" y="320" text-anchor="middle" fill="white" font-family="system-ui" font-size="10" font-weight="500">MOBILE</text>
+
+  <!-- API 3 -->
+  <g filter="url(#glow)">
+    <rect x="640" y="380" width="80" height="80" rx="12" fill="url(#nodeGrad)"/>
+  </g>
+  <rect x="640" y="380" width="80" height="80" rx="12" fill="url(#nodeGrad)" stroke="#60a5fa" stroke-width="2"/>
+  <text x="680" y="415" text-anchor="middle" fill="white" font-family="system-ui" font-size="16">🔌</text>
+  <text x="680" y="440" text-anchor="middle" fill="white" font-family="system-ui" font-size="10" font-weight="500">API 2</text>
+
+  <!-- Labels -->
+  <text x="120" y="80" text-anchor="middle" fill="white" opacity="0.6" font-family="system-ui" font-size="14" font-weight="600">IoT DEVICES</text>
+  <text x="680" y="80" text-anchor="middle" fill="white" opacity="0.6" font-family="system-ui" font-size="14" font-weight="600">MANUFACTURERS</text>
+
+  <!-- Data flow arrows -->
+  <g fill="#3b82f6" opacity="0.8">
+    <polygon points="280,290 300,285 300,295"/>
+    <polygon points="520,290 500,285 500,295"/>
+  </g>
+
+  <!-- Decorative circles -->
+  <circle cx="50" cy="50" r="100" fill="url(#centerGrad)" opacity="0.05"/>
+  <circle cx="750" cy="550" r="120" fill="url(#nodeGrad)" opacity="0.05"/>
+</svg>

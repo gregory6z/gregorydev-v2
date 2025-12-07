@@ -78,7 +78,7 @@ export function SubProjectCard({ subProject, index, labels }: SubProjectCardProp
   const hasChallenges = subProject.challenges && subProject.challenges.length > 0;
 
   return (
-    <div className="rounded-3xl bg-[#1a1a1a] border border-white/5 overflow-hidden">
+    <div className="rounded-3xl bg-[#1a1a1a] border border-white/5 overflow-hidden transition-all duration-300 hover:border-white/10 hover:shadow-2xl hover:shadow-white/[0.02] hover:-translate-y-1">
       {/* Header Visual Forte */}
       <div className="p-8 bg-gradient-to-r from-white/[0.04] to-transparent border-b border-white/5">
         <div className="flex items-start gap-4 mb-2">
@@ -111,13 +111,13 @@ export function SubProjectCard({ subProject, index, labels }: SubProjectCardProp
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
               {/* Combine frontend and backend features */}
               {[...subProject.features.frontend, ...subProject.features.backend].map((feature, idx) => (
-                <div key={idx} className="flex gap-3">
-                  <span className="text-white/20 font-mono text-sm shrink-0">
+                <div key={idx} className="flex gap-3 group transition-all duration-300 hover:translate-x-1">
+                  <span className="text-white/20 font-mono text-sm shrink-0 transition-colors duration-300 group-hover:text-white/40">
                     {String(idx + 1).padStart(2, "0")}
                   </span>
                   <div>
-                    <h5 className="text-sm font-medium text-white/90 mb-1">{feature.name}</h5>
-                    <p className="text-xs text-white/50 leading-relaxed">{feature.description}</p>
+                    <h5 className="text-sm font-medium text-white/90 mb-1 transition-colors duration-300 group-hover:text-white">{feature.name}</h5>
+                    <p className="text-xs text-white/50 leading-relaxed transition-colors duration-300 group-hover:text-white/60">{feature.description}</p>
                   </div>
                 </div>
               ))}

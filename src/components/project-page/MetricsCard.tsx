@@ -38,14 +38,14 @@ export function MetricsCard({ metrics, labels }: MetricsCardProps) {
   }));
 
   return (
-    <div className="flex flex-wrap gap-4 mt-6">
+    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mt-6">
       {items.map((item, index) => (
         <div
           key={index}
-          className="flex-1 min-w-[90px] text-center p-3 rounded-xl bg-white/[0.05] border border-white/10"
+          className="text-center p-4 rounded-xl bg-white/[0.05] border border-white/10 transition-all duration-300 hover:bg-white/[0.08] hover:border-white/20 hover:scale-[1.02]"
         >
-          <div className="text-xl font-bold text-white">{item.value}</div>
-          <div className="text-xs text-white/50">{item.label}</div>
+          <div className="text-lg sm:text-xl font-bold text-white truncate">{item.value}</div>
+          <div className="text-[10px] sm:text-xs text-white/50 truncate">{item.label}</div>
         </div>
       ))}
     </div>
