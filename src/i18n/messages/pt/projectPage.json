@@ -450,8 +450,8 @@
 						]
 					},
 					"testing": [
-						{"type": "Unit Tests", "description": "60+ arquivos de testes unitários para use cases e domain logic", "tools": "Node.js Test Runner, In-Memory Repositories", "coverage": "Use cases completos"},
-						{"type": "E2E Tests", "description": "40+ arquivos de testes end-to-end para controllers e fluxos completos", "tools": "Node.js Test Runner, Prisma Test Environment, Supertest", "coverage": "Todas as rotas"}
+						{"type": "Unit Tests", "description": "60+ arquivos testando use cases e domain logic com 18+ In-Memory Repositories e 7 In-Memory Providers (hash, token, email, ragflow, stripe, etc.)", "tools": "Node.js Test Runner, In-Memory Repositories/Providers", "coverage": "Use cases completos"},
+						{"type": "E2E Tests", "description": "40+ arquivos testando controllers com Prisma Test Environment (banco isolado), seed automático de planos, helpers para dados únicos (generateUniqueEmail, generateUniqueSlug)", "tools": "Node.js Test Runner, Prisma Test Environment, Supertest", "coverage": "Todas as rotas"}
 					],
 					"metrics": {
 						"linesOfCode": "~52.000",
