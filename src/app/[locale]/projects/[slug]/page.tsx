@@ -156,6 +156,7 @@ type SubProject = {
   patterns?: Array<{ name: string; description: string }>;
   decisions?: Array<{ decision: string; reason: string }>;
   challenges?: Array<{ challenge: string; solution: string }>;
+  testing?: Array<{ type: string; description: string; tools?: string; coverage?: string }>;
 };
 
 type Props = {
@@ -408,6 +409,12 @@ export default async function ProjectPage({ params }: Props) {
                     },
                     challenges: {
                       title: t("challenges.title"),
+                    },
+                    testing: {
+                      title: t("testing.title"),
+                      type: t("testing.type"),
+                      tools: t("testing.tools"),
+                      coverage: t("testing.coverage"),
                     },
                   }}
                 />

@@ -41,6 +41,12 @@
 		"decision": "Décision",
 		"reason": "Justification"
 	},
+	"testing": {
+		"title": "Stratégie de Tests",
+		"type": "Type",
+		"tools": "Outils",
+		"coverage": "Couverture"
+	},
 	"gallery": {
 		"title": "Galerie"
 	},
@@ -436,9 +442,15 @@
 							{"name": "JWT Double", "description": "Access token (15min) + refresh token (7j) en cookie httpOnly"},
 							{"name": "Rate Limiting", "description": "Protection des endpoints avec limites par IP et utilisateur"},
 							{"name": "Intégration RAG", "description": "Connexion avec service open source pour traitement de documents et recherche sémantique"},
-							{"name": "Système d'Invitations", "description": "Invitations par email avec tracking, expiration et rôles attribuables"}
+							{"name": "Système d'Invitations", "description": "Invitations par email avec tracking, expiration et rôles attribuables"},
+							{"name": "Abonnement avec Addons", "description": "Système flexible de plans Stripe avec addons modulaires (sièges supplémentaires, stockage, appels API)"},
+							{"name": "Billing Complet", "description": "Checkout sessions, portail client, factures, proration, périodes d'essai, annulation"}
 						]
 					},
+					"testing": [
+						{"type": "Tests Unitaires", "description": "Tests unitaires pour use cases et domain logic avec Vitest", "tools": "Vitest, In-Memory Repositories", "coverage": "~80%"},
+						{"type": "Tests E2E", "description": "Tests d'intégration end-to-end pour controllers et flux complets", "tools": "Vitest, Prisma Test Environment, Supertest", "coverage": "Controllers critiques"}
+					],
 					"metrics": {
 						"linesOfCode": "~52 000",
 						"files": "200+",
@@ -483,7 +495,9 @@
 							{"name": "Design System", "description": "31 composants shadcn/ui + Radix UI avec Tailwind CSS 4"},
 							{"name": "i18n Complet", "description": "4 langues (PT, EN, FR, ES) avec namespaces lazy-loaded"},
 							{"name": "Dashboard Analytics", "description": "Graphiques avec Recharts pour métriques d'utilisation"},
-							{"name": "Team Management", "description": "Invitations, rôles, suppression de membres avec optimistic updates"}
+							{"name": "Team Management", "description": "Invitations, rôles, suppression de membres avec optimistic updates"},
+							{"name": "Gestion d'Abonnement", "description": "Affichage du plan actuel, addons, utilisation, upgrade/downgrade avec Stripe Customer Portal"},
+							{"name": "Sélecteur d'Addons", "description": "Interface pour ajouter/supprimer addons (sièges, stockage, appels API) avec aperçu du prix"}
 						],
 						"backend": []
 					},

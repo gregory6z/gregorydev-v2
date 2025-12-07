@@ -2,6 +2,7 @@ import { MetricsCard } from "./MetricsCard";
 import { PatternsSection } from "./PatternsSection";
 import { DecisionsSection } from "./DecisionsSection";
 import { ChallengesSection } from "./ChallengesSection";
+import { TestingSection } from "./TestingSection";
 
 type Feature = {
   name: string;
@@ -23,6 +24,13 @@ type Challenge = {
   solution: string;
 };
 
+type TestStrategy = {
+  type: string;
+  description: string;
+  tools?: string;
+  coverage?: string;
+};
+
 type SubProject = {
   title: string;
   subtitle: string;
@@ -35,6 +43,7 @@ type SubProject = {
   patterns?: Pattern[];
   decisions?: Decision[];
   challenges?: Challenge[];
+  testing?: TestStrategy[];
 };
 
 type SubProjectCardProps = {
@@ -66,6 +75,12 @@ type SubProjectCardProps = {
     challenges: {
       title: string;
     };
+    testing?: {
+      title: string;
+      type: string;
+      tools: string;
+      coverage: string;
+    };
   };
 };
 
@@ -76,6 +91,7 @@ export function SubProjectCard({ subProject, index, labels }: SubProjectCardProp
   const hasPatterns = subProject.patterns && subProject.patterns.length > 0;
   const hasDecisions = subProject.decisions && subProject.decisions.length > 0;
   const hasChallenges = subProject.challenges && subProject.challenges.length > 0;
+  const hasTesting = subProject.testing && subProject.testing.length > 0;
 
   return (
     <div className="rounded-3xl bg-[#1a1a1a] border border-white/5 overflow-hidden transition-all duration-300 hover:border-white/10 hover:shadow-2xl hover:shadow-white/[0.02] hover:-translate-y-1">
@@ -128,6 +144,19 @@ export function SubProjectCard({ subProject, index, labels }: SubProjectCardProp
         {/* Patterns */}
         {hasPatterns && (
           <PatternsSection patterns={subProject.patterns!} title={labels.patterns.title} />
+        )}
+
+        {/* Testing */}
+        {hasTesting && labels.testing && (
+          <TestingSection
+            testing={subProject.testing!}
+            title={labels.testing.title}
+            labels={{
+              type: labels.testing.type,
+              tools: labels.testing.tools,
+              coverage: labels.testing.coverage,
+            }}
+          />
         )}
 
         {/* Decisions & Challenges Row */}

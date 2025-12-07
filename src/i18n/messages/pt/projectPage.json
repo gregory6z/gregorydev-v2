@@ -43,6 +43,12 @@
 		"decision": "Decisão",
 		"reason": "Justificativa"
 	},
+	"testing": {
+		"title": "Estratégia de Testes",
+		"type": "Tipo",
+		"tools": "Ferramentas",
+		"coverage": "Cobertura"
+	},
 	"gallery": {
 		"title": "Galeria"
 	},
@@ -438,9 +444,15 @@
 							{"name": "JWT Duplo", "description": "Access token (15min) + refresh token (7d) em cookie httpOnly"},
 							{"name": "Rate Limiting", "description": "Proteção de endpoints com limites por IP e usuário"},
 							{"name": "Integração RAG", "description": "Conexão com serviço open source para processamento de documentos e busca semântica"},
-							{"name": "Sistema de Convites", "description": "Envio de convites por email com tracking, expiração e roles atribuíveis"}
+							{"name": "Sistema de Convites", "description": "Envio de convites por email com tracking, expiração e roles atribuíveis"},
+							{"name": "Subscription com Addons", "description": "Sistema flexível de planos Stripe com addons modulares (extra seats, storage, API calls)"},
+							{"name": "Billing Completo", "description": "Checkout sessions, customer portal, invoices, proration, trial periods, cancellation"}
 						]
 					},
+					"testing": [
+						{"type": "Unit Tests", "description": "Testes unitários para use cases e domain logic com Vitest", "tools": "Vitest, In-Memory Repositories", "coverage": "~80%"},
+						{"type": "E2E Tests", "description": "Testes de integração end-to-end para controllers e fluxos completos", "tools": "Vitest, Prisma Test Environment, Supertest", "coverage": "Controllers críticos"}
+					],
 					"metrics": {
 						"linesOfCode": "~52.000",
 						"files": "200+",
@@ -485,7 +497,9 @@
 							{"name": "Design System", "description": "31 componentes shadcn/ui + Radix UI com Tailwind CSS 4"},
 							{"name": "i18n Completo", "description": "4 idiomas (PT, EN, FR, ES) com namespaces lazy-loaded"},
 							{"name": "Dashboard Analytics", "description": "Gráficos com Recharts para métricas de uso"},
-							{"name": "Team Management", "description": "Convites, roles, remoção de membros com optimistic updates"}
+							{"name": "Team Management", "description": "Convites, roles, remoção de membros com optimistic updates"},
+							{"name": "Subscription Management", "description": "Visualização de plano atual, addons, usage, upgrade/downgrade com Stripe Customer Portal"},
+							{"name": "Addon Selector", "description": "Interface para adicionar/remover addons (seats, storage, API calls) com preview de preço"}
 						],
 						"backend": []
 					},
