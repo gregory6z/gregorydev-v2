@@ -449,7 +449,7 @@
 					},
 					"testing": [
 						{"type": "Unit Tests", "description": "60+ unit test files for use cases and domain logic", "tools": "Node.js Test Runner, In-Memory Repositories", "coverage": "Complete use cases"},
-						{"type": "E2E Tests", "description": "40+ end-to-end test files for controllers and complete flows", "tools": "Node.js Test Runner, Prisma Test Environment, Supertest", "coverage": "Critical controllers"}
+						{"type": "E2E Tests", "description": "40+ end-to-end test files for controllers and complete flows", "tools": "Node.js Test Runner, Prisma Test Environment, Supertest", "coverage": "All routes"}
 					],
 					"metrics": {
 						"linesOfCode": "~52,000",
