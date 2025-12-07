@@ -502,7 +502,7 @@
 						"backend": []
 					},
 					"metrics": {
-						"linesOfCode": "~52 000",
+						"linesOfCode": "~19 500",
 						"files": "206",
 						"components": "88",
 						"hooks": "7+",
