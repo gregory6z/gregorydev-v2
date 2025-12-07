@@ -462,6 +462,244 @@ components/ui/  (31 componentes)
 └── collapsible.tsx
 ```
 
+**8. useAuth - Autenticação Completa com Error Handling**
+```typescript
+// hooks/use-auth.ts - Auth completo com TanStack Query v5
+
+export function useAuth() {
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  const { t: tAuth } = useTranslation("auth");
+
+  // Login com prefetch inteligente de tenants
+  const loginMutation = useMutation({
+    mutationFn: async (data: LoginFormData) => {
+      const response = await api.post("/sessions", data);
+      return response.data;
+    },
+
+    onSuccess: async (data) => {
+      // 1. Salva token IMEDIATAMENTE
+      setAuthToken(data.token);
+
+      // 2. Prefetch de tenants para decidir redirecionamento
+      const tenants = await queryClient.ensureQueryData({
+        queryKey: ["tenants"],
+        queryFn: async () => (await api.get("/tenants")).data.tenants,
+        staleTime: 5 * 60 * 1000,
+      });
+
+      // 3. Redirecionamento baseado em tenants
+      if (tenants.length === 0) {
+        navigate({ to: "/dashboard/tenants/create" });
+      } else {
+        // Redireciona para subdomain do primeiro tenant
+        window.location.href = getTenantSubdomainUrl(tenants[0].subdomain);
+      }
+    },
+
+    onError: (error) => {
+      // Error handling granular por status code
+      if (error.response?.status === 401) {
+        error.message = tAuth("errors.invalidCredentials");
+      } else if (error.response?.status === 429) {
+        error.message = tAuth("errors.tooManyAttempts");
+      }
+    },
+
+    // Retry strategy: NUNCA retry em auth errors
+    retry: (failureCount, error) => {
+      if ([400, 401, 403, 429].includes(error.response?.status)) return false;
+      return failureCount < 1;
+    },
+
+    networkMode: "online",
+  });
+
+  // Logout com cleanup seletivo de cache
+  const logoutMutation = useMutation({
+    mutationFn: async () => {
+      try { await api.post("/auth/logout"); } catch {}
+    },
+    onSettled: () => {
+      removeAuthToken();
+      // Limpa APENAS caches relacionados (não queryClient.clear()!)
+      queryClient.removeQueries({ queryKey: ["tenants"] });
+      queryClient.removeQueries({ queryKey: ["chatbots"] });
+      queryClient.removeQueries({ queryKey: ["user"] });
+      window.location.href = getLoginUrl();
+    },
+    retry: false,
+    networkMode: "always", // Logout funciona offline
+  });
+
+  return { isAuthenticated, login: loginMutation, logout: logoutMutation };
+}
+```
+
+**9. useTeamMembers - Gestão de Equipe com RBAC**
+```typescript
+// hooks/use-team-members.ts
+
+export function useTeamMembers() {
+  const tenantId = useCurrentTenantId();
+
+  return useQuery({
+    queryKey: ["team-members", tenantId],
+    queryFn: async () => {
+      const response = await api.get("/users");
+      return TeamMembersResponseSchema.parse(response.data).users;
+    },
+    enabled: !!tenantId,
+    staleTime: 2 * 60 * 1000, // 2 min - equipe muda pouco
+  });
+}
+
+// Hook para role do usuário atual
+export function useCurrentUserRole() {
+  const { data: currentUser } = useUser();
+  const { data: teamMembers } = useTeamMembers();
+
+  return useMemo(() => ({
+    role: currentUserMember?.role,
+    isOwner: role === "owner",
+    isAdmin: role === "admin",
+    canManageTeam: role === "owner" || role === "admin",
+    canEditChatbots: ["owner", "admin", "curator"].includes(role),
+  }), [currentUserMember]);
+}
+
+// Mutation com optimistic update e rollback
+export function useRemoveMember() {
+  return useMutation({
+    mutationFn: (userId) => api.delete(`/tenants/users/${userId}`),
+    onMutate: async (userId) => {
+      const previousMembers = queryClient.getQueryData(["team-members", tenantId]);
+      queryClient.setQueryData(["team-members", tenantId],
+        (old) => old.filter((m) => m.id !== userId)
+      );
+      return { previousMembers };
+    },
+    onError: (_, __, context) => {
+      queryClient.setQueryData(["team-members", tenantId], context.previousMembers);
+      toast.error("Erro ao remover membro");
+    },
+    onSuccess: () => toast.success("Membro removido"),
+  });
+}
+```
+
+**10. Axios Interceptors - Refresh Token Automático**
+```typescript
+// lib/axios.ts - Interceptors com retry logic
+
+export const api = axios.create({
+  baseURL: import.meta.env.VITE_API_URL,
+  timeout: 10000,
+  withCredentials: true, // Envia cookies cross-domain
+});
+
+// Request interceptor - adiciona token
+api.interceptors.request.use((config) => {
+  const token = getAuthToken();
+  if (token) config.headers.Authorization = `Bearer ${token}`;
+  return config;
+});
+
+// Response interceptor - refresh token automático
+api.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const config = error.config;
+
+    // 401 - tenta refresh token
+    if (error.response?.status === 401 && !config._isRetryAfterRefresh) {
+      try {
+        // Chama refresh (cookie httpOnly vai automaticamente)
+        const { data } = await axios.patch("/refresh-token", {}, { withCredentials: true });
+        setAuthToken(data.token);
+
+        // Retenta requisição original com novo token
+        config._isRetryAfterRefresh = true;
+        config.headers.Authorization = `Bearer ${data.token}`;
+        return api(config);
+      } catch {
+        // Refresh falhou - desloga
+        removeAuthToken();
+        window.location.href = getLoginUrl();
+      }
+    }
+
+    // Network error - retry com exponential backoff
+    if (!error.response && config.retry < 3) {
+      config.retry = (config.retry || 0) + 1;
+      await new Promise((r) => setTimeout(r, 2 ** config.retry * 1000));
+      return api(config);
+    }
+
+    return Promise.reject(error);
+  }
+);
+```
+
+**11. API Queries Layer - Separação de Concerns**
+```typescript
+// api/queries/tenant/index.ts - Barrel exports
+export { useTenantsQuery } from "./use-tenants-query";
+export { useCreateTenantMutation } from "./use-create-tenant-mutation";
+export { useUpdateTenantMutation } from "./use-update-tenant-mutation";
+export { useDeleteTenantMutation } from "./use-delete-tenant-mutation";
+export { useJoinTenantMutation } from "./use-join-tenant-mutation";
+
+// api/queries/
+// ├── tenant/      # CRUD de tenants
+// ├── member/      # Gestão de membros
+// ├── plan/        # Planos e pricing
+// └── subscription/ # Assinaturas
+```
+
+**12. Subdomain Detection Strategy**
+```typescript
+// hooks/use-subdomain.ts
+
+export const getCurrentSubdomain = (): string | null => {
+  const hostname = window.location.hostname;
+
+  // Development: lvh.me (domínio mágico que resolve para localhost)
+  if (hostname.includes("lvh.me")) {
+    const parts = hostname.split(".");
+    return parts.length > 2 ? parts[0] : null; // tenant1.lvh.me → "tenant1"
+  }
+
+  // Development: localhost (tenant1.localhost)
+  if (hostname.includes("localhost")) {
+    const parts = hostname.split(".");
+    return parts.length > 1 ? parts[0] : null;
+  }
+
+  // Production: multisaas.app (tenant1.multisaas.app)
+  if (hostname.includes("multisaas.app")) {
+    const parts = hostname.split(".");
+    return parts.length > 2 ? parts[0] : null;
+  }
+
+  return null;
+};
+
+// Hook que usa cache de tenants (sem API call extra)
+export function useSubdomain() {
+  const { data: tenants } = useTenantsQuery();
+  const subdomain = getCurrentSubdomain();
+
+  // Encontra tenant que match o subdomain atual
+  const currentTenant = subdomain && tenants
+    ? tenants.find((t) => t.subdomain === subdomain)
+    : null;
+
+  return { data: currentTenant, subdomain };
+}
+```
+
 ### Backend Patterns
 
 **1. Clean Architecture com Camadas**
