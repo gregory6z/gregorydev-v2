@@ -1,0 +1,269 @@
+{
+	"backToProjects": "Volver a proyectos",
+	"visitProject": "Visitar proyecto",
+	"role": "Rol",
+	"period": "Período",
+	"status": "Estado",
+	"client": "Cliente",
+	"overview": {
+		"title": "Visión General",
+		"context": "Contexto",
+		"solution": "Solución",
+		"myRole": "Mi Rol"
+	},
+	"stack": {
+		"title": "Stack Técnico",
+		"frontend": "Frontend",
+		"backend": "Backend"
+	},
+	"features": {
+		"title": "Funcionalidades"
+	},
+	"challenges": {
+		"title": "Desafíos & Soluciones"
+	},
+	"metrics": {
+		"title": "Métricas",
+		"linesOfCode": "Líneas de Código",
+		"files": "Archivos",
+		"modules": "Módulos",
+		"entities": "Entities",
+		"dtos": "DTOs",
+		"components": "Componentes",
+		"hooks": "Hooks",
+		"pages": "Páginas"
+	},
+	"patterns": {
+		"title": "Design Patterns"
+	},
+	"decisions": {
+		"title": "Decisiones Técnicas",
+		"decision": "Decisión",
+		"reason": "Justificación"
+	},
+	"gallery": {
+		"title": "Galería"
+	},
+	"subProjects": "Proyectos",
+	"projects": {
+		"la-bonne-reponse": {
+			"title": "La Bonne Réponse",
+			"subtitle": "Ecosistema de IA para el Sector de Construcción",
+			"role": "Full Stack Developer | Lead Front End | UI/UX Designer",
+			"period": "Abril 2025 - Actual",
+			"status": "En Producción",
+			"client": "La Bonne Réponse (via House of Coding / Amiltone)",
+			"overview": {
+				"context": "La Bonne Réponse es una startup francesa que revoluciona el sector de construcción y renovación energética a través de IA Generativa. El problema: los profesionales de la construcción necesitan verificar el cumplimiento de más de 300 regulaciones técnicas francesas (DTU, normas NF, Eurocodes, etc.), un proceso manual que consume tiempo y es propenso a errores. La solución: un asistente de IA entrenado específicamente en estas regulaciones, respondiendo preguntas técnicas instantáneamente citando las fuentes oficiales.",
+				"solution": "El ecosistema consiste en tres componentes internos para que el equipo La Bonne Réponse gestione sus clientes: (1) LBR-API - API REST multi-tenant robusta que gestiona widgets de chat, autenticación doble (usuarios y widgets), integraciones con Stripe/AWS/Brevo, y control de calidad automatizado; (2) IA Factory - Back Office Admin donde el equipo configura chatbots, genera widgets personalizados, gestiona bases de conocimiento y monitorea conversaciones; (3) Portal Usuario - donde los profesionales de la construcción acceden al asistente de IA con historial de conversaciones y gestión de suscripciones. El enlace externo dirige al sitio institucional de la empresa.",
+				"myRole": "Actué como Lead Front End y UI/UX Designer, siendo responsable de toda la arquitectura y desarrollo front-end de ambas plataformas (BO y Portal). Creé todo el diseño de interfaz y experiencia de usuario, tomé decisiones técnicas sobre stack y patrones de código. También colaboré activamente en el desarrollo de la API backend junto al equipo House of Coding."
+			},
+			"stack": {
+				"frontend": ["React", "TypeScript", "Vite", "Tailwind CSS", "Radix UI", "shadcn/ui", "TanStack React Query", "TanStack Table", "React Hook Form", "Zod", "React Router", "Lucide React", "react-i18next", "Sonner", "react-dropzone"],
+				"backend": ["NestJS", "TypeScript", "TypeORM", "MySQL", "JWT/Passport", "bcrypt", "Stripe", "AWS S3", "Brevo", "Herramienta RAG", "Winston", "Swagger", "Docker"]
+			},
+			"subProjects": [
+				{
+					"title": "LBR-API",
+					"subtitle": "API REST Multi-Tenant",
+					"description": "API REST robusta creada por el equipo House of Coding usando NestJS, especializada en gestión de widgets de chat con IA. Colaboré implementando las llamadas del dashboard, integración con herramienta RAG y upload de documentos en S3.",
+					"features": {
+						"frontend": [],
+						"backend": [
+							{"name": "Integración RAG", "description": "Conexión con herramienta de Retrieval-Augmented Generation para respuestas basadas en documentos"},
+							{"name": "Multi-Tenancy", "description": "Aislamiento completo de datos por tenant con JWT validado"},
+							{"name": "Autenticación Doble", "description": "JWT separado para usuarios (admin, portal) y widgets embebidos"},
+							{"name": "CORS Dinámico", "description": "Validación de origen basada en widget integrations en base de datos"},
+							{"name": "Gestión de Widgets", "description": "Configuraciones visuales (4 colores), logo, mensajes, Google Analytics"},
+							{"name": "Sistema de Referencias", "description": "Upload de documentos, URLs permitidas/bloqueadas, crawling automático"},
+							{"name": "Control de Calidad", "description": "Puntos de verificación con preguntas/respuestas, validación automática vía IA"},
+							{"name": "Integración Stripe", "description": "Webhooks con validación de firma, gestión de clientes por tenant"},
+							{"name": "Upload S3", "description": "URLs prefirmadas para descarga segura con límite de tamaño"},
+							{"name": "Rate Limiting", "description": "Throttler personalizado con 100 req/min por IP + user_id"},
+							{"name": "Import CSV/Excel", "description": "Importación en lote de usuarios con validación y transaction"},
+							{"name": "Swagger Automático", "description": "Documentación OpenAPI generada vía decoradores NestJS"}
+						]
+					},
+					"metrics": {
+						"linesOfCode": "~15.000-20.000",
+						"files": "373",
+						"modules": "37",
+						"entities": "26",
+						"dtos": "101"
+					},
+					"patterns": [
+						{"name": "Repository Pattern", "description": "Repositories TypeORM para abstracción de acceso a datos"},
+						{"name": "DTO Pattern", "description": "101 DTOs con class-validator para validación de entrada"},
+						{"name": "Guard Pattern", "description": "JwtAuthGuard, WidgetAuthGuard, RolesGuard para control de acceso"},
+						{"name": "Decorator Pattern", "description": "@CurrentUser, @Roles, @WidgetContext para inyección de contexto"},
+						{"name": "Service Layer", "description": "Lógica de negocio aislada de los controllers"},
+						{"name": "Module Pattern", "description": "37 módulos NestJS para organización de features"}
+					],
+					"decisions": [
+						{"decision": "Herramienta RAG", "reason": "Sistema para Retrieval-Augmented Generation, elegido por la flexibilidad y control sobre el pipeline de IA"},
+						{"decision": "JWT Doble (Usuarios + Widgets)", "reason": "Widgets embebidos en sitios externos necesitan autenticación propia sin exponer credenciales de usuarios"},
+						{"decision": "CORS Dinámico vía Base de Datos", "reason": "Cada widget puede embeberse en múltiples dominios, imposible configurar CORS estático"},
+						{"decision": "URLs Prefirmadas para S3", "reason": "Descargas seguras sin exponer credenciales AWS, expiración configurable"},
+						{"decision": "TypeORM en vez de Prisma", "reason": "Mejor integración con NestJS, soporte de decoradores, rendimiento para queries complejas"}
+					],
+					"challenges": [
+						{"challenge": "CORS Dinámico para Widgets", "solution": "Query en base de datos para validar origen en cada request, caché en memoria para rendimiento"},
+						{"challenge": "Webhook Stripe con Raw Body", "solution": "Middleware personalizado para preservar raw body antes del bodyParser de NestJS"},
+						{"challenge": "Import en Lote de Usuarios", "solution": "Parsing CSV/Excel con fast-csv, validación en lote, insert con transaction y rollback"}
+					]
+				},
+				{
+					"title": "IA Factory - Back Office Admin",
+					"subtitle": "Plataforma de Gestión de Chatbots IA",
+					"description": "Dashboard administrativo enterprise-grade. Creé el diseño UI/UX, design system y toda la arquitectura de componentes. Desarrollé formularios multi-paso, tablas avanzadas, gestión de widgets, sistema de referencias y todas las demás funcionalidades excepto módulos de usuarios, empresas y QA.",
+					"features": {
+						"frontend": [
+							{"name": "Dashboard Administrativo", "description": "Interfaz completa para gestión de la plataforma con métricas"},
+							{"name": "Formulario Multi-Paso", "description": "Creación de widget en 7 pasos con validación Zod por paso"},
+							{"name": "Editor por Secciones", "description": "Accordion con secciones guardables independientemente vía PATCH"},
+							{"name": "Widget Configurator", "description": "Preview en tiempo real de las personalizaciones del chatbot"},
+							{"name": "DataTable Compuesta", "description": "Tablas con TanStack Table: ordenación, filtros, paginación, selección batch"},
+							{"name": "Knowledge Base UI", "description": "Upload drag-and-drop de documentos con react-dropzone"},
+							{"name": "Sistema de QC", "description": "Control de calidad con import CSV/Excel de puntos de verificación"},
+							{"name": "Click Prompts Editor", "description": "Interfaz para crear prompts pre-configurados clicables"},
+							{"name": "Gestión Multi-tenant", "description": "Administración de usuarios, empresas y permisos por rol"},
+							{"name": "Sistema de Referentials", "description": "Monitoreo de crawler con última ejecución y detección de cambios"},
+							{"name": "Cache Invalidation", "description": "Función central que invalida queries relacionadas en cascada"},
+							{"name": "Historial de Conversaciones", "description": "Visualización de conversaciones de usuarios con renderizado markdown"}
+						],
+						"backend": []
+					},
+					"metrics": {
+						"linesOfCode": "~32.000",
+						"files": "293",
+						"components": "~150",
+						"hooks": "~40",
+						"pages": "25+"
+					},
+					"patterns": [
+						{"name": "Compound Components", "description": "DataTable, Forms, Modals como composiciones de sub-componentes"},
+						{"name": "Custom Hooks", "description": "~40 hooks para lógica reutilizable (useWidget, useQualityControl, etc.)"},
+						{"name": "Context API", "description": "Contextos para estado global de formularios multi-paso"},
+						{"name": "Optimistic Updates", "description": "React Query con mutaciones optimistas para UX reactiva"},
+						{"name": "Adapter Pattern", "description": "Transformación de datos API hacia formato UI"},
+						{"name": "Feature-based Structure", "description": "Organización por features: /widgets, /users, /quality-control"}
+					],
+					"decisions": [
+						{"decision": "Context + React Query", "reason": "Context para estado UI (formularios), React Query para estado servidor"},
+						{"decision": "Accordion para edición", "reason": "Permite guardar secciones independientemente sin bloquear al usuario"}
+					],
+					"challenges": [
+						{"challenge": "Formulario de 7 Pasos", "solution": "Context para estado global, validación Zod por paso, hasStepErrors() para feedback visual"},
+						{"challenge": "Upload con Preview", "solution": "FileReader para preview local inmediato, estado separado para preview vs saved"},
+						{"challenge": "Edición por Secciones", "solution": "Accordion con botón Save por sección, PATCH para updates parciales, track changes"},
+						{"challenge": "Cache Invalidation en Cascada", "solution": "Función refetchAllWidgetData() invalidando queries relacionadas en orden correcto"}
+					]
+				},
+				{
+					"title": "Portal Usuario",
+					"subtitle": "Portal Web con Widget de Chat Integrado",
+					"description": "Aplicación completa construida desde cero. Implementé autenticación robusta, refresh automático de tokens, integración Stripe, widget de chat en iframe aislado y refactorización completa de la versión Webflow.",
+					"features": {
+						"frontend": [
+							{"name": "Token Refresh Automático", "description": "Refresh JWT 10 minutos antes de expiración, reprogramación continua"},
+							{"name": "Widget en Iframe", "description": "Aislamiento completo CSS/JS con sandbox, comunicación vía postMessage"},
+							{"name": "Integración Stripe", "description": "Pricing table embebida, verificación de estado, billing portal"},
+							{"name": "Sistema de Autenticación", "description": "Login, registro, activación de cuenta, reset de contraseña con tokens"},
+							{"name": "Soporte B2B y B2C", "description": "Lógica de suscripción diferenciada por tipo de tenant"},
+							{"name": "Gestión de Conversaciones", "description": "Sidebar con lista de conversaciones, crear nueva, continuar existente"},
+							{"name": "Páginas de Presentación", "description": "URLs dinámicas por nombre para demos sin autenticación"},
+							{"name": "Gestión de Cuenta", "description": "Editar perfil, título profesional, sector, cambiar contraseña con validación robusta"}
+						],
+						"backend": []
+					},
+					"metrics": {
+						"linesOfCode": "~6.300",
+						"files": "75",
+						"components": "~35",
+						"hooks": "~15",
+						"pages": "12"
+					},
+					"patterns": [
+						{"name": "Token Refresh Pattern", "description": "Decodificación JWT + setTimeout para refresh proactivo"},
+						{"name": "Iframe Isolation", "description": "Widget en sandbox con comunicación vía postMessage"},
+						{"name": "Route Guards", "description": "Protección de rutas con verificación de autenticación y suscripción"},
+						{"name": "Custom Hooks", "description": "useAuth, useSubscription, useConversations para lógica encapsulada"}
+					],
+					"decisions": [
+						{"decision": "Iframe para Widget", "reason": "Aislamiento completo CSS/JS, evita conflictos de estilo con el portal"},
+						{"decision": "Refresh Proactivo", "reason": "Refresh 10min antes evita expiración durante uso activo"},
+						{"decision": "Stripe Pricing Table", "reason": "Componente embebido elimina necesidad de UI personalizada para planes"},
+						{"decision": "B2B sin pago", "reason": "Empresas B2B tienen contrato directo, no necesitan checkout"}
+					],
+					"challenges": [
+						{"challenge": "Token Refresh Automático", "solution": "Decodificar JWT para obtener expiración, setTimeout 10min antes, reprogramar tras éxito"},
+						{"challenge": "Widget en Iframe Aislado", "solution": "Sandbox con allow-scripts allow-same-origin, parámetros vía query string, postMessage"},
+						{"challenge": "Estado de Suscripción", "solution": "Hook useSubscription() con lógica centralizada para B2B (sin pago) y B2C"}
+					]
+				}
+			],
+			"challenges": [
+				{"challenge": "Ecosistema Multi-Plataforma", "solution": "Arquitectura modular con API compartida entre BO y Portal, permitiendo evolución independiente de cada aplicación"},
+				{"challenge": "Autenticación para Contextos Diferentes", "solution": "Sistema JWT doble: uno para usuarios autenticados (admin/portal) y otro para widgets embebidos en sitios externos"}
+			]
+		},
+		"les-performeurs": {
+			"title": "Les Performeurs",
+			"subtitle": "Ecosistema de Gamificación para Aprendices de Construcción",
+			"role": "Lead Front End Developer",
+			"period": "Febrero 2025 - Actual",
+			"status": "En Producción",
+			"client": "Les Performeurs (via House of Coding)",
+			"overview": {
+				"context": "Les Performeurs es una empresa francesa especializada en formación de aprendices del sector de la construcción. El desafío: seguir la evolución de cientos de aprendices en sus trayectorias prácticas, validar sus competencias mediante pruebas reales, y mantener la motivación a través de un sistema de progresión. La solución: dos aplicaciones complementarias que digitalizan todo el proceso de seguimiento y gamifican la experiencia de aprendizaje.",
+				"solution": "El ecosistema consiste en dos plataformas: (1) Link Parcour - Back Office para gestión de usuarios (administradores, tutores, aprendices), creación de talleres prácticos, y sistema de gamificación con niveles que evolucionan desde 'básicos' hasta misiones de construcción reales; (2) Tuto Mission - App de chat donde los aprendices envían pruebas (fotos/videos) de sus tareas y los tutores validan o rechazan, aumentando el nivel del aprendiz.",
+				"myRole": "Actué como Lead Front End, responsable del desarrollo completo de ambas aplicaciones. En Link Parcour, creé el diseño UI/UX e implementé el sistema de navegación inteligente. En Tuto Mission, implementé el diseño recibido via Figma de House of Codesign, desarrollando el sistema de cache optimista para sensación de tiempo real incluso con API PHP legacy."
+			},
+			"stack": {
+				"frontend": ["React", "TypeScript", "Tailwind CSS", "React Query (TanStack Query)", "TanStack Table", "React Hook Form", "React Router DOM", "Shadcn UI", "Sonner", "Lucide Icons", "ESLint", "Prettier", "Jira", "GitHub"],
+				"backend": ["PHP", "API REST (equipo House of Coding)"]
+			},
+			"subProjects": [
+				{
+					"title": "Link Parcour",
+					"subtitle": "Back Office de Gestión y Gamificación",
+					"description": "Plataforma administrativa para gestión completa de aprendices, tutores y su progreso. Sistema de gamificación con niveles y misiones de construcción. Diseño UI/UX creado por mí.",
+					"features": {
+						"frontend": [
+							{"name": "Dashboard Administrativo", "description": "Interfaz completa para gestión de la plataforma"},
+							{"name": "Gestión de Usuarios", "description": "Administración de administradores, tutores y aprendices"},
+							{"name": "Seguimiento Apprenti/Tuteur", "description": "Visualización completa del progreso de cada aprendiz"},
+							{"name": "Sistema de Talleres", "description": "Creación y gestión de días de talleres prácticos"},
+							{"name": "Gamificación", "description": "Sistema de niveles: básicos → misiones de construcción"},
+							{"name": "Sistema de Validación", "description": "Interfaz para que tutores validen tareas"},
+							{"name": "Navegación Inteligente", "description": "Persistencia de filtros vía HTTP entre páginas"}
+						],
+						"backend": []
+					}
+				},
+				{
+					"title": "Tuto Mission",
+					"subtitle": "Chat de Validación de Pruebas",
+					"description": "App de chat para comunicación entre tutor y aprendiz, con sistema de envío y validación de pruebas. Diseño recibido via Figma de House of Codesign.",
+					"features": {
+						"frontend": [
+							{"name": "Sistema de Chat", "description": "Mensajes entre tutor y aprendiz"},
+							{"name": "Envío de Pruebas", "description": "Upload de imágenes y videos como prueba de tareas"},
+							{"name": "Sistema de Validación", "description": "Aprobación/rechazo de pruebas por el tutor"},
+							{"name": "Progresión de Nivel", "description": "Aumento de nivel basado en validaciones"},
+							{"name": "Sistema de Notificaciones", "description": "Alertas de nuevos mensajes y validaciones"},
+							{"name": "Cache Optimista", "description": "Sensación de tiempo real con llamadas API en segundo plano"}
+						],
+						"backend": []
+					}
+				}
+			],
+			"challenges": [
+				{"challenge": "API PHP Legacy", "solution": "Implementación de cache optimista para compensar llamadas lentas"},
+				{"challenge": "Sensación de Tiempo Real", "solution": "Llamadas en segundo plano con actualizaciones optimistas en UI"},
+				{"challenge": "Navegación con Estado", "solution": "Sistema de persistencia de filtros vía parámetros HTTP"},
+				{"challenge": "Upload de Media", "solution": "Sistema optimizado para envío de imágenes y videos"}
+			]
+		}
+	}
+}

@@ -6,6 +6,7 @@ import header from "./header.json"
 import hero from "./hero.json"
 import personal from "./personal.json"
 import projects from "./projects.json"
+import projectPage from "./projectPage.json"
 
 export default {
 	about,
@@ -16,4 +17,5 @@ export default {
 	hero,
 	personal,
 	projects,
+	projectPage,
 }
