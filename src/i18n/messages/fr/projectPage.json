@@ -400,6 +400,85 @@
 				{"challenge": "Code Mobile Legacy Problématique (Plus Grand Défi)", "solution": "Rien ne fonctionnait - code sale, sans patterns, erreurs en cascade. J'ai réalisé un debugging complet identifiant 73 erreurs critiques, refactoré le backend pour normaliser les données et minimiser les interventions sur le frontend legacy chaotique"},
 				{"challenge": "Remplacer Service Tiers", "solution": "Architecture de plugins a permis l'intégration directe avec les fabricants tout en maintenant la compatibilité mobile"}
 			]
+		},
+		"va-beauty": {
+			"title": "VA Beauty",
+			"subtitle": "Site Vitrine & Système de Réservation",
+			"role": "Full Stack Developer | UI/UX Designer",
+			"period": "Mai - Août 2025",
+			"status": "En Production",
+			"client": "VA Beauty",
+			"overview": {
+				"context": "VA Beauty est un institut de beauté boutique à Aubagne, France, spécialisé dans les soins du visage haut de gamme et la micropigmentation. La propriétaire avait besoin d'une présence digitale reflétant la qualité premium de ses services. Le problème : aucune présence en ligne, rendez-vous manuels par téléphone/WhatsApp, pas de portfolio visuel pour montrer les résultats, et gestion manuelle des services et tarifs.",
+				"solution": "Développement d'un site vitrine professionnel complet avec : (1) Landing page premium avec sections services, galerie avant/après et témoignages ; (2) Système de réservation intégré à Cal.com avec calendrier en temps réel et paiement Stripe ; (3) Galerie dynamique supportant images, avant/après et vidéos réseaux sociaux ; (4) Blog géré via Sanity CMS pour contenu marketing ; (5) Panneau d'administration pour la gestion des services et galerie sans connaissances techniques.",
+				"myRole": "J'ai travaillé en tant que Full Stack Developer et UI/UX Designer, créant tout le design d'interface de zéro et implémentant la solution complète. J'ai développé l'architecture avec Next.js 15 et React 19, intégré plusieurs services externes (Supabase, Cal.com, Stripe, Cloudinary, Sanity), et construit le panneau d'administration pour la gestion autonome du contenu."
+			},
+			"stack": {
+				"frontend": ["Next.js 15", "React 19", "TypeScript", "Tailwind CSS 4", "shadcn/ui", "Radix UI", "Lucide React", "react-day-picker", "class-variance-authority"],
+				"backend": ["Supabase (PostgreSQL + Auth + RLS)", "Stripe", "Cal.com", "Cloudinary", "Sanity CMS", "Vercel"]
+			},
+			"subProjects": [
+				{
+					"title": "Site Vitrine & Booking",
+					"subtitle": "Plateforme Complète de Réservation en Ligne",
+					"description": "Site vitrine professionnel avec système de réservation intégré. J'ai créé tout le design UI/UX et implémenté landing page premium, catalogue de services, galerie dynamique, blog, et flux complet de réservation avec paiement.",
+					"features": {
+						"frontend": [
+							{"name": "Landing Page Premium", "description": "Hero avec dégradé, indicateurs de confiance (500+ clients, 5★), sections services et témoignages"},
+							{"name": "Catalogue de Services", "description": "Grille avec 3 catégories (Sourcils, Lèvres, Soins), combos/packs avec tarifs"},
+							{"name": "Galerie Avant/Après", "description": "Filtre par catégorie, types de médias (images, avant/après, vidéos), modal plein écran"},
+							{"name": "Flux de Réservation Multi-Étapes", "description": "4 étapes : sélection service → date/heure → informations → confirmation/paiement"},
+							{"name": "Calendrier Cal.com", "description": "Widget intégré avec disponibilité en temps réel et timezone automatique"},
+							{"name": "Vidéos Intégrées", "description": "Support Instagram, YouTube et TikTok avec embed responsive"},
+							{"name": "Blog Intégré", "description": "Articles gérés via Sanity CMS avec SEO optimisé"},
+							{"name": "Design Responsive", "description": "Mobile-first avec typographie Sora et système de couleurs avec dégradés"}
+						],
+						"backend": [
+							{"name": "Auth Supabase", "description": "Authentification avec vérification admin via table admin_accounts"},
+							{"name": "Row Level Security", "description": "Politiques RLS pour la protection des données PostgreSQL"},
+							{"name": "Intégration Stripe", "description": "Paiements avec Connected Accounts et webhooks bidirectionnels"},
+							{"name": "Intégration Cal.com", "description": "API pour disponibilité, création de réservations et synchronisation"},
+							{"name": "Upload Cloudinary", "description": "Optimisation automatique des images, transformations à la volée, CDN global"},
+							{"name": "Sanity CMS", "description": "Studio personnalisable pour gestion de blog avec queries GROQ"},
+							{"name": "Routes API Protégées", "description": "Endpoints pour booking, gallery, admin avec validation et gestion d'erreurs"},
+							{"name": "Middleware de Protection", "description": "Next.js Middleware protégeant les routes /admin et /studio"}
+						]
+					},
+					"metrics": {
+						"linesOfCode": "~30.135",
+						"files": "188",
+						"components": "57",
+						"pages": "32 routes API"
+					},
+					"patterns": [
+						{"name": "App Router Pattern", "description": "Route groups, layouts imbriqués, loading states avec Next.js 15"},
+						{"name": "Server/Client Components", "description": "Server Components pour data fetching, Client pour interactivité"},
+						{"name": "Multi-Step Form Pattern", "description": "État centralisé avec étapes progressives et validation par étape"},
+						{"name": "Provider Pattern", "description": "AuthProvider + SupabaseProvider pour état global d'authentification"},
+						{"name": "Middleware Protection", "description": "Vérification admin à l'edge avant chargement des pages protégées"},
+						{"name": "API Route Pattern", "description": "Logique backend isolée avec validation et gestion d'erreurs cohérente"}
+					],
+					"decisions": [
+						{"decision": "Next.js 15 + React 19", "reason": "Server Components pour performance, App Router pour organisation, Turbopack pour builds rapides"},
+						{"decision": "Supabase vs Firebase", "reason": "PostgreSQL réel avec SQL, Row Level Security natif, auth intégré, open source, tarifs abordables"},
+						{"decision": "Cal.com vs Calendly", "reason": "Open source, API flexible, intégration Stripe native, personnalisation complète, sans branding imposé"},
+						{"decision": "Cloudinary vs S3", "reason": "Optimisation automatique des images, transformations à la volée, CDN global inclus, tier gratuit généreux"},
+						{"decision": "Sanity vs Contentful", "reason": "Studio personnalisable, langage de requête GROQ puissant, collaboration temps réel, tier gratuit généreux"},
+						{"decision": "shadcn/ui vs Material UI", "reason": "Copy-paste pas dépendance, personnalisation totale, accessibilité via Radix, bundle plus petit, Tailwind natif"}
+					],
+					"challenges": [
+						{"challenge": "Intégration Cal.com + Stripe", "solution": "Stripe Connected Account, webhooks bidirectionnels (Cal → App, Stripe → App), endpoints de diagnostic pour debug"},
+						{"challenge": "Galerie Multi-Médias", "solution": "Schéma flexible avec type discriminator, composant MediaModal détectant le type, embed vidéo responsive"},
+						{"challenge": "Contrôle d'Accès Admin", "solution": "Table admin_accounts avec permissions JSONB, flag is_active, super-admin fallback, politiques RLS"},
+						{"challenge": "SEO pour Services Dynamiques", "solution": "generateMetadata dans chaque page, données structurées JSON-LD, sitemap dynamique, alt text requis"},
+						{"challenge": "Performance avec Beaucoup d'Images", "solution": "Next.js Image avec lazy loading, Cloudinary pour optimisation, placeholder blur, sizes responsive"}
+					]
+				}
+			],
+			"challenges": [
+				{"challenge": "Multiples Intégrations Externes", "solution": "Architecture modulaire avec providers séparés pour chaque service (Supabase, Cal.com, Stripe, Cloudinary, Sanity), webhooks robustes avec retry"},
+				{"challenge": "Flux de Réservation Complexe", "solution": "Formulaire multi-étapes avec état centralisé, validation progressive, intégration seamless entre Cal.com et Stripe"}
+			]
 		}
 	}
 }

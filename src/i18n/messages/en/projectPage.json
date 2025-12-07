@@ -400,6 +400,85 @@
 				{"challenge": "Problematic Legacy Mobile Code (Biggest Challenge)", "solution": "Nothing was working - dirty code, no patterns, cascading errors. I performed complete debugging identifying 73 critical errors, refactored the backend to normalize data and minimize interventions in the chaotic legacy frontend"},
 				{"challenge": "Replace Third-Party Service", "solution": "Plugin architecture enabled direct manufacturer integration while maintaining mobile compatibility"}
 			]
+		},
+		"va-beauty": {
+			"title": "VA Beauty",
+			"subtitle": "Showcase Website & Booking System",
+			"role": "Full Stack Developer | UI/UX Designer",
+			"period": "May - August 2025",
+			"status": "In Production",
+			"client": "VA Beauty",
+			"overview": {
+				"context": "VA Beauty is a boutique beauty institute in Aubagne, France, specializing in high-quality facial treatments and micropigmentation. The owner needed a digital presence that reflected the premium quality of her services. The problem: no online presence, manual phone/WhatsApp appointments, no visual portfolio to showcase results, and manual management of services and prices.",
+				"solution": "Development of a complete professional showcase website with: (1) Premium landing page with service sections, before/after gallery and testimonials; (2) Booking system integrated with Cal.com with real-time calendar and Stripe payment; (3) Dynamic gallery supporting images, before/after and social media videos; (4) Blog managed via Sanity CMS for marketing content; (5) Admin panel for service and gallery management without technical knowledge.",
+				"myRole": "I worked as Full Stack Developer and UI/UX Designer, creating the entire interface design from scratch and implementing the complete solution. I developed the architecture with Next.js 15 and React 19, integrated multiple external services (Supabase, Cal.com, Stripe, Cloudinary, Sanity), and built the admin panel for autonomous content management."
+			},
+			"stack": {
+				"frontend": ["Next.js 15", "React 19", "TypeScript", "Tailwind CSS 4", "shadcn/ui", "Radix UI", "Lucide React", "react-day-picker", "class-variance-authority"],
+				"backend": ["Supabase (PostgreSQL + Auth + RLS)", "Stripe", "Cal.com", "Cloudinary", "Sanity CMS", "Vercel"]
+			},
+			"subProjects": [
+				{
+					"title": "Showcase Site & Booking",
+					"subtitle": "Complete Online Booking Platform",
+					"description": "Professional showcase website with integrated booking system. I created the entire UI/UX design and implemented premium landing page, service catalog, dynamic gallery, blog, and complete booking flow with payment.",
+					"features": {
+						"frontend": [
+							{"name": "Premium Landing Page", "description": "Hero with gradient, trust indicators (500+ clients, 5★), service sections and testimonials"},
+							{"name": "Service Catalog", "description": "Grid with 3 categories (Sourcils, Lèvres, Soins), combos/packages with prices"},
+							{"name": "Before/After Gallery", "description": "Filter by category, media types (images, before/after, videos), full-screen modal"},
+							{"name": "Multi-Step Booking Flow", "description": "4 steps: service selection → date/time → information → confirmation/payment"},
+							{"name": "Cal.com Calendar", "description": "Embedded widget with real-time availability and automatic timezone"},
+							{"name": "Embedded Videos", "description": "Support for Instagram, YouTube and TikTok with responsive embed"},
+							{"name": "Integrated Blog", "description": "Articles managed via Sanity CMS with optimized SEO"},
+							{"name": "Responsive Design", "description": "Mobile-first with Sora typography and gradient color system"}
+						],
+						"backend": [
+							{"name": "Supabase Auth", "description": "Authentication with admin verification via admin_accounts table"},
+							{"name": "Row Level Security", "description": "RLS policies for PostgreSQL data protection"},
+							{"name": "Stripe Integration", "description": "Payments with Connected Accounts and bidirectional webhooks"},
+							{"name": "Cal.com Integration", "description": "API for availability, booking creation and synchronization"},
+							{"name": "Cloudinary Upload", "description": "Automatic image optimization, on-the-fly transformations, global CDN"},
+							{"name": "Sanity CMS", "description": "Customizable studio for blog management with GROQ queries"},
+							{"name": "Protected API Routes", "description": "Endpoints for booking, gallery, admin with validation and error handling"},
+							{"name": "Protection Middleware", "description": "Next.js Middleware protecting /admin and /studio routes"}
+						]
+					},
+					"metrics": {
+						"linesOfCode": "~30,135",
+						"files": "188",
+						"components": "57",
+						"pages": "32 API routes"
+					},
+					"patterns": [
+						{"name": "App Router Pattern", "description": "Route groups, nested layouts, loading states with Next.js 15"},
+						{"name": "Server/Client Components", "description": "Server Components for data fetching, Client for interactivity"},
+						{"name": "Multi-Step Form Pattern", "description": "Centralized state with progressive steps and per-step validation"},
+						{"name": "Provider Pattern", "description": "AuthProvider + SupabaseProvider for global authentication state"},
+						{"name": "Middleware Protection", "description": "Admin verification at edge before loading protected pages"},
+						{"name": "API Route Pattern", "description": "Isolated backend logic with consistent validation and error handling"}
+					],
+					"decisions": [
+						{"decision": "Next.js 15 + React 19", "reason": "Server Components for performance, App Router for organization, Turbopack for fast builds"},
+						{"decision": "Supabase vs Firebase", "reason": "Real PostgreSQL with SQL, native Row Level Security, integrated auth, open source, affordable pricing"},
+						{"decision": "Cal.com vs Calendly", "reason": "Open source, flexible API, native Stripe integration, full customization, no forced branding"},
+						{"decision": "Cloudinary vs S3", "reason": "Automatic image optimization, on-the-fly transformations, global CDN included, generous free tier"},
+						{"decision": "Sanity vs Contentful", "reason": "Customizable studio, powerful GROQ query language, real-time collaboration, generous free tier"},
+						{"decision": "shadcn/ui vs Material UI", "reason": "Copy-paste not dependency, full customization, accessibility via Radix, smaller bundle, native Tailwind"}
+					],
+					"challenges": [
+						{"challenge": "Cal.com + Stripe Integration", "solution": "Stripe Connected Account, bidirectional webhooks (Cal → App, Stripe → App), diagnostic endpoints for debug"},
+						{"challenge": "Multi-Media Gallery", "solution": "Flexible schema with type discriminator, MediaModal component detecting type, responsive video embed"},
+						{"challenge": "Admin Access Control", "solution": "admin_accounts table with JSONB permissions, is_active flag, super-admin fallback, RLS policies"},
+						{"challenge": "SEO for Dynamic Services", "solution": "generateMetadata in each page, JSON-LD structured data, dynamic sitemap, required alt text"},
+						{"challenge": "Performance with Many Images", "solution": "Next.js Image with lazy loading, Cloudinary for optimization, blur placeholder, responsive sizes"}
+					]
+				}
+			],
+			"challenges": [
+				{"challenge": "Multiple External Integrations", "solution": "Modular architecture with separate providers for each service (Supabase, Cal.com, Stripe, Cloudinary, Sanity), robust webhooks with retry"},
+				{"challenge": "Complex Booking Flow", "solution": "Multi-step form with centralized state, progressive validation, seamless integration between Cal.com and Stripe"}
+			]
 		}
 	}
 }

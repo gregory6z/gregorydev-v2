@@ -28,6 +28,11 @@ import {
   SiNodedotjs,
   SiAwslambda,
   SiJest,
+  SiNextdotjs,
+  SiSupabase,
+  SiVercel,
+  SiSanity,
+  SiCloudinary,
 } from "react-icons/si";
 import { TbBrandFramerMotion } from "react-icons/tb";
 
@@ -100,21 +105,34 @@ const techIcons: Record<string, React.ComponentType<{ className?: string }>> = {
   "@nestjs/axios": SiNestjs,
   "AJV": SiTypescript,
   "jsonpath-plus": SiTypescript,
+  // VA Beauty
+  "Next.js 15": SiNextdotjs,
+  "React 19": SiReact,
+  "Tailwind CSS 4": SiTailwindcss,
+  "react-day-picker": SiReact,
+  "class-variance-authority": SiTypescript,
+  "Supabase (PostgreSQL + Auth + RLS)": SiSupabase,
+  "Cal.com": TbBrandFramerMotion,
+  "Cloudinary": SiCloudinary,
+  "Sanity CMS": SiSanity,
+  "Vercel": SiVercel,
 };
 
 // Valid project slugs
-const validSlugs = ["la-bonne-reponse", "les-performeurs", "airwell-iot-router"];
+const validSlugs = ["la-bonne-reponse", "les-performeurs", "airwell-iot-router", "va-beauty"];
 
 // Project external links
 const projectLinks: Record<string, string> = {
   "la-bonne-reponse": "https://www.la-bonne-reponse.pro/",
   "les-performeurs": "https://www.lesperformeurs.fr/",
   "airwell-iot-router": "https://airwell.com/",
+  // "va-beauty": "", // Site para esposa - sem link externo por enquanto
 };
 
 // Project hero images
 const projectImages: Record<string, string> = {
   "airwell-iot-router": "/images/projects/router-iot.svg",
+  "va-beauty": "/images/projects/va-beauty-hero.png",
 };
 
 type SubProject = {

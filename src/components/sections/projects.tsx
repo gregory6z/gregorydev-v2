@@ -5,6 +5,7 @@ import Image from "next/image";
 // Project card images
 const projectImages: Record<string, string> = {
   "airwell-iot-router": "/images/projects/router-iot.svg",
+  "va-beauty": "/images/projects/va-beauty-hero.png",
 };
 
 export async function ProjectsSection() {
@@ -66,6 +67,9 @@ export async function ProjectsSection() {
                       {project.title}
                     </h3>
                     <p className="text-sm text-white/50">{project.tags}</p>
+                    {project.description && (
+                      <p className="text-xs text-white/30 mt-1">{project.description}</p>
+                    )}
                   </div>
                   <span className="text-sm text-white/30 font-mono">
                     {String(index + 1).padStart(2, "0")}
