@@ -129,7 +129,8 @@
 							{"name": "Multi-tenant Management", "description": "User, company and role-based permission administration"},
 							{"name": "Referentials System", "description": "Crawler monitoring with last execution and change detection"},
 							{"name": "Cache Invalidation", "description": "Central function invalidating related queries in cascade"},
-							{"name": "Conversation History", "description": "User conversation viewing with markdown rendering"}
+							{"name": "Conversation History", "description": "User conversation viewing with markdown rendering"},
+							{"name": "Internationalization", "description": "Multi-language system with react-i18next for different language support"}
 						],
 						"backend": []
 					},
@@ -172,7 +173,8 @@
 							{"name": "B2B and B2C Support", "description": "Differentiated subscription logic by tenant type"},
 							{"name": "Conversation Management", "description": "Sidebar with conversation list, create new, continue existing"},
 							{"name": "Presentation Pages", "description": "Dynamic URLs by name for demos without authentication"},
-							{"name": "Account Management", "description": "Edit profile, professional title, sector, change password with robust validation"}
+							{"name": "Account Management", "description": "Edit profile, professional title, sector, change password with robust validation"},
+							{"name": "Internationalization", "description": "Multi-language system with react-i18next for different language support"}
 						],
 						"backend": []
 					},
@@ -240,7 +242,8 @@
 							{"name": "Photo Upload", "description": "Drag & drop with preview and profile management"},
 							{"name": "Dashboard with Charts", "description": "Visualizations with Recharts for metrics"},
 							{"name": "Role System", "description": "RoleProtectedRoute + useRoleBasedRedirect for access control"},
-							{"name": "Pre-registrations", "description": "Candidate management by training session"}
+							{"name": "Pre-registrations", "description": "Candidate management by training session"},
+							{"name": "Internationalization", "description": "Multi-language system with react-i18next for different language support"}
 						],
 						"backend": []
 					},
@@ -288,7 +291,8 @@
 							{"name": "Multiple Apprenants", "description": "Auto-selection if tuteur has 1, selection page if N"},
 							{"name": "Pedagogy Messages", "description": "Automatic system messages with differentiated styling"},
 							{"name": "Optimistic Updates", "description": "Messages appear instantly before server confirmation"},
-							{"name": "Performant Cache", "description": "Stale-while-revalidate for zero-latency navigation"}
+							{"name": "Performant Cache", "description": "Stale-while-revalidate for zero-latency navigation"},
+							{"name": "Internationalization", "description": "Multi-language system with react-i18next for different language support"}
 						],
 						"backend": []
 					},

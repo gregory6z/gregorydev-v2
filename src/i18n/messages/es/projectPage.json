@@ -129,7 +129,8 @@
 							{"name": "Gestión Multi-tenant", "description": "Administración de usuarios, empresas y permisos por rol"},
 							{"name": "Sistema de Referentials", "description": "Monitoreo de crawler con última ejecución y detección de cambios"},
 							{"name": "Cache Invalidation", "description": "Función central que invalida queries relacionadas en cascada"},
-							{"name": "Historial de Conversaciones", "description": "Visualización de conversaciones de usuarios con renderizado markdown"}
+							{"name": "Historial de Conversaciones", "description": "Visualización de conversaciones de usuarios con renderizado markdown"},
+							{"name": "Internacionalización", "description": "Sistema multi-idioma con react-i18next para soporte de diferentes idiomas"}
 						],
 						"backend": []
 					},
@@ -172,7 +173,8 @@
 							{"name": "Soporte B2B y B2C", "description": "Lógica de suscripción diferenciada por tipo de tenant"},
 							{"name": "Gestión de Conversaciones", "description": "Sidebar con lista de conversaciones, crear nueva, continuar existente"},
 							{"name": "Páginas de Presentación", "description": "URLs dinámicas por nombre para demos sin autenticación"},
-							{"name": "Gestión de Cuenta", "description": "Editar perfil, título profesional, sector, cambiar contraseña con validación robusta"}
+							{"name": "Gestión de Cuenta", "description": "Editar perfil, título profesional, sector, cambiar contraseña con validación robusta"},
+							{"name": "Internacionalización", "description": "Sistema multi-idioma con react-i18next para soporte de diferentes idiomas"}
 						],
 						"backend": []
 					},
@@ -240,7 +242,8 @@
 							{"name": "Upload de Foto", "description": "Drag & drop con preview y gestión de perfil"},
 							{"name": "Dashboard con Gráficos", "description": "Visualizaciones con Recharts para métricas"},
 							{"name": "Sistema de Roles", "description": "RoleProtectedRoute + useRoleBasedRedirect para control de acceso"},
-							{"name": "Pre-inscripciones", "description": "Gestión de candidatos por sesión de formación"}
+							{"name": "Pre-inscripciones", "description": "Gestión de candidatos por sesión de formación"},
+							{"name": "Internacionalización", "description": "Sistema multi-idioma con react-i18next para soporte de diferentes idiomas"}
 						],
 						"backend": []
 					},
@@ -288,7 +291,8 @@
 							{"name": "Múltiples Aprendices", "description": "Selección automática si tutor tiene 1, página de selección si N"},
 							{"name": "Mensajes de Pedagogía", "description": "Mensajes automáticos del sistema con estilización diferenciada"},
 							{"name": "Optimistic Updates", "description": "Mensajes aparecen instantáneamente antes de confirmación del servidor"},
-							{"name": "Cache Performático", "description": "Stale-while-revalidate para navegación zero-latency"}
+							{"name": "Cache Performático", "description": "Stale-while-revalidate para navegación zero-latency"},
+							{"name": "Internacionalización", "description": "Sistema multi-idioma con react-i18next para soporte de diferentes idiomas"}
 						],
 						"backend": []
 					},
