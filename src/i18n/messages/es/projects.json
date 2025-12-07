@@ -22,10 +22,10 @@
 			"slug": "airwell-iot-router"
 		},
 		{
-			"title": "VA Beauty",
-			"tags": "Desarrollador Full Stack, UI/UX Designer",
+			"title": "SNCF UTIL IA",
+			"tags": "Desarrollador Full Stack",
 			"description": "",
-			"slug": "va-beauty"
+			"slug": "sncf-util-ia"
 		},
 		{
 			"title": "Ragboost",
@@ -34,10 +34,10 @@
 			"slug": "ragboost"
 		},
 		{
-			"title": "Signature Agence",
-			"tags": "Desarrollador Landing Page",
+			"title": "VA Beauty",
+			"tags": "Desarrollador Full Stack, UI/UX Designer",
 			"description": "",
-			"slug": ""
+			"slug": "va-beauty"
 		}
 	]
 }

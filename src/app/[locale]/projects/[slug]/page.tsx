@@ -135,7 +135,7 @@ const projectLinks: Record<string, string> = {
   "la-bonne-reponse": "https://www.la-bonne-reponse.pro/",
   "les-performeurs": "https://www.lesperformeurs.fr/",
   "airwell-iot-router": "https://airwell.com/",
-  // "va-beauty": "", // Site para esposa - sem link externo por enquanto
+  "va-beauty": "https://www.vabeauty.fr/",
 };
 
 // Project hero images
