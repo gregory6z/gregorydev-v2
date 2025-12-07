@@ -33,6 +33,9 @@ import {
   SiVercel,
   SiSanity,
   SiCloudinary,
+  SiFastify,
+  SiPrisma,
+  SiPostgresql,
 } from "react-icons/si";
 import { TbBrandFramerMotion } from "react-icons/tb";
 
@@ -116,10 +119,16 @@ const techIcons: Record<string, React.ComponentType<{ className?: string }>> = {
   "Cloudinary": SiCloudinary,
   "Sanity CMS": SiSanity,
   "Vercel": SiVercel,
+  // Ragboost
+  "TanStack Router": SiReactrouter,
+  "TanStack Query": SiReactquery,
+  "Fastify": SiFastify,
+  "Prisma": SiPrisma,
+  "PostgreSQL": SiPostgresql,
 };
 
 // Valid project slugs
-const validSlugs = ["la-bonne-reponse", "les-performeurs", "airwell-iot-router", "va-beauty"];
+const validSlugs = ["la-bonne-reponse", "les-performeurs", "airwell-iot-router", "va-beauty", "ragboost"];
 
 // Project external links
 const projectLinks: Record<string, string> = {

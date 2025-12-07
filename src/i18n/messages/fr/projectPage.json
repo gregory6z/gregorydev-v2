@@ -401,6 +401,126 @@
 				{"challenge": "Remplacer Service Tiers", "solution": "Architecture de plugins a permis l'intégration directe avec les fabricants tout en maintenant la compatibilité mobile"}
 			]
 		},
+		"ragboost": {
+			"title": "Ragboost",
+			"subtitle": "Plateforme SaaS Multi-Tenant de Chatbots IA",
+			"role": "Full Stack Developer | Fondateur",
+			"period": "Octobre 2024 - Présent",
+			"status": "En Développement (85%)",
+			"client": "Projet Personnel",
+			"overview": {
+				"context": "Le marché des chatbots IA est en croissance, mais les solutions entreprise sont chères pour les PME. Les entreprises font face à des coûts élevés par message et stockage, une complexité technique pour intégrer le RAG, des widgets génériques qui ne représentent pas la marque, un manque de collaboration en équipe, et des données isolées non exploitées. L'opportunité : créer une alternative accessible avec des fonctionnalités avancées pour les entreprises de toutes tailles.",
+				"solution": "Développement d'une plateforme SaaS complète qui démocratise l'accès aux chatbots IA avec des prix accessibles, simplifie la création d'assistants sans code, évolue avec une architecture multi-tenant robuste, et monétise avec des plans flexibles via Stripe. La plateforme permet aux entreprises de créer des assistants virtuels contextualisés avec leurs propres documents utilisant la technologie RAG (Retrieval-Augmented Generation), avec un système de collaboration en équipe avec RBAC complet et support de 4 langues.",
+				"myRole": "En tant que fondateur et développeur full stack, j'ai conçu et implémenté toute l'architecture du système. Côté backend, j'ai développé Clean Architecture avec Either Monad, Use Case Pattern et Domain Events. Côté frontend, j'ai implémenté TanStack Query avec Optimistic Updates, système d'authentification cross-subdomain, et routage file-based avec TanStack Router. J'ai aussi réalisé tout le design UI/UX et les intégrations avec Stripe, service RAG open source, et système d'emails."
+			},
+			"stack": {
+				"frontend": ["React 19", "TypeScript", "Vite", "TanStack Router", "TanStack Query", "Tailwind CSS 4", "shadcn/ui", "Radix UI", "React Hook Form", "Zod", "i18next", "Recharts", "Axios", "Sonner"],
+				"backend": ["Fastify", "TypeScript", "Prisma", "PostgreSQL", "JWT", "Stripe", "Nodemailer", "Swagger", "Zod", "Docker"]
+			},
+			"subProjects": [
+				{
+					"title": "Backend API",
+					"subtitle": "API REST Multi-Tenant avec Clean Architecture",
+					"description": "API REST robuste avec architecture clean, 10 modules de domaine, système de permissions granulaire (RBAC) avec 50+ permissions, intégration Stripe pour billing, et Domain Events pour la communication entre modules.",
+					"features": {
+						"frontend": [],
+						"backend": [
+							{"name": "Clean Architecture", "description": "Séparation en couches : routes → controllers → use-cases → repositories → entities"},
+							{"name": "Either Monad", "description": "Gestion fonctionnelle des erreurs avec Either<Error, Success> dans tous les use cases"},
+							{"name": "Multi-Tenancy", "description": "Isolation complète des données par tenant via subdomain avec middleware de contexte"},
+							{"name": "RBAC Granulaire", "description": "50+ permissions sur 4 niveaux de rôles (owner, admin, curator, user)"},
+							{"name": "Domain Events", "description": "Communication asynchrone entre modules pour découplage"},
+							{"name": "Webhook Service", "description": "Handlers pour événements Stripe (checkout, subscription, invoice) avec vérification de signature"},
+							{"name": "Factory Pattern", "description": "Injection de dépendances manuelle sans container, facile à tester et débugger"},
+							{"name": "Zod + OpenAPI", "description": "Validation de schemas avec génération automatique de documentation Swagger"},
+							{"name": "JWT Double", "description": "Access token (15min) + refresh token (7j) en cookie httpOnly"},
+							{"name": "Rate Limiting", "description": "Protection des endpoints avec limites par IP et utilisateur"},
+							{"name": "Intégration RAG", "description": "Connexion avec service open source pour traitement de documents et recherche sémantique"},
+							{"name": "Système d'Invitations", "description": "Invitations par email avec tracking, expiration et rôles attribuables"}
+						]
+					},
+					"metrics": {
+						"linesOfCode": "~52 000",
+						"files": "200+",
+						"modules": "10",
+						"entities": "17"
+					},
+					"patterns": [
+						{"name": "Either Monad Pattern", "description": "Either<L, R> avec left() pour erreurs et right() pour succès - erreurs type-safe"},
+						{"name": "Use Case Pattern", "description": "Chaque opération métier dans une classe isolée avec execute() retournant Either"},
+						{"name": "Factory Pattern", "description": "makeXxxUseCase() pour DI manuelle - zéro magie, tree-shakeable, debug facile"},
+						{"name": "Controller Pattern", "description": "HTTP handlers qui convertissent Either en status codes appropriés"},
+						{"name": "Repository Pattern", "description": "Abstraction d'accès aux données avec Prisma - in-memory pour les tests"},
+						{"name": "Provider Pattern", "description": "Services externes (email, payment, RAG) avec interface + implémentation"}
+					],
+					"decisions": [
+						{"decision": "Fastify vs Express vs NestJS", "reason": "2x plus rapide qu'Express, validation de schema native, système de plugins modulaire"},
+						{"decision": "Either Monad vs throw/catch", "reason": "Erreurs type-safe, flux explicite, controller sait exactement quelles erreurs attendre"},
+						{"decision": "Factory Pattern vs DI Container", "reason": "Zéro magie, tree-shakeable, TypeScript pur sans decorators, facile à tester"},
+						{"decision": "PostgreSQL + Prisma vs MongoDB", "reason": "Conformité ACID, relations complexes, type-safety, migrations, RLS natif"}
+					],
+					"challenges": [
+						{"challenge": "Isolation Multi-Tenant", "solution": "Middleware injecte le contexte du tenant dans toutes les queries via header X-Tenant-Subdomain"},
+						{"challenge": "50+ Permissions Granulaires", "solution": "Matrice roles → permissions, CheckPermissionUseCase réutilisé dans tous les use cases"},
+						{"challenge": "Webhook Stripe avec Raw Body", "solution": "Middleware customisé pour préserver le raw body avant le bodyParser Fastify"},
+						{"challenge": "Tests E2E Isolés", "solution": "Prisma test environment avec base isolée, helpers pour générer des données uniques"}
+					]
+				},
+				{
+					"title": "Frontend Dashboard",
+					"subtitle": "SPA React 19 avec Multi-Tenant via Subdomain",
+					"description": "Dashboard administratif SPA avec React 19 et TanStack Router. Système d'authentification cross-subdomain via cookies, cache sophistiqué avec TanStack Query, internationalisation en 4 langues, et 31 composants shadcn/ui.",
+					"features": {
+						"frontend": [
+							{"name": "Multi-Tenant via Subdomain", "description": "Détection automatique du tenant via hostname (tenant1.ragboost.app)"},
+							{"name": "Auth Cross-Subdomain", "description": "Cookies partagés entre subdomains via Domain=.ragboost.app"},
+							{"name": "TanStack Query Cache", "description": "staleTime, gcTime, refetchOnMount/WindowFocus configurés par query"},
+							{"name": "Optimistic Updates", "description": "onMutate → snapshot → rollback avec feedback instantané"},
+							{"name": "File-Based Routing", "description": "TanStack Router avec type-safety complet et beforeLoad pour guards"},
+							{"name": "Axios Interceptors", "description": "Refresh token automatique, retry avec exponential backoff, error handling i18n"},
+							{"name": "RBAC Frontend", "description": "useCurrentUserRole() avec canManageTeam, canEditChatbots, etc."},
+							{"name": "Formulaires Validés", "description": "React Hook Form + Zod avec schemas partagés frontend/backend"},
+							{"name": "Design System", "description": "31 composants shadcn/ui + Radix UI avec Tailwind CSS 4"},
+							{"name": "i18n Complet", "description": "4 langues (PT, EN, FR, ES) avec namespaces lazy-loaded"},
+							{"name": "Dashboard Analytics", "description": "Graphiques avec Recharts pour métriques d'utilisation"},
+							{"name": "Team Management", "description": "Invitations, rôles, suppression de membres avec optimistic updates"}
+						],
+						"backend": []
+					},
+					"metrics": {
+						"linesOfCode": "~52 000",
+						"files": "206",
+						"components": "88",
+						"hooks": "7+",
+						"pages": "15+"
+					},
+					"patterns": [
+						{"name": "Custom Hooks Pattern", "description": "useChatbots, useTeamMembers, useAuth encapsulant la logique de données"},
+						{"name": "Optimistic Updates Pattern", "description": "onMutate pour snapshot, onError pour rollback, onSuccess pour invalidate"},
+						{"name": "Provider Pattern", "description": "AuthProvider, TenantProvider pour état global"},
+						{"name": "API Queries Layer", "description": "Séparation en /api/queries avec barrel exports par feature"},
+						{"name": "Subdomain Detection", "description": "getCurrentSubdomain() détecte le tenant en dev (lvh.me) et prod"},
+						{"name": "Interceptor Pattern", "description": "Axios interceptors pour refresh token et retry automatique"}
+					],
+					"decisions": [
+						{"decision": "React 19 SPA vs Next.js", "reason": "Dashboard n'a pas besoin de SSR, Vite HMR instantané, builds 10x plus rapides"},
+						{"decision": "TanStack Query vs Redux", "reason": "Cache automatique, mutations avec optimistic updates, moins de boilerplate"},
+						{"decision": "TanStack Router vs React Router", "reason": "Type-safety complet, file-based routing, beforeLoad pour guards"},
+						{"decision": "Cookie Auth vs localStorage", "reason": "Partage cross-subdomain impossible avec localStorage"}
+					],
+					"challenges": [
+						{"challenge": "Auth Cross-Subdomain", "solution": "Cookie avec Domain=.localhost (dev) / .ragboost.app (prod) partagé entre tenants"},
+						{"challenge": "Refresh Token Transparent", "solution": "Interceptor détecte 401, appelle /refresh-token, retente la requête originale"},
+						{"challenge": "State Management Complexe", "solution": "TanStack Query pour server state, useCurrentTenant() pour contexte, zéro Redux"},
+						{"challenge": "Détection Subdomain Multi-Environnement", "solution": "Support pour lvh.me (dev), localhost, et multisaas.app (prod) avec même logique"}
+					]
+				}
+			],
+			"challenges": [
+				{"challenge": "Architecture SaaS Multi-Tenant Complète", "solution": "Tenancy basée sur subdomain avec isolation des données, RBAC granulaire, billing intégré, et Domain Events pour découplage"},
+				{"challenge": "Auth Cross-Subdomain Sécurisée", "solution": "JWT en cookies avec Domain wildcard, refresh token automatique, logout sélectif du cache"}
+			]
+		},
 		"va-beauty": {
 			"title": "VA Beauty",
 			"subtitle": "Site Vitrine & Système de Réservation",
