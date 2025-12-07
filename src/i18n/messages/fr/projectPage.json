@@ -448,8 +448,8 @@
 						]
 					},
 					"testing": [
-						{"type": "Tests Unitaires", "description": "Tests unitaires pour use cases et domain logic avec Vitest", "tools": "Vitest, In-Memory Repositories", "coverage": "~80%"},
-						{"type": "Tests E2E", "description": "Tests d'intégration end-to-end pour controllers et flux complets", "tools": "Vitest, Prisma Test Environment, Supertest", "coverage": "Controllers critiques"}
+						{"type": "Tests Unitaires", "description": "60+ fichiers de tests unitaires pour use cases et domain logic", "tools": "Node.js Test Runner, In-Memory Repositories", "coverage": "Use cases complets"},
+						{"type": "Tests E2E", "description": "40+ fichiers de tests end-to-end pour controllers et flux complets", "tools": "Node.js Test Runner, Prisma Test Environment, Supertest", "coverage": "Controllers critiques"}
 					],
 					"metrics": {
 						"linesOfCode": "~52 000",
