@@ -21,7 +21,7 @@ export function GPLogoWhite({ className = "h-8 w-8" }: { className?: string }) {
       alt="GP Logo"
       width={36}
       height={36}
-      className={`${className} invert`}
+      className={className}
     />
   )
 }
