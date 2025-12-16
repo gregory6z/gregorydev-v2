@@ -86,7 +86,7 @@ export async function ProjectsSection() {
             );
 
             const cardClassName =
-              "group relative rounded-3xl bg-[#141414] overflow-hidden cursor-pointer hover:bg-[#1a1a1a] transition-colors duration-300";
+              "group relative rounded-3xl bg-[#141414] border border-white/10 overflow-hidden cursor-pointer hover:border-white/20 transition-all duration-300";
 
             if (project.slug) {
               return (
