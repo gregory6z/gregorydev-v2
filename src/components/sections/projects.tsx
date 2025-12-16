@@ -9,7 +9,7 @@ const projectImages: Record<string, string> = {
   "airwell-iot-router": "/images/projects/router-iot.svg",
   "sncf-util-ia": "/images/sncf/sncf-main.png",
   "ragboost": "/images/projects/ragboost/ragboost-main.png",
-  "va-beauty": "/images/projects/va-beauty/home-hero.png",
+  "va-beauty": "/images/projects/va-beauty/va-beauty-main.png",
 };
 
 export async function ProjectsSection() {
