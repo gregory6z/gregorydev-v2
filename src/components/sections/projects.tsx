@@ -8,7 +8,7 @@ const projectImages: Record<string, string> = {
   "les-performeurs": "/images/projects/les-performeurs/main-les-performeurs.png",
   "airwell-iot-router": "/images/projects/router-iot.svg",
   "ragboost": "/images/projects/ragboost/ragboost-main.png",
-  "va-beauty": "/images/projects/va-beauty-hero.png",
+  "va-beauty": "/images/projects/va-beauty/home-hero.png",
 };
 
 export async function ProjectsSection() {
