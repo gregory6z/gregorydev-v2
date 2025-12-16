@@ -1,4 +1,5 @@
 import { getTranslations } from "next-intl/server";
+import { ContactButton } from "@/components/contact-button";
 import { SplineScene } from "@/components/ui/spline";
 import { Spotlight } from "@/components/ui/spotlight";
 
@@ -24,11 +25,7 @@ export async function CTASection() {
                 {t("subtitle")}
               </p>
               <div className="flex justify-center md:justify-end">
-                <button
-                  className="rounded-full bg-white px-6 sm:px-8 py-3 sm:py-4 text-sm sm:text-base font-medium text-black transition-colors hover:bg-white/90 shadow-lg"
-                >
-                  {t("button")}
-                </button>
+                <ContactButton />
               </div>
             </div>
 

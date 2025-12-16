@@ -1,0 +1,21 @@
+{
+	"modal": {
+		"title": "Contactez-moi",
+		"description": "Remplissez le formulaire et je vous répondrai bientôt.",
+		"name": "Nom",
+		"email": "Email",
+		"message": "Message",
+		"namePlaceholder": "Votre nom complet",
+		"emailPlaceholder": "votre@email.com",
+		"messagePlaceholder": "Décrivez votre projet ou question...",
+		"submit": "Envoyer le message",
+		"submitting": "Envoi en cours...",
+		"required": "*",
+		"success": {
+			"title": "Message envoyé!",
+			"description": "Merci pour votre message. Je vous répondrai dès que possible.",
+			"close": "Fermer"
+		},
+		"error": "Erreur lors de l'envoi. Veuillez réessayer."
+	}
+}

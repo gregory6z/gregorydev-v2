@@ -1,0 +1,21 @@
+{
+	"modal": {
+		"title": "Entre em contato",
+		"description": "Preencha o formulário abaixo e entrarei em contato em breve.",
+		"name": "Nome",
+		"email": "Email",
+		"message": "Mensagem",
+		"namePlaceholder": "Seu nome completo",
+		"emailPlaceholder": "seu@email.com",
+		"messagePlaceholder": "Descreva seu projeto ou dúvida...",
+		"submit": "Enviar mensagem",
+		"submitting": "Enviando...",
+		"required": "*",
+		"success": {
+			"title": "Mensagem enviada!",
+			"description": "Obrigado pelo contato. Responderei o mais breve possível.",
+			"close": "Fechar"
+		},
+		"error": "Erro ao enviar mensagem. Tente novamente."
+	}
+}
