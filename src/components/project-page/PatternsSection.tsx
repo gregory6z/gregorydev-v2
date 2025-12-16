@@ -40,7 +40,7 @@ export function PatternsSection({ patterns, title }: PatternsSectionProps) {
               <TooltipContent
                 side="top"
                 className="max-w-xs"
-                sideOffset={5}
+                sideOffset={8}
               >
                 <p className="text-white/90 leading-relaxed">{pattern.description}</p>
               </TooltipContent>
