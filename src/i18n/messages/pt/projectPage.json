@@ -630,7 +630,7 @@
 			},
 			"stack": {
 				"frontend": ["React", "TypeScript", "Tailwind CSS", "shadcn/ui", "Radix UI", "React Router DOM", "TanStack React Query", "TanStack Table", "React Hook Form", "Zod", "Recharts", "Sonner", "Lucide React"],
-				"backend": ["NestJS", "TypeScript", "TypeORM", "MySQL", "JWT/Passport", "Chatbase AI", "class-validator", "class-transformer", "bcrypt", "Winston", "Swagger", "Docker"]
+				"backend": ["NestJS", "TypeScript", "TypeORM", "MySQL", "JWT/Passport", "Chatbase AI", "class-validator", "class-transformer", "bcrypt", "Swagger", "Docker"]
 			},
 			"subProjects": [
 				{
@@ -644,7 +644,6 @@
 							{"name": "Integração Chatbase AI", "description": "Proxy para API do Chatbase com gerenciamento de conversas, histórico e rate limiting"},
 							{"name": "Monitoramento de Conversas", "description": "Histórico completo de conversas com filtros, paginação e estatísticas"},
 							{"name": "API de Estatísticas", "description": "Dashboard com métricas de uso, conversas por período e análise de usuários ativos"},
-							{"name": "Logs Estruturados", "description": "Sistema de logging com Winston para debug e auditoria"},
 							{"name": "Swagger/OpenAPI", "description": "Documentação automática e interativa da API com exemplos"},
 							{"name": "Docker Setup", "description": "Containerização completa com MySQL, volumes persistentes e network isolada"}
 						]
@@ -668,8 +667,7 @@
 						{"decision": "NestJS vs Express/Fastify", "reason": "Estrutura enterprise-ready out-of-the-box, TypeScript first-class, arquitetura modular escalável, decorators para metaprogramação, integração Swagger nativa"},
 						{"decision": "TypeORM vs Prisma", "reason": "Decorators para entities, migrations robustas, suporte a múltiplos bancos, active record pattern familiar, melhor para projetos NestJS complexos"},
 						{"decision": "JWT vs Session", "reason": "Stateless, escalável horizontalmente, não requer armazenamento server-side, ideal para APIs REST, refresh tokens para segurança"},
-						{"decision": "Chatbase vs OpenAI Direct", "reason": "Sistema de conversas gerenciado, treinamento específico do modelo, rate limiting incluído, métricas built-in, custo otimizado"},
-						{"decision": "Winston vs Console", "reason": "Logs estruturados, múltiplos transports (arquivo, console), níveis configuráveis, rotação automática, essencial para produção"}
+						{"decision": "Chatbase vs OpenAI Direct", "reason": "Sistema de conversas gerenciado, treinamento específico do modelo, rate limiting incluído, métricas built-in, custo otimizado"}
 					],
 					"challenges": [
 						{"challenge": "Rate Limiting Chatbase", "solution": "Implementação de fila de requisições com retry exponencial, cache de respostas frequentes, fallback messages para timeouts"},
