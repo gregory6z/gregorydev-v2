@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
-import { ContactButton } from "@/components/contact-button";
 import { StarsBackground } from "@/components/ui/stars";
 import { MobileBottomCTA } from "@/components/mobile-bottom-cta";
 import { Footer } from "@/components/footer";
@@ -100,7 +99,12 @@ export default async function HomePage() {
             >
               {t("cta.projects")}
             </a>
-            <ContactButton variant="secondary" translationKey="hero.cta.contact" />
+            <a
+              href="#contact"
+              className="rounded-full border border-white/20 bg-white/5 px-6 py-3 text-sm font-medium text-white backdrop-blur-sm transition-all hover:bg-white/10 hover:border-white/30"
+            >
+              {t("cta.contact")}
+            </a>
           </div>
 
           {/* Avatar + Logos Section */}
