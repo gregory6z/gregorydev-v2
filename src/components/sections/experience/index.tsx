@@ -29,7 +29,7 @@ const timelineData = [
   {
     year: "2017",
     iconName: "Globe2",
-    gradient: "from-blue-600 via-white to-red-500",
+    gradient: "from-blue-500 to-blue-600",
     effect: "aurora" as EffectType,
     colors: ["#2563eb", "#e0e7ff", "#dc2626", "#1e40af"],
   },

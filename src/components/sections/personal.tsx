@@ -5,7 +5,6 @@ import {
   Gamepad2,
   Plane,
   Code2,
-  Heart,
   Users
 } from "lucide-react";
 
@@ -15,7 +14,6 @@ const hobbies = [
   { icon: Plane, labelKey: "travel" },
   { icon: Gamepad2, labelKey: "gaming" },
   { icon: Code2, labelKey: "coding" },
-  { icon: Heart, labelKey: "passion" },
 ];
 
 export async function PersonalSection() {
