@@ -17,7 +17,7 @@ export async function Header() {
       <div className="px-4 sm:px-6 py-3 md:py-4">
         <div className="flex items-center justify-between">
           {/* Logo - Server Component */}
-          <Link href="/" className="hover:opacity-80 transition-opacity">
+          <Link href="/" className="hover:opacity-80 transition-opacity" prefetch={true}>
             <GPLogoWhite className="h-9 w-9" />
           </Link>
 

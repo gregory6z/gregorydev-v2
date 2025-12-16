@@ -95,6 +95,7 @@ export async function ProjectsSection() {
                   key={index}
                   href={`/projects/${project.slug}`}
                   className={cardClassName}
+                  prefetch={true}
                 >
                   {cardContent}
                 </Link>

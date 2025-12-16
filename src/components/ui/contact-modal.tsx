@@ -1,6 +1,5 @@
 "use client"
 
-import emailjs from "@emailjs/browser"
 import { Check, Loader2, Send } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { useState } from "react"
@@ -76,6 +75,9 @@ export function ContactModal({ children }: ContactModalProps) {
     setError(null)
 
     try {
+      // Lazy load EmailJS only when submitting
+      const emailjs = (await import("@emailjs/browser")).default
+
       await emailjs.send(
         process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
         process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,

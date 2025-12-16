@@ -10,11 +10,17 @@ import "../globals.css"
 const inter = Inter({
 	variable: "--font-inter",
 	subsets: ["latin"],
+	display: "swap",
+	weight: ["400", "500", "600", "700"],
+	preload: true,
 })
 
 const spaceGrotesk = Space_Grotesk({
 	variable: "--font-space-grotesk",
 	subsets: ["latin"],
+	display: "swap",
+	weight: ["400", "500", "600", "700"],
+	preload: true,
 })
 
 export const metadata: Metadata = {

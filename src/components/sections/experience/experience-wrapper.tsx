@@ -2,7 +2,8 @@
 
 import React, { useRef, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { TimelineEffect, type EffectType } from "@/components/ui/effects";
+import { TimelineEffect } from "@/components/ui/effects/timeline-effect-wrapper";
+import type { EffectType } from "@/components/ui/effects";
 
 interface TimelineItem {
   year: string;

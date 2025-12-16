@@ -1,7 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { ContactButton } from "@/components/contact-button";
-import { SplineScene } from "@/components/ui/spline";
 import { Spotlight } from "@/components/ui/spotlight";
+import { SplineWrapper } from "@/components/ui/spline-wrapper";
 
 export async function CTASection() {
   const t = await getTranslations("cta");
@@ -31,7 +31,7 @@ export async function CTASection() {
 
             {/* Right content - Robot (hidden on mobile) */}
             <div className="hidden md:block flex-1 relative">
-              <SplineScene
+              <SplineWrapper
                 scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
                 className="w-full h-full"
               />
