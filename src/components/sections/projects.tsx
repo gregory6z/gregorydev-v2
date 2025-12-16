@@ -4,6 +4,8 @@ import Image from "next/image";
 
 // Project card images
 const projectImages: Record<string, string> = {
+  "la-bonne-reponse": "/images/projects/lbr/main-lbr.png",
+  "les-performeurs": "/images/projects/les-performeurs/main-les-performeurs.png",
   "airwell-iot-router": "/images/projects/router-iot.svg",
   "va-beauty": "/images/projects/va-beauty-hero.png",
 };
@@ -37,14 +39,18 @@ export async function ProjectsSection() {
             const cardContent = (
               <>
                 {/* Image Area */}
-                <div className="aspect-[16/10] bg-[#0a0a0a] group-hover:bg-[#111] transition-colors relative overflow-hidden">
+                <div className={`aspect-[16/10] transition-colors relative overflow-hidden ${
+                  projectImages[project.slug]
+                    ? "bg-[#1a1a1a] group-hover:bg-[#1c1c1c]"
+                    : "bg-[#0a0a0a] group-hover:bg-[#111]"
+                }`}>
                   {projectImages[project.slug] ? (
                     <>
                       <Image
                         src={projectImages[project.slug]}
                         alt={project.title}
                         fill
-                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        className="object-contain transition-transform duration-500 group-hover:scale-105"
                       />
                     </>
                   ) : (

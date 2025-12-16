@@ -140,6 +140,8 @@ const projectLinks: Record<string, string> = {
 
 // Project hero images
 const projectImages: Record<string, string> = {
+  "la-bonne-reponse": "/images/projects/lbr/main-lbr.png",
+  "les-performeurs": "/images/projects/les-performeurs/main-les-performeurs.png",
   "airwell-iot-router": "/images/projects/router-iot.svg",
   "va-beauty": "/images/projects/va-beauty-hero.png",
 };
@@ -210,14 +212,16 @@ export default async function ProjectPage({ params }: Props) {
 
           {/* Hero Image */}
           <section className="mb-12">
-            <div className="aspect-[16/10] w-full rounded-2xl overflow-hidden relative border border-white/10">
+            <div className={`aspect-[16/10] w-full rounded-2xl overflow-hidden relative border border-white/10 ${
+              projectImages[slug] ? "bg-[#1a1a1a]" : ""
+            }`}>
               {projectImages[slug] ? (
                 <>
                   <Image
                     src={projectImages[slug]}
                     alt={project.title}
                     fill
-                    className="object-cover"
+                    className="object-contain"
                     priority
                   />
                 </>
