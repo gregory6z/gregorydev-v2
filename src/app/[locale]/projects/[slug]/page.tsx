@@ -125,10 +125,11 @@ const techIcons: Record<string, React.ComponentType<{ className?: string }>> = {
   "Fastify": SiFastify,
   "Prisma": SiPrisma,
   "PostgreSQL": SiPostgresql,
+  "Chatbase AI": TbBrandFramerMotion,
 };
 
 // Valid project slugs
-const validSlugs = ["la-bonne-reponse", "les-performeurs", "airwell-iot-router", "va-beauty", "ragboost"];
+const validSlugs = ["la-bonne-reponse", "les-performeurs", "airwell-iot-router", "va-beauty", "ragboost", "sncf-util-ia"];
 
 // Project external links
 const projectLinks: Record<string, string> = {
@@ -145,6 +146,7 @@ const projectImages: Record<string, string> = {
   "airwell-iot-router": "/images/projects/router-iot.svg",
   "ragboost": "/images/projects/ragboost/ragboost-main.png",
   "va-beauty": "/images/projects/va-beauty/home-hero.png",
+  "sncf-util-ia": "/images/sncf/sncf-main.png",
 };
 
 type SubProject = {

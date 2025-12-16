@@ -613,6 +613,125 @@
 				{"challenge": "Múltiples Integraciones Externas", "solution": "Arquitectura modular con providers separados para cada servicio (Supabase, Cal.com, Stripe, Cloudinary, Sanity), webhooks robustos con retry"},
 				{"challenge": "Flujo de Reserva Complejo", "solution": "Formulario multi-paso con estado centralizado, validación progresiva, integración seamless entre Cal.com y Stripe"}
 			]
+		},
+		"sncf-util-ia": {
+			"title": "SNCF IA Reseau",
+			"subtitle": "Plataforma de Asistencia Inteligente para Red Ferroviaria",
+			"role": "Full Stack Developer",
+			"period": "Octubre - Diciembre 2024",
+			"status": "Producción",
+			"client": "SNCF (Société Nationale des Chemins de fer Français)",
+			"overview": {
+				"context": "SNCF necesitaba una plataforma interna para optimizar el soporte a los empleados del área de Utilité, proporcionando respuestas instantáneas sobre procedimientos, regulaciones e información técnica de la red ferroviaria a través de inteligencia artificial.",
+				"solution": "Sistema completo con API REST robusta en NestJS e interfaz web moderna en React. Integración con Chatbase AI para procesamiento de preguntas, sistema de autenticación JWT, y panel administrativo para gestión de usuarios y monitoreo de conversaciones.",
+				"myRole": "Trabajé como desarrollador solo en el backend, creando toda la arquitectura de la API con NestJS, TypeORM y MySQL. En el frontend, trabajé junto con el equipo de diseño de House of Coding (que proporcionó el UI/UX vía Figma), siendo responsable de la implementación completa y las animaciones de la interfaz."
+			},
+			"stack": {
+				"frontend": ["React", "TypeScript", "Tailwind CSS", "shadcn/ui", "Radix UI", "React Router DOM", "TanStack React Query", "TanStack Table", "React Hook Form", "Zod", "Recharts", "Sonner", "Lucide React"],
+				"backend": ["NestJS", "TypeScript", "TypeORM", "MySQL", "JWT/Passport", "Chatbase AI", "class-validator", "class-transformer", "bcrypt", "Winston", "Swagger", "Docker"]
+			},
+			"subProjects": [
+				{
+					"title": "SNCF IA Reseau API",
+					"subtitle": "Backend NestJS para Gestión de Conversaciones y Usuarios",
+					"description": "API REST robusta desarrollada en NestJS con arquitectura modular. Sistema completo de autenticación JWT, integración con Chatbase AI para procesamiento de preguntas, gestión de usuarios con diferentes niveles de permisos, y monitoreo de conversaciones.",
+					"features": {
+						"frontend": [],
+						"backend": [
+							{"name": "Autenticación JWT", "description": "Sistema completo con register/login, refresh tokens, guards de protección y estrategia Passport"},
+							{"name": "Integración Chatbase AI", "description": "Proxy para API de Chatbase con gestión de conversaciones, historial y rate limiting"},
+							{"name": "Gestión de Usuarios", "description": "CRUD completo con perfiles (USER, ADMIN, SUPER_ADMIN), soft delete y validaciones robustas"},
+							{"name": "Monitoreo de Conversaciones", "description": "Historial completo de conversaciones con filtros, paginación y estadísticas"},
+							{"name": "API de Estadísticas", "description": "Dashboard con métricas de uso, conversaciones por período y análisis de usuarios activos"},
+							{"name": "Logs Estructurados", "description": "Sistema de logging con Winston para debug y auditoría"},
+							{"name": "Swagger/OpenAPI", "description": "Documentación automática e interactiva de la API con ejemplos"},
+							{"name": "Docker Setup", "description": "Containerización completa con MySQL, volúmenes persistentes y red aislada"}
+						]
+					},
+					"metrics": {
+						"linesOfCode": "~8.500",
+						"files": "67",
+						"modules": "7",
+						"entities": "3",
+						"dtos": "15+"
+					},
+					"patterns": [
+						{"name": "Modular Architecture", "description": "Separación en módulos (Auth, Users, Conversations, Stats, Chatbase) con responsabilidades bien definidas"},
+						{"name": "Repository Pattern", "description": "TypeORM repositories para abstracción de acceso a datos"},
+						{"name": "DTO Pattern", "description": "Data Transfer Objects con class-validator para validación de entrada/salida"},
+						{"name": "Guard Pattern", "description": "Guards personalizados para autenticación JWT y verificación de roles"},
+						{"name": "Exception Filters", "description": "Manejo centralizado de errores con HttpException"},
+						{"name": "Dependency Injection", "description": "Inyección de dependencias nativa de NestJS para testabilidad"}
+					],
+					"decisions": [
+						{"decision": "NestJS vs Express/Fastify", "reason": "Estructura enterprise-ready out-of-the-box, TypeScript first-class, arquitectura modular escalable, decorators para metaprogramación, integración Swagger nativa"},
+						{"decision": "TypeORM vs Prisma", "reason": "Decorators para entities, migraciones robustas, soporte para múltiples bases de datos, patrón active record familiar, mejor para proyectos NestJS complejos"},
+						{"decision": "JWT vs Session", "reason": "Stateless, escalable horizontalmente, no requiere almacenamiento server-side, ideal para APIs REST, refresh tokens para seguridad"},
+						{"decision": "Chatbase vs OpenAI Direct", "reason": "Sistema de conversaciones gestionado, entrenamiento específico del modelo, rate limiting incluido, métricas integradas, costo optimizado"},
+						{"decision": "Winston vs Console", "reason": "Logs estructurados, múltiples transports (archivo, consola), niveles configurables, rotación automática, esencial para producción"}
+					],
+					"challenges": [
+						{"challenge": "Rate Limiting de Chatbase", "solution": "Implementación de cola de peticiones con retry exponencial, caché de respuestas frecuentes, mensajes de fallback para timeouts"},
+						{"challenge": "Gestión de Tokens JWT", "solution": "Refresh tokens con rotación, blacklist para tokens revocados, expiración configurable por entorno"},
+						{"challenge": "Persistencia de Conversaciones", "solution": "Schema optimizado con índices, relación User-Conversation 1:N, soft delete para auditoría"},
+						{"challenge": "Validación de Datos", "solution": "DTOs con class-validator, transform pipes globales, validadores personalizados para reglas de negocio"},
+						{"challenge": "Desarrollo con Docker", "solution": "Docker Compose con hot-reload, volúmenes para persistencia MySQL, red aislada, variables de entorno seguras"}
+					],
+					"testing": [
+						{"type": "Documentación", "description": "Swagger completo con todos los endpoints documentados", "tools": "@nestjs/swagger"},
+						{"type": "Logs", "description": "Sistema de logging estructurado para debug y auditoría", "tools": "Winston"}
+					]
+				},
+				{
+					"title": "SNCF IA Reseau Front",
+					"subtitle": "Interfaz Web Moderna con Chat Inteligente",
+					"description": "Aplicación React single-page con diseño proporcionado por el equipo de House of Coding vía Figma. Interfaz moderna con chat en tiempo real, panel administrativo completo, y sistema de autenticación integrado. Animaciones e interacciones desarrolladas por mí.",
+					"features": {
+						"frontend": [
+							{"name": "Interfaz de Chat", "description": "Interfaz conversacional en tiempo real con historial, indicadores de escritura y renderizado markdown"},
+							{"name": "Autenticación", "description": "Login/registro con validación, persistencia de sesión, refresh automático de tokens"},
+							{"name": "Panel Administrativo", "description": "Dashboard con estadísticas, gestión de usuarios, visualización de conversaciones y analytics"},
+							{"name": "Gestión de Usuarios", "description": "CRUD completo, filtros avanzados, roles y permisos, exportación de datos"},
+							{"name": "Historial de Conversaciones", "description": "Visualización detallada de todas las conversaciones con filtros por fecha, usuario y contenido"},
+							{"name": "Sistema de Notificaciones", "description": "Toasts con Sonner para feedback de acciones y errores"},
+							{"name": "Tablas Interactivas", "description": "TanStack Table con sorting, filtering, pagination y visibilidad de columnas"},
+							{"name": "Formularios Validados", "description": "React Hook Form + Zod para validación robusta y type-safe"},
+							{"name": "Animaciones Personalizadas", "description": "Transiciones suaves, micro-interacciones y loading states desarrollados por mí"},
+							{"name": "Diseño Responsive", "description": "Layout adaptativo para desktop, tablet y móvil basado en Figma de House of Coding"}
+						],
+						"backend": []
+					},
+					"metrics": {
+						"linesOfCode": "~12.000",
+						"files": "95",
+						"components": "48",
+						"hooks": "12",
+						"pages": "8"
+					},
+					"patterns": [
+						{"name": "Custom Hooks Pattern", "description": "Hooks reutilizables para auth, llamadas API, gestión de formularios y estado"},
+						{"name": "React Query Pattern", "description": "Caché optimizado, invalidación automática, actualizaciones optimistas, manejo de errores"},
+						{"name": "Form Management", "description": "React Hook Form + Zod para validación type-safe y rendimiento"},
+						{"name": "Route Protection", "description": "Rutas privadas con redirección automática basada en estado de auth"},
+						{"name": "Component Composition", "description": "Componentes shadcn/ui personalizables vía props y slots"},
+						{"name": "State Management", "description": "React Query para server state, Context API para estado UI global"}
+					],
+					"decisions": [
+						{"decision": "React vs Next.js", "reason": "SPA pura sin necesidad de SSR, autenticación client-side, deploy más simple, routing client-side suficiente"},
+						{"decision": "TanStack Query vs Redux", "reason": "Especializado en server state, caché inteligente, menos boilerplate, invalidación automática, devtools excelentes"},
+						{"decision": "shadcn/ui vs Material UI", "reason": "Copy-paste sin dependencias pesadas, personalización total vía Tailwind, accesibilidad Radix, componentes modernos"},
+						{"decision": "React Hook Form + Zod", "reason": "Rendimiento superior (menos re-renders), validación type-safe, integración perfecta, bundle menor que Formik"},
+						{"decision": "Recharts vs Chart.js", "reason": "Composable, declarativo con React, personalización vía props, TypeScript nativo, responsive out-of-the-box"}
+					],
+					"challenges": [
+						{"challenge": "Implementación del Diseño Figma", "solution": "Fidelidad pixel-perfect al diseño de House of Coding usando Tailwind, sistema de colores y espaciados consistentes, componentes reutilizables"},
+						{"challenge": "Animaciones Personalizadas", "solution": "Transiciones CSS personalizadas, framer-motion para animaciones complejas, loading skeletons, micro-interacciones en botones y cards"},
+						{"challenge": "Experiencia de Chat en Tiempo Real", "solution": "Polling optimizado con React Query, auto-scroll inteligente, indicadores de escritura, formato markdown"},
+						{"challenge": "Gestión de Tokens", "solution": "Interceptor axios para refresh automático, retry de peticiones fallidas, logout en token expirado"},
+						{"challenge": "Tablas Performáticas", "solution": "Virtualización con TanStack Table, paginación server-side, lazy loading, memoización de células"}
+					]
+				}
+			]
 		}
 	}
 }
