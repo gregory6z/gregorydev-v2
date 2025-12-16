@@ -617,15 +617,15 @@
 			]
 		},
 		"sncf-util-ia": {
-			"title": "SNCF IA Reseau",
+			"title": "SNCF SECAFI IA Reseau",
 			"subtitle": "Plataforma de Assistência Inteligente para Rede Ferroviária",
 			"role": "Full Stack Developer",
 			"period": "Outubro - Dezembro 2024",
 			"status": "Produção",
 			"client": "SNCF (Société Nationale des Chemins de fer Français)",
 			"overview": {
-				"context": "A SNCF necessitava de uma plataforma interna para otimizar o suporte aos funcionários da área de Utilité, fornecendo respostas instantâneas sobre procedimentos, regulamentos e informações técnicas da rede ferroviária através de inteligência artificial.",
-				"solution": "Sistema completo com API REST robusta em NestJS e interface web moderna em React. Integração com Chatbase AI para processamento de perguntas, sistema de autenticação JWT, e painel administrativo para gestão de usuários e monitoramento de conversas.",
+				"context": "A SNCF SECAFI necessitava de uma ferramenta interna inteligente para auxiliar na tomada de decisões estratégicas, fornecendo estimativas e previsões sobre cenários futuros da rede ferroviária através de inteligência artificial. O sistema permite que os funcionários façam consultas complexas e obtenham análises preditivas baseadas em dados históricos e padrões identificados.",
+				"solution": "Sistema completo com API REST robusta em NestJS e interface web moderna em React. Integração com Chatbase AI para processamento de consultas complexas e geração de estimativas, sistema de autenticação JWT com múltiplos níveis de permissão, e painel administrativo para gestão de usuários e monitoramento de conversas e previsões.",
 				"myRole": "Atuei como Full Stack Developer responsável por todo o desenvolvimento do projeto. Desenvolvi sozinho toda a arquitetura da API backend com NestJS, TypeORM e MySQL, e implementei completamente o frontend em React, incluindo todas as animações e interações. Apenas o design UI/UX foi fornecido pela equipe House of Coding via Figma."
 			},
 			"stack": {

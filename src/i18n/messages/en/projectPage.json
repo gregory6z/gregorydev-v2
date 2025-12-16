@@ -615,15 +615,15 @@
 			]
 		},
 		"sncf-util-ia": {
-			"title": "SNCF IA Reseau",
+			"title": "SNCF SECAFI IA Reseau",
 			"subtitle": "Intelligent Assistance Platform for Railway Network",
 			"role": "Full Stack Developer",
 			"period": "October - December 2024",
 			"status": "Production",
 			"client": "SNCF (Société Nationale des Chemins de fer Français)",
 			"overview": {
-				"context": "SNCF needed an internal platform to optimize support for employees in the Utilité area, providing instant answers about procedures, regulations, and technical information about the railway network through artificial intelligence.",
-				"solution": "Complete system with robust REST API in NestJS and modern web interface in React. Integration with Chatbase AI for question processing, JWT authentication system, and administrative panel for user management and conversation monitoring.",
+				"context": "SNCF SECAFI needed an intelligent internal tool to assist in strategic decision-making, providing estimates and forecasts about future railway network scenarios through artificial intelligence. The system allows employees to make complex queries and obtain predictive analyses based on historical data and identified patterns.",
+				"solution": "Complete system with robust REST API in NestJS and modern web interface in React. Integration with Chatbase AI for processing complex queries and generating estimates, JWT authentication system with multiple permission levels, and administrative panel for user management and monitoring conversations and predictions.",
 				"myRole": "I worked as a Full Stack Developer responsible for all project development. I developed the entire backend API architecture with NestJS, TypeORM, and MySQL, and fully implemented the frontend in React, including all animations and interactions. Only the UI/UX design was provided by the House of Coding team via Figma."
 			},
 			"stack": {

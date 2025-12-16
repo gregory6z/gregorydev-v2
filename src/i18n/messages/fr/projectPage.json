@@ -615,15 +615,15 @@
 			]
 		},
 		"sncf-util-ia": {
-			"title": "SNCF IA Reseau",
+			"title": "SNCF SECAFI IA Reseau",
 			"subtitle": "Plateforme d'Assistance Intelligente pour le Réseau Ferroviaire",
 			"role": "Full Stack Developer",
 			"period": "Octobre - Décembre 2024",
 			"status": "Production",
 			"client": "SNCF (Société Nationale des Chemins de fer Français)",
 			"overview": {
-				"context": "La SNCF avait besoin d'une plateforme interne pour optimiser le support aux employés du secteur Utilité, en fournissant des réponses instantanées sur les procédures, règlements et informations techniques du réseau ferroviaire via l'intelligence artificielle.",
-				"solution": "Système complet avec API REST robuste en NestJS et interface web moderne en React. Intégration avec Chatbase AI pour le traitement des questions, système d'authentification JWT, et panneau administratif pour la gestion des utilisateurs et le suivi des conversations.",
+				"context": "La SNCF SECAFI avait besoin d'un outil interne intelligent pour assister dans la prise de décisions stratégiques, fournissant des estimations et prévisions sur les scénarios futurs du réseau ferroviaire via l'intelligence artificielle. Le système permet aux employés de faire des requêtes complexes et d'obtenir des analyses prédictives basées sur les données historiques et les modèles identifiés.",
+				"solution": "Système complet avec API REST robuste en NestJS et interface web moderne en React. Intégration avec Chatbase AI pour le traitement de requêtes complexes et la génération d'estimations, système d'authentification JWT avec plusieurs niveaux de permissions, et panneau administratif pour la gestion des utilisateurs et le suivi des conversations et prédictions.",
 				"myRole": "J'ai travaillé en tant que Full Stack Developer responsable de tout le développement du projet. J'ai développé toute l'architecture de l'API backend avec NestJS, TypeORM et MySQL, et implémenté complètement le frontend en React, incluant toutes les animations et interactions. Seul le design UI/UX a été fourni par l'équipe de House of Coding via Figma."
 			},
 			"stack": {

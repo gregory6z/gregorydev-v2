@@ -615,15 +615,15 @@
 			]
 		},
 		"sncf-util-ia": {
-			"title": "SNCF IA Reseau",
+			"title": "SNCF SECAFI IA Reseau",
 			"subtitle": "Plataforma de Asistencia Inteligente para Red Ferroviaria",
 			"role": "Full Stack Developer",
 			"period": "Octubre - Diciembre 2024",
 			"status": "Producción",
 			"client": "SNCF (Société Nationale des Chemins de fer Français)",
 			"overview": {
-				"context": "SNCF necesitaba una plataforma interna para optimizar el soporte a los empleados del área de Utilité, proporcionando respuestas instantáneas sobre procedimientos, regulaciones e información técnica de la red ferroviaria a través de inteligencia artificial.",
-				"solution": "Sistema completo con API REST robusta en NestJS e interfaz web moderna en React. Integración con Chatbase AI para procesamiento de preguntas, sistema de autenticación JWT, y panel administrativo para gestión de usuarios y monitoreo de conversaciones.",
+				"context": "SNCF SECAFI necesitaba una herramienta interna inteligente para asistir en la toma de decisiones estratégicas, proporcionando estimaciones y previsiones sobre escenarios futuros de la red ferroviaria a través de inteligencia artificial. El sistema permite que los empleados hagan consultas complejas y obtengan análisis predictivos basados en datos históricos y patrones identificados.",
+				"solution": "Sistema completo con API REST robusta en NestJS e interfaz web moderna en React. Integración con Chatbase AI para procesamiento de consultas complejas y generación de estimaciones, sistema de autenticación JWT con múltiples niveles de permisos, y panel administrativo para gestión de usuarios y monitoreo de conversaciones y predicciones.",
 				"myRole": "Trabajé como Full Stack Developer responsable de todo el desarrollo del proyecto. Desarrollé toda la arquitectura de la API backend con NestJS, TypeORM y MySQL, e implementé completamente el frontend en React, incluyendo todas las animaciones e interacciones. Solo el diseño UI/UX fue proporcionado por el equipo de House of Coding vía Figma."
 			},
 			"stack": {
