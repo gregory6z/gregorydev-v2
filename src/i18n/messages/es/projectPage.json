@@ -624,7 +624,7 @@
 			"overview": {
 				"context": "SNCF necesitaba una plataforma interna para optimizar el soporte a los empleados del área de Utilité, proporcionando respuestas instantáneas sobre procedimientos, regulaciones e información técnica de la red ferroviaria a través de inteligencia artificial.",
 				"solution": "Sistema completo con API REST robusta en NestJS e interfaz web moderna en React. Integración con Chatbase AI para procesamiento de preguntas, sistema de autenticación JWT, y panel administrativo para gestión de usuarios y monitoreo de conversaciones.",
-				"myRole": "Trabajé como desarrollador solo en el backend, creando toda la arquitectura de la API con NestJS, TypeORM y MySQL. En el frontend, trabajé junto con el equipo de diseño de House of Coding (que proporcionó el UI/UX vía Figma), siendo responsable de la implementación completa y las animaciones de la interfaz."
+				"myRole": "Trabajé como Full Stack Developer responsable de todo el desarrollo del proyecto. Desarrollé toda la arquitectura de la API backend con NestJS, TypeORM y MySQL, e implementé completamente el frontend en React, incluyendo todas las animaciones e interacciones. Solo el diseño UI/UX fue proporcionado por el equipo de House of Coding vía Figma."
 			},
 			"stack": {
 				"frontend": ["React", "TypeScript", "Tailwind CSS", "shadcn/ui", "Radix UI", "React Router DOM", "TanStack React Query", "TanStack Table", "React Hook Form", "Zod", "Recharts", "Sonner", "Lucide React"],
