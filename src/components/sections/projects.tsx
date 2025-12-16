@@ -7,6 +7,7 @@ const projectImages: Record<string, string> = {
   "la-bonne-reponse": "/images/projects/lbr/main-lbr.png",
   "les-performeurs": "/images/projects/les-performeurs/main-les-performeurs.png",
   "airwell-iot-router": "/images/projects/router-iot.svg",
+  "sncf-util-ia": "/images/sncf/sncf-main.png",
   "ragboost": "/images/projects/ragboost/ragboost-main.png",
   "va-beauty": "/images/projects/va-beauty/home-hero.png",
 };
