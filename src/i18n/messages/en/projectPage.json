@@ -623,7 +623,7 @@
 			"client": "SNCF (Société Nationale des Chemins de fer Français)",
 			"overview": {
 				"context": "SNCF SECAFI needed an intelligent internal tool to assist in strategic decision-making, providing estimates and forecasts about future railway network scenarios through artificial intelligence. The system allows employees to make complex queries and obtain predictive analyses based on historical data and identified patterns.",
-				"solution": "Complete system with robust REST API in NestJS and modern web interface in React. Integration with Chatbase AI for processing complex queries and generating estimates, JWT authentication system with multiple permission levels, and administrative panel for user management and monitoring conversations and predictions.",
+				"solution": "Complete system with robust REST API in NestJS and modern editable web interface in React. Integration with Chatbase AI for processing complex queries and generating estimates, JWT authentication system, and administrative panel for monitoring conversations and predictions. Fully configurable interface through the API.",
 				"myRole": "I worked as a Full Stack Developer responsible for all project development. I developed the entire backend API architecture with NestJS, TypeORM, and MySQL, and fully implemented the frontend in React, including all animations and interactions. Only the UI/UX design was provided by the House of Coding team via Figma."
 			},
 			"stack": {
@@ -633,14 +633,13 @@
 			"subProjects": [
 				{
 					"title": "SNCF IA Reseau API",
-					"subtitle": "NestJS Backend for Conversation and User Management",
-					"description": "Robust REST API developed in NestJS with modular architecture. Complete JWT authentication system, integration with Chatbase AI for question processing, user management with different permission levels, and conversation monitoring.",
+					"subtitle": "NestJS Backend with Editable Interface via API",
+					"description": "Robust REST API developed in NestJS with modular architecture. Complete JWT authentication system, integration with Chatbase AI for query processing and estimate generation, and fully editable and configurable interface through API endpoints.",
 					"features": {
 						"frontend": [],
 						"backend": [
 							{"name": "JWT Authentication", "description": "Complete system with register/login, refresh tokens, protection guards and Passport strategy"},
 							{"name": "Chatbase AI Integration", "description": "Proxy for Chatbase API with conversation management, history and rate limiting"},
-							{"name": "User Management", "description": "Complete CRUD with profiles (USER, ADMIN, SUPER_ADMIN), soft delete and robust validations"},
 							{"name": "Conversation Monitoring", "description": "Complete conversation history with filters, pagination and statistics"},
 							{"name": "Statistics API", "description": "Dashboard with usage metrics, conversations by period and active user analysis"},
 							{"name": "Structured Logs", "description": "Logging system with Winston for debugging and auditing"},
@@ -676,10 +675,6 @@
 						{"challenge": "Conversation Persistence", "solution": "Optimized schema with indexes, 1:N User-Conversation relationship, soft delete for auditing"},
 						{"challenge": "Data Validation", "solution": "DTOs with class-validator, global transform pipes, custom validators for business rules"},
 						{"challenge": "Docker Development", "solution": "Docker Compose with hot-reload, volumes for MySQL persistence, isolated network, secure environment variables"}
-					],
-					"testing": [
-						{"type": "Documentation", "description": "Complete Swagger with all documented endpoints", "tools": "@nestjs/swagger"},
-						{"type": "Logs", "description": "Structured logging system for debugging and auditing", "tools": "Winston"}
 					]
 				},
 				{

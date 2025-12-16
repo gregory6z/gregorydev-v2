@@ -623,7 +623,7 @@
 			"client": "SNCF (Société Nationale des Chemins de fer Français)",
 			"overview": {
 				"context": "SNCF SECAFI necesitaba una herramienta interna inteligente para asistir en la toma de decisiones estratégicas, proporcionando estimaciones y previsiones sobre escenarios futuros de la red ferroviaria a través de inteligencia artificial. El sistema permite que los empleados hagan consultas complejas y obtengan análisis predictivos basados en datos históricos y patrones identificados.",
-				"solution": "Sistema completo con API REST robusta en NestJS e interfaz web moderna en React. Integración con Chatbase AI para procesamiento de consultas complejas y generación de estimaciones, sistema de autenticación JWT con múltiples niveles de permisos, y panel administrativo para gestión de usuarios y monitoreo de conversaciones y predicciones.",
+				"solution": "Sistema completo con API REST robusta en NestJS e interfaz web moderna editable en React. Integración con Chatbase AI para procesamiento de consultas complejas y generación de estimaciones, sistema de autenticación JWT, y panel administrativo para monitoreo de conversaciones y predicciones. Interfaz totalmente configurable a través de la API.",
 				"myRole": "Trabajé como Full Stack Developer responsable de todo el desarrollo del proyecto. Desarrollé toda la arquitectura de la API backend con NestJS, TypeORM y MySQL, e implementé completamente el frontend en React, incluyendo todas las animaciones e interacciones. Solo el diseño UI/UX fue proporcionado por el equipo de House of Coding vía Figma."
 			},
 			"stack": {
@@ -633,14 +633,13 @@
 			"subProjects": [
 				{
 					"title": "SNCF IA Reseau API",
-					"subtitle": "Backend NestJS para Gestión de Conversaciones y Usuarios",
-					"description": "API REST robusta desarrollada en NestJS con arquitectura modular. Sistema completo de autenticación JWT, integración con Chatbase AI para procesamiento de preguntas, gestión de usuarios con diferentes niveles de permisos, y monitoreo de conversaciones.",
+					"subtitle": "Backend NestJS con Interfaz Editable vía API",
+					"description": "API REST robusta desarrollada en NestJS con arquitectura modular. Sistema completo de autenticación JWT, integración con Chatbase AI para procesamiento de consultas y generación de estimaciones, e interfaz totalmente editable y configurable a través de endpoints de la API.",
 					"features": {
 						"frontend": [],
 						"backend": [
 							{"name": "Autenticación JWT", "description": "Sistema completo con register/login, refresh tokens, guards de protección y estrategia Passport"},
 							{"name": "Integración Chatbase AI", "description": "Proxy para API de Chatbase con gestión de conversaciones, historial y rate limiting"},
-							{"name": "Gestión de Usuarios", "description": "CRUD completo con perfiles (USER, ADMIN, SUPER_ADMIN), soft delete y validaciones robustas"},
 							{"name": "Monitoreo de Conversaciones", "description": "Historial completo de conversaciones con filtros, paginación y estadísticas"},
 							{"name": "API de Estadísticas", "description": "Dashboard con métricas de uso, conversaciones por período y análisis de usuarios activos"},
 							{"name": "Logs Estructurados", "description": "Sistema de logging con Winston para debug y auditoría"},
@@ -676,10 +675,6 @@
 						{"challenge": "Persistencia de Conversaciones", "solution": "Schema optimizado con índices, relación User-Conversation 1:N, soft delete para auditoría"},
 						{"challenge": "Validación de Datos", "solution": "DTOs con class-validator, transform pipes globales, validadores personalizados para reglas de negocio"},
 						{"challenge": "Desarrollo con Docker", "solution": "Docker Compose con hot-reload, volúmenes para persistencia MySQL, red aislada, variables de entorno seguras"}
-					],
-					"testing": [
-						{"type": "Documentación", "description": "Swagger completo con todos los endpoints documentados", "tools": "@nestjs/swagger"},
-						{"type": "Logs", "description": "Sistema de logging estructurado para debug y auditoría", "tools": "Winston"}
 					]
 				},
 				{

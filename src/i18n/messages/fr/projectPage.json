@@ -623,7 +623,7 @@
 			"client": "SNCF (Société Nationale des Chemins de fer Français)",
 			"overview": {
 				"context": "La SNCF SECAFI avait besoin d'un outil interne intelligent pour assister dans la prise de décisions stratégiques, fournissant des estimations et prévisions sur les scénarios futurs du réseau ferroviaire via l'intelligence artificielle. Le système permet aux employés de faire des requêtes complexes et d'obtenir des analyses prédictives basées sur les données historiques et les modèles identifiés.",
-				"solution": "Système complet avec API REST robuste en NestJS et interface web moderne en React. Intégration avec Chatbase AI pour le traitement de requêtes complexes et la génération d'estimations, système d'authentification JWT avec plusieurs niveaux de permissions, et panneau administratif pour la gestion des utilisateurs et le suivi des conversations et prédictions.",
+				"solution": "Système complet avec API REST robuste en NestJS et interface web moderne éditable en React. Intégration avec Chatbase AI pour le traitement de requêtes complexes et la génération d'estimations, système d'authentification JWT, et panneau administratif pour le suivi des conversations et prédictions. Interface entièrement configurable via l'API.",
 				"myRole": "J'ai travaillé en tant que Full Stack Developer responsable de tout le développement du projet. J'ai développé toute l'architecture de l'API backend avec NestJS, TypeORM et MySQL, et implémenté complètement le frontend en React, incluant toutes les animations et interactions. Seul le design UI/UX a été fourni par l'équipe de House of Coding via Figma."
 			},
 			"stack": {
@@ -633,14 +633,13 @@
 			"subProjects": [
 				{
 					"title": "SNCF IA Reseau API",
-					"subtitle": "Backend NestJS pour la Gestion des Conversations et Utilisateurs",
-					"description": "API REST robuste développée en NestJS avec architecture modulaire. Système complet d'authentification JWT, intégration avec Chatbase AI pour le traitement des questions, gestion des utilisateurs avec différents niveaux de permissions, et suivi des conversations.",
+					"subtitle": "Backend NestJS avec Interface Éditable via API",
+					"description": "API REST robuste développée en NestJS avec architecture modulaire. Système complet d'authentification JWT, intégration avec Chatbase AI pour le traitement de requêtes et la génération d'estimations, et interface entièrement éditable et configurable via les endpoints de l'API.",
 					"features": {
 						"frontend": [],
 						"backend": [
 							{"name": "Authentification JWT", "description": "Système complet avec register/login, refresh tokens, guards de protection et stratégie Passport"},
 							{"name": "Intégration Chatbase AI", "description": "Proxy pour l'API Chatbase avec gestion des conversations, historique et rate limiting"},
-							{"name": "Gestion des Utilisateurs", "description": "CRUD complet avec profils (USER, ADMIN, SUPER_ADMIN), soft delete et validations robustes"},
 							{"name": "Suivi des Conversations", "description": "Historique complet des conversations avec filtres, pagination et statistiques"},
 							{"name": "API de Statistiques", "description": "Dashboard avec métriques d'utilisation, conversations par période et analyse des utilisateurs actifs"},
 							{"name": "Logs Structurés", "description": "Système de logging avec Winston pour debug et audit"},
@@ -676,10 +675,6 @@
 						{"challenge": "Persistance des Conversations", "solution": "Schéma optimisé avec index, relation User-Conversation 1:N, soft delete pour audit"},
 						{"challenge": "Validation des Données", "solution": "DTOs avec class-validator, transform pipes globaux, validateurs personnalisés pour règles métier"},
 						{"challenge": "Développement Docker", "solution": "Docker Compose avec hot-reload, volumes pour persistance MySQL, réseau isolé, variables d'environnement sécurisées"}
-					],
-					"testing": [
-						{"type": "Documentation", "description": "Swagger complet avec tous les endpoints documentés", "tools": "@nestjs/swagger"},
-						{"type": "Logs", "description": "Système de logging structuré pour debug et audit", "tools": "Winston"}
 					]
 				},
 				{
