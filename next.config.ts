@@ -17,7 +17,7 @@ const nextConfig: NextConfig = {
 		minimumCacheTTL: 31536000, // 1 year cache
 		dangerouslyAllowSVG: true,
 		contentDispositionType: "attachment",
-		contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+		// CSP removed to allow Spline 3D scene loading
 	},
 
 	// Compression
@@ -44,6 +44,10 @@ const nextConfig: NextConfig = {
 					{
 						key: "Referrer-Policy",
 						value: "origin-when-cross-origin",
+					},
+					{
+						key: "Content-Security-Policy",
+						value: "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://prod.spline.design; worker-src 'self' blob:; child-src blob:;",
 					},
 				],
 			},
