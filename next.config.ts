@@ -55,6 +55,9 @@ const nextConfig: NextConfig = {
 		optimizePackageImports: ["react-icons", "lucide-react"],
 	},
 
+	// Exclude Spline from server bundle to prevent loading issues
+	serverExternalPackages: ["@splinetool/runtime", "@splinetool/react-spline"],
+
 	// Production optimizations
 	poweredByHeader: false,
 	reactStrictMode: true,
