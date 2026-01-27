@@ -6,6 +6,7 @@ export interface ApiResponse<T = unknown> {
   success: boolean;
   data: T;
   message: string;
+  status_code: number;
 }
 
 // Retry is disabled (retry: 0) because React Query handles retries.

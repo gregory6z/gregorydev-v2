@@ -1,18 +1,25 @@
 import { createBrowserRouter } from "react-router-dom";
-import { PublicLayout } from "@/components/layout/public-layout";
-import { PrivateLayout } from "@/components/layout/private-layout";
-import { HomePage } from "@/pages/home-page";
+import { RouteLayout } from "@/components/route-layout";
+import { AuthLayout } from "@/components/auth/auth-layout";
+import { LoginPage } from "@/pages/login-page";
+import { RegisterPage } from "@/pages/register-page";
 
 export const router = createBrowserRouter([
-  // Public routes - redirect to dashboard if authenticated
   {
-    element: <PublicLayout />,
-    children: [{ path: "/", element: <HomePage /> }],
+    element: <RouteLayout type="public" />,
+    children: [
+      {
+        element: <AuthLayout />,
+        children: [
+          { path: "/", element: <LoginPage /> },
+          { path: "/login", element: <LoginPage /> },
+          { path: "/register", element: <RegisterPage /> },
+        ],
+      },
+    ],
   },
-
-  // Private routes - redirect to login if not authenticated
   {
-    element: <PrivateLayout />,
+    element: <RouteLayout type="private" />,
     children: [],
   },
 ]);

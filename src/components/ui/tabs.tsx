@@ -22,12 +22,13 @@ function Tabs({
 }
 
 const tabsListVariants = cva(
-  "rounded-lg p-[3px] group-data-horizontal/tabs:h-9 data-[variant=line]:rounded-none group/tabs-list text-muted-foreground inline-flex w-fit items-center justify-center group-data-[orientation=vertical]/tabs:h-fit group-data-[orientation=vertical]/tabs:flex-col",
+  "group/tabs-list text-muted-foreground inline-flex w-fit items-center justify-center group-data-[orientation=vertical]/tabs:h-fit group-data-[orientation=vertical]/tabs:flex-col",
   {
     variants: {
       variant: {
-        default: "bg-muted",
-        line: "gap-1 bg-transparent",
+        default: "rounded-lg p-[3px] group-data-horizontal/tabs:h-9 bg-muted",
+        line: "rounded-lg p-[3px] group-data-horizontal/tabs:h-9 data-[variant=line]:rounded-none gap-1 bg-transparent",
+        auth: "h-12 gap-1 rounded-[24px] bg-primary-darkest p-[2px]",
       },
     },
     defaultVariants: {
@@ -60,6 +61,8 @@ function TabsTrigger({ className, ...props }: TabsPrimitive.Tab.Props) {
         "group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-active:bg-transparent dark:group-data-[variant=line]/tabs-list:data-active:border-transparent dark:group-data-[variant=line]/tabs-list:data-active:bg-transparent",
         "data-active:bg-background dark:data-active:text-foreground dark:data-active:border-input dark:data-active:bg-input/30 data-active:text-foreground",
         "after:bg-foreground after:absolute after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-active:after:opacity-100",
+        // Auth variant
+        "group-data-[variant=auth]/tabs-list:!h-full group-data-[variant=auth]/tabs-list:!rounded-full group-data-[variant=auth]/tabs-list:!border-none group-data-[variant=auth]/tabs-list:!px-[26px] group-data-[variant=auth]/tabs-list:!py-3 group-data-[variant=auth]/tabs-list:!text-lg group-data-[variant=auth]/tabs-list:!font-normal group-data-[variant=auth]/tabs-list:!font-display group-data-[variant=auth]/tabs-list:!text-white/60 group-data-[variant=auth]/tabs-list:hover:!text-white group-data-[variant=auth]/tabs-list:data-active:!bg-white/15 group-data-[variant=auth]/tabs-list:data-active:!text-white group-data-[variant=auth]/tabs-list:data-active:!font-semibold group-data-[variant=auth]/tabs-list:data-active:!shadow-none group-data-[variant=auth]/tabs-list:after:!hidden",
         className,
       )}
       {...props}
