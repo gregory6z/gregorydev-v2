@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import bgAuthenticate from "@/assets/bg-authenticate.png";
 import energerLogoWhite from "@/assets/energer-logo-white.svg";
 import { Card } from "@/components/ui/card";
+import { EnvironmentBadge } from "@/components/ui/environment-badge";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 type AuthLayoutProps = {
@@ -29,7 +30,9 @@ export const AuthLayout = ({ showTabs = true }: AuthLayoutProps) => {
       className="min-h-screen flex flex-col items-center bg-cover bg-center bg-no-repeat font-display pt-15 pb-15"
       style={{ backgroundImage: `url(${bgAuthenticate})` }}
     >
-      <img src={energerLogoWhite} alt="Energer" className="w-67 h-16 mb-16" />
+      <img src={energerLogoWhite} alt="Energer" className="w-67 h-16 mb-4" />
+      <EnvironmentBadge />
+      <div className="mb-8" />
       <Card variant="auth">
         <div className="flex flex-col gap-10">
           {showTabs && (
