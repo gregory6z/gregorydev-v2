@@ -34,10 +34,36 @@ export const RegisterStepUser = ({
   );
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const digits = e.target.value.replace(/\D/g, "").slice(0, 10);
-    const formatted = formatPhone(digits);
-    setPhoneDisplay(formatted);
-    setValue("userPhone", digits, { shouldValidate: false });
+    const input = e.target.value;
+
+    // Check if user is typing international format (+33)
+    if (
+      input.startsWith("+33") ||
+      input.startsWith("+3") ||
+      input.startsWith("+")
+    ) {
+      // Extract digits after +33
+      const digitsAfterPrefix = input.slice(1).replace(/\D/g, "");
+
+      // Limit to +33 + 9 digits
+      if (digitsAfterPrefix.startsWith("33")) {
+        const phoneDigits = digitsAfterPrefix.slice(2, 11); // max 9 digits after 33
+        const rawValue = `+33${phoneDigits}`;
+        const formatted = formatPhone(rawValue);
+        setPhoneDisplay(formatted);
+        setValue("userPhone", rawValue, { shouldValidate: false });
+      } else if (digitsAfterPrefix.length <= 2) {
+        // User is still typing +3 or +33
+        setPhoneDisplay(input);
+        setValue("userPhone", input, { shouldValidate: false });
+      }
+    } else {
+      // National format: 10 digits
+      const digits = input.replace(/\D/g, "").slice(0, 10);
+      const formatted = formatPhone(digits);
+      setPhoneDisplay(formatted);
+      setValue("userPhone", digits, { shouldValidate: false });
+    }
   };
 
   const handleSubmit = async () => {
@@ -114,7 +140,7 @@ export const RegisterStepUser = ({
           <Input
             variant="auth"
             placeholder={t("register.step3.phonePlaceholder")}
-            inputMode="tel"
+            type="tel"
             aria-invalid={!!errors.userPhone}
             value={phoneDisplay}
             onChange={handlePhoneChange}

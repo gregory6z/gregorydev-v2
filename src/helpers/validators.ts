@@ -2,8 +2,8 @@
 // Regex
 // ──────────────────────────────────────────────
 
-/** French phone: 10 digits */
-export const FRENCH_PHONE_REGEX = /^\d{10}$/;
+/** French phone: 10 digits (0612345678) or international format (+33612345678) */
+export const FRENCH_PHONE_REGEX = /^(?:\d{10}|\+33\d{9})$/;
 
 // ──────────────────────────────────────────────
 // Validators
