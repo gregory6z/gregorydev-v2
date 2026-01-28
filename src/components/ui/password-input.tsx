@@ -37,7 +37,7 @@ export const PasswordInput = React.forwardRef<
         className={cn(
           "pr-10",
           !visible &&
-            "font-[Roboto] text-xs leading-[140%] tracking-[0.8em] placeholder:font-display placeholder:text-lg placeholder:leading-[140%] placeholder:tracking-normal",
+            "placeholder:font-display placeholder:text-lg placeholder:leading-[140%] placeholder:tracking-normal",
           className,
         )}
         {...props}

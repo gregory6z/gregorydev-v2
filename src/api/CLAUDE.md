@@ -29,11 +29,36 @@ Each component calls its own hooks. React Query handles caching. Don't fetch in 
 
 Errors are based on `status_code`, never on `message`.
 
-- Mocks return `message` in **English** (internal codes for logs/debug only)
-- Mutations throw a native `Error` with the `status_code` as string: `throw new Error(String(response.status_code))`
-- Components translate via i18n using the status code: `t(`errors.${error.message}`)` → `t("errors.401")`
-- Translation keys are HTTP status codes: `"401"`, `"403"`, `"500"`, `"unknown"`
-- The `message` field from the API is **never** displayed to the user
+### Error Propagation Flow
+
+```
+API response { success: false, status_code: 401 }
+        │
+        ▼
+unwrapResponse() (client.ts)
+  → throw new Error(String(status_code))   // Error("401")
+        │
+        ▼
+React Query catches the error
+  → mutation.error = Error("401")
+  → mutation.isError = true
+        │
+        ▼
+Component reads mutation.error.message
+  → t(`errors.${mutation.error.message}`)  // t("errors.401")
+        │
+        ▼
+i18n resolves the key (auth.json)
+  → "errors.401" → "Identifiants incorrects"
+```
+
+### Rules
+
+- All mutations use `unwrapResponse()` from `client.ts` to standardize error handling
+- `unwrapResponse()` checks `response.success` — returns `data` on success, throws `Error(status_code)` on failure
+- Components catch errors and translate via i18n using the status code: `t(`errors.${error.message}`)`
+- Translation keys are HTTP status codes: `"401"`, `"403"`, `"404"`, `"409"`, `"500"`, `"unknown"`
+- The `message` field from the API is **never** displayed to the user — it exists only for logs/debug
 
 ## HTTP Client (ky)
 
@@ -43,6 +68,7 @@ Configured in `client.ts`:
 - Retry: 0 (React Query handles retries)
 - Auto-injects JWT from localStorage via beforeRequest hook
 - All responses follow `ApiResponse<T>` envelope: `{ success, data, message, status_code }`
+- Exports `unwrapResponse<T>()` — the single entry point for unwrapping API responses in mutations
 
 ## Schemas & Types
 
@@ -66,7 +92,9 @@ Configured in `client.ts`:
 
 ## Mutations (useMutation)
 
-- Use `onSuccess` for side effects (cache update, localStorage, redirect)
+- Always wrap API calls with `unwrapResponse()` inside `mutationFn`
+- `onSuccess` in mutation definition: only for universal side effects (e.g. localStorage token storage)
+- `onSuccess` in component: for navigation, step transitions, UI-specific logic
 - Use `queryClient.invalidateQueries` after mutations that change data
 - Optimistic updates: `onMutate` → `onError` rollback → `onSettled` invalidate
 

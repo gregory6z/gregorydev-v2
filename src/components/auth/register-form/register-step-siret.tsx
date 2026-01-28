@@ -1,0 +1,81 @@
+import { useState } from "react";
+import { useFormContext } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import { useLookupSiret } from "@/api/auth/mutations";
+import { formatSiret } from "@/helpers/formatters";
+import type { RegisterFormData, SiretLookupResponse } from "@/api/auth/schemas";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+
+type RegisterStepSiretProps = {
+  onNext: (data: SiretLookupResponse) => void;
+};
+
+export const RegisterStepSiret = ({ onNext }: RegisterStepSiretProps) => {
+  const { t } = useTranslation("auth");
+  const lookupSiret = useLookupSiret();
+
+  const {
+    setValue,
+    trigger,
+    getValues,
+    formState: { errors },
+  } = useFormContext<RegisterFormData>();
+
+  const [display, setDisplay] = useState(() =>
+    formatSiret(getValues("siret") ?? ""),
+  );
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const digits = e.target.value.replace(/\D/g, "").slice(0, 14);
+    const formatted = formatSiret(digits);
+    setDisplay(formatted);
+    setValue("siret", digits, { shouldValidate: false });
+  };
+
+  const handleNext = async () => {
+    const valid = await trigger("siret");
+    if (!valid) return;
+
+    lookupSiret.mutate(getValues("siret"), {
+      onSuccess: (data) => onNext(data),
+    });
+  };
+
+  return (
+    <div className="flex flex-col gap-10">
+      <div className="flex flex-col gap-1.5">
+        <Label variant="auth">{t("register.step1.siret")}</Label>
+        <Input
+          variant="auth"
+          placeholder={t("register.step1.siretPlaceholder")}
+          inputMode="numeric"
+          aria-invalid={!!errors.siret}
+          value={display}
+          onChange={handleChange}
+        />
+        {errors.siret && (
+          <p className="text-base text-primary">
+            {t(errors.siret.message as string)}
+          </p>
+        )}
+      </div>
+
+      {lookupSiret.isError && (
+        <p className="text-base text-primary">
+          {t(`register.errors.${lookupSiret.error.message}`)}
+        </p>
+      )}
+
+      <Button
+        type="button"
+        size="auth"
+        disabled={lookupSiret.isPending}
+        onClick={handleNext}
+      >
+        {t("register.step1.next")}
+      </Button>
+    </div>
+  );
+};

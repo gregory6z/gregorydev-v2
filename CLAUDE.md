@@ -26,6 +26,9 @@ src/
 │   ├── i18n.ts             # i18next configuration
 │   └── locales/fr/         # French translations per feature
 ├── contexts/               # React contexts
+├── helpers/
+│   ├── validators.ts       # Regex, Luhn, validation functions
+│   └── formatters.ts       # Sanitizers (cleanPhone), display formatters (formatSiret, formatPhone)
 ├── lib/
 │   ├── react-query/        # QueryClient config
 │   └── utils.ts            # Utility functions (cn, etc.)
@@ -96,3 +99,21 @@ All components and functions use **arrow functions**. No `function` declarations
 - Create `common` i18n namespace
 - Pass API data via props from parent to child
 - Use `function` declarations
+- Use Zod `transform` in schemas used with React Hook Form (zodResolver validates but does not apply transforms to form state)
+
+## Zod + React Hook Form
+
+Zod schemas must remain **pure validation** — no `.transform()`. React Hook Form's `zodResolver` uses Zod for validation only; transforms are not applied to the form state.
+
+**Data transformation** (e.g., stripping spaces from phone numbers) must happen in the **mutation layer** (`mutations.ts`) before sending to the API.
+
+```typescript
+// schemas.ts — validation only
+phone: z.string()
+  .min(1, "validation.phoneRequired")
+  .regex(/^(?:(?:\+33|0033)\s?|0)[1-9](?:[\s.-]?\d{2}){4}$/, "validation.phoneInvalid"),
+
+// mutations.ts — transform before sending
+const cleanPhone = (v: string) => v.replace(/[\s.-]/g, "");
+const payload = { ...data, phone: cleanPhone(data.phone) };
+```

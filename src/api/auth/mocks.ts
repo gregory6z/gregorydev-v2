@@ -1,12 +1,35 @@
 import type { ApiResponse } from "@/api/client";
-import type { LoginFormData, LoginResponse } from "./schemas";
+import type {
+  LoginFormData,
+  LoginResponse,
+  RegisterFormData,
+  RegisterResponse,
+  SiretLookupResponse,
+} from "./schemas";
 
 const MOCK_DELAY = 800;
 
 const MOCK_USER = {
-  email: "gregory@houseofocoding.fr",
+  email: "gregory@houseofcoding.fr",
   password: "gregory",
 };
+
+// ── JWT Mock Helper ──────────────────────────────────────────────────────────
+
+/** Creates a fake JWT with a valid `exp` claim. Not cryptographically signed. */
+const createMockJwt = (expiresInSeconds: number): string => {
+  const header = btoa(JSON.stringify({ alg: "HS256", typ: "JWT" }));
+  const payload = btoa(
+    JSON.stringify({
+      sub: "mock-user-1",
+      exp: Math.floor(Date.now() / 1_000) + expiresInSeconds,
+    }),
+  );
+  const signature = btoa("mock-signature");
+  return `${header}.${payload}.${signature}`;
+};
+
+// ── Auth Mocks ───────────────────────────────────────────────────────────────
 
 export const mockLogin = (
   data: LoginFormData,
@@ -19,17 +42,78 @@ export const mockLogin = (
       ) {
         resolve({
           success: true,
-          data: { token: "mock-jwt-token-xyz" },
+          data: { access_token: createMockJwt(900) },
           message: "LOGIN_SUCCESS",
           status_code: 200,
         });
       } else {
         resolve({
           success: false,
-          data: { token: "" },
+          data: { access_token: "" },
           message: "INVALID_CREDENTIALS",
           status_code: 401,
         });
       }
+    }, MOCK_DELAY);
+  });
+
+export const mockRefreshToken = (): Promise<ApiResponse<LoginResponse>> =>
+  new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({
+        success: true,
+        data: { access_token: createMockJwt(900) },
+        message: "TOKEN_REFRESHED",
+        status_code: 200,
+      });
+    }, MOCK_DELAY);
+  });
+
+// ── SIRET & Register Mocks ──────────────────────────────────────────────────
+
+export const mockLookupSiret = (
+  siret: string,
+): Promise<ApiResponse<SiretLookupResponse>> =>
+  new Promise((resolve) => {
+    setTimeout(() => {
+      if (siret === "10000000000008") {
+        resolve({
+          success: false,
+          data: { companyName: "", address: "" },
+          message: "SIRET_NOT_FOUND",
+          status_code: 404,
+        });
+      } else if (siret === "10000000000016") {
+        resolve({
+          success: false,
+          data: { companyName: "", address: "" },
+          message: "COMPANY_ALREADY_REGISTERED",
+          status_code: 409,
+        });
+      } else {
+        resolve({
+          success: true,
+          data: {
+            companyName: "House of Coding",
+            address: "10 rue de la Paix, 75002 Paris",
+          },
+          message: "SIRET_FOUND",
+          status_code: 200,
+        });
+      }
+    }, MOCK_DELAY);
+  });
+
+export const mockRegister = (
+  _data: RegisterFormData,
+): Promise<ApiResponse<RegisterResponse>> =>
+  new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({
+        success: true,
+        data: { id: "new-user-1", status: "PENDING" },
+        message: "REGISTER_SUCCESS",
+        status_code: 201,
+      });
     }, MOCK_DELAY);
   });

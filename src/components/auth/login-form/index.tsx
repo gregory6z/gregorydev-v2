@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
 import { loginSchema, type LoginFormData } from "@/api/auth/schemas";
 import { useLogin } from "@/api/auth/mutations";
+import { useAuth } from "@/contexts/auth-context";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -12,7 +13,8 @@ import { PasswordInput } from "@/components/ui/password-input";
 export const LoginForm = () => {
   const { t } = useTranslation("auth");
   const navigate = useNavigate();
-  const login = useLogin();
+  const auth = useAuth();
+  const loginMutation = useLogin();
 
   const {
     register,
@@ -23,8 +25,11 @@ export const LoginForm = () => {
   });
 
   const onSubmit = (data: LoginFormData) => {
-    login.mutate(data, {
-      onSuccess: () => navigate("/dashboard"),
+    loginMutation.mutate(data, {
+      onSuccess: (response) => {
+        auth.login(response.access_token);
+        navigate("/dashboard");
+      },
     });
   };
 
@@ -62,14 +67,14 @@ export const LoginForm = () => {
           )}
         </div>
 
-        {login.isError && (
+        {loginMutation.isError && (
           <p className="text-base text-primary">
-            {t(`errors.${login.error.message}`)}
+            {t(`errors.${loginMutation.error.message}`)}
           </p>
         )}
       </div>
 
-      <Button type="submit" disabled={login.isPending} size="auth">
+      <Button type="submit" disabled={loginMutation.isPending} size="auth">
         {t("login.submit")}
       </Button>
 
