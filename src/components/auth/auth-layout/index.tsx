@@ -5,7 +5,11 @@ import energerLogoWhite from "@/assets/energer-logo-white.svg";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-export const AuthLayout = () => {
+type AuthLayoutProps = {
+  showTabs?: boolean;
+};
+
+export const AuthLayout = ({ showTabs = true }: AuthLayoutProps) => {
   const { t } = useTranslation("auth");
   const navigate = useNavigate();
   const location = useLocation();
@@ -28,12 +32,14 @@ export const AuthLayout = () => {
       <img src={energerLogoWhite} alt="Energer" className="w-67 h-16 mb-16" />
       <Card variant="auth">
         <div className="flex flex-col gap-10">
-          <Tabs value={activeTab} onValueChange={handleTabChange}>
-            <TabsList variant="auth">
-              <TabsTrigger value="login">{t("tabs.login")}</TabsTrigger>
-              <TabsTrigger value="register">{t("tabs.register")}</TabsTrigger>
-            </TabsList>
-          </Tabs>
+          {showTabs && (
+            <Tabs value={activeTab} onValueChange={handleTabChange}>
+              <TabsList variant="auth">
+                <TabsTrigger value="login">{t("tabs.login")}</TabsTrigger>
+                <TabsTrigger value="register">{t("tabs.register")}</TabsTrigger>
+              </TabsList>
+            </Tabs>
+          )}
           <Outlet />
         </div>
       </Card>

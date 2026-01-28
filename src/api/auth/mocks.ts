@@ -1,9 +1,13 @@
 import type { ApiResponse } from "@/api/client";
 import type {
+  ForgotPasswordFormData,
+  ForgotPasswordResponse,
   LoginFormData,
   LoginResponse,
   RegisterFormData,
   RegisterResponse,
+  ResetPasswordFormData,
+  ResetPasswordResponse,
   SiretLookupResponse,
 } from "./schemas";
 
@@ -115,5 +119,58 @@ export const mockRegister = (
         message: "REGISTER_SUCCESS",
         status_code: 201,
       });
+    }, MOCK_DELAY);
+  });
+
+// ── Forgot Password Mock ────────────────────────────────────────────────────
+
+export const mockForgotPassword = (
+  _data: ForgotPasswordFormData,
+): Promise<ApiResponse<ForgotPasswordResponse>> =>
+  new Promise((resolve) => {
+    setTimeout(() => {
+      // Always success (security: don't reveal if email exists or not)
+      resolve({
+        success: true,
+        data: { success: true },
+        message: "FORGOT_PASSWORD_EMAIL_SENT",
+        status_code: 200,
+      });
+    }, MOCK_DELAY);
+  });
+
+// ── Reset Password Mock ─────────────────────────────────────────────────────
+
+const MOCK_VALID_TOKEN = "valid-reset-token";
+const MOCK_EXPIRED_TOKEN = "expired-reset-token";
+
+export const mockResetPassword = (
+  token: string,
+  _data: ResetPasswordFormData,
+): Promise<ApiResponse<ResetPasswordResponse>> =>
+  new Promise((resolve) => {
+    setTimeout(() => {
+      if (token === MOCK_EXPIRED_TOKEN) {
+        resolve({
+          success: false,
+          data: { success: true },
+          message: "EXPIRED_TOKEN",
+          status_code: 410,
+        });
+      } else if (token !== MOCK_VALID_TOKEN) {
+        resolve({
+          success: false,
+          data: { success: true },
+          message: "INVALID_TOKEN",
+          status_code: 400,
+        });
+      } else {
+        resolve({
+          success: true,
+          data: { success: true },
+          message: "PASSWORD_RESET_SUCCESS",
+          status_code: 200,
+        });
+      }
     }, MOCK_DELAY);
   });

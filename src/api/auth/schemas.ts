@@ -100,3 +100,43 @@ export type RegisterResponse = {
   id: string;
   status: "PENDING";
 };
+
+// ──────────────────────────────────────────────
+// Forgot Password
+// ──────────────────────────────────────────────
+
+export const forgotPasswordSchema = z.object({
+  email: z.email("validation.emailInvalid"),
+});
+
+export type ForgotPasswordFormData = z.infer<typeof forgotPasswordSchema>;
+
+export type ForgotPasswordResponse = {
+  success: true;
+};
+
+// ──────────────────────────────────────────────
+// Reset Password
+// ──────────────────────────────────────────────
+
+export const resetPasswordSchema = z
+  .object({
+    password: z
+      .string()
+      .min(8, "validation.passwordMinLength")
+      .regex(/[A-Z]/, "validation.passwordUppercase")
+      .regex(/[a-z]/, "validation.passwordLowercase")
+      .regex(/\d/, "validation.passwordDigit")
+      .regex(/[^A-Za-z0-9]/, "validation.passwordSpecial"),
+    confirmPassword: z.string().min(1, "validation.confirmPasswordRequired"),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "validation.passwordsMismatch",
+    path: ["confirmPassword"],
+  });
+
+export type ResetPasswordFormData = z.infer<typeof resetPasswordSchema>;
+
+export type ResetPasswordResponse = {
+  success: true;
+};

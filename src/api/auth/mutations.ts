@@ -2,12 +2,20 @@ import { useMutation } from "@tanstack/react-query";
 import { unwrapResponse } from "@/api/client";
 import { cleanPhone } from "@/helpers/formatters";
 import {
+  mockForgotPassword,
   mockLogin,
   mockLookupSiret,
   mockRefreshToken,
   mockRegister,
+  mockResetPassword,
 } from "./mocks";
-import type { LoginFormData, LoginResponse, RegisterFormData } from "./schemas";
+import type {
+  ForgotPasswordFormData,
+  LoginFormData,
+  LoginResponse,
+  RegisterFormData,
+  ResetPasswordFormData,
+} from "./schemas";
 
 // ── Functions (called outside React components, e.g. timers, interceptors) ──
 
@@ -48,5 +56,28 @@ export const useRegister = () => {
       };
       return unwrapResponse(await mockRegister(payload));
     },
+  });
+};
+
+// TODO: Replace with real API call
+// api.post("auth/forgot-password", { json: data }).json<ApiResponse<ForgotPasswordResponse>>()
+export const useForgotPassword = () => {
+  return useMutation({
+    mutationFn: async (data: ForgotPasswordFormData) =>
+      unwrapResponse(await mockForgotPassword(data)),
+  });
+};
+
+// TODO: Replace with real API call
+// api.post("auth/reset-password", { json: { token, ...data } }).json<ApiResponse<ResetPasswordResponse>>()
+export const useResetPassword = () => {
+  return useMutation({
+    mutationFn: async ({
+      token,
+      data,
+    }: {
+      token: string;
+      data: ResetPasswordFormData;
+    }) => unwrapResponse(await mockResetPassword(token, data)),
   });
 };
