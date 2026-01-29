@@ -134,9 +134,9 @@ export const OperationsTable = () => {
             <Button
               variant="ghost"
               onClick={() => setDeleteDialogOpen(true)}
-              className="h-9 gap-2 font-display text-base font-medium leading-5 text-foreground"
+              className="h-9 gap-2 font-display text-base font-medium text-foreground"
             >
-              <Trash2 className="h-4 w-4" />
+              <Trash2 className="size-4" />
               {t("delete")}
             </Button>
           )}

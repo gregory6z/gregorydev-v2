@@ -92,10 +92,13 @@ const DataTablePagination = <T extends PaginationFilters>({
           value={String(filters.perPage)}
           onValueChange={(v) => handlePerPageChange(Number(v))}
         >
-          <SelectTrigger className="w-14 h-8 text-sm border-none shadow-none px-0">
+          <SelectTrigger className="w-14 h-8 text-sm border-none shadow-none px-0 !bg-white">
             <SelectValue />
           </SelectTrigger>
-          <SelectContent alignItemWithTrigger={false} className="min-w-[60px]">
+          <SelectContent
+            alignItemWithTrigger={false}
+            className="min-w-[60px] bg-white"
+          >
             {perPageOptions.map((option) => (
               <SelectItem
                 key={option}

@@ -23,6 +23,7 @@
   "selected_one": "{{count}} opération sélectionnée",
   "selected_other": "{{count}} opérations sélectionnées",
   "delete": "Supprimer",
+  "perPage": "par page",
   "deleteDialog": {
     "title_one": "Supprimer l'opération",
     "title_other": "Supprimer les opérations",
