@@ -18,9 +18,15 @@ src/
 │   ├── client.ts           # ky instance
 │   └── {feature}/          # queries.ts, mutations.ts, schemas.ts
 ├── components/
-│   ├── ui/                 # shadcn/ui components (flat)
-│   ├── layout/             # Layout components (public, private)
-│   └── {feature}/          # Feature-specific components
+│   ├── ui/                 # Generic reusable components - shadcn pattern (see src/components/ui/CLAUDE.md)
+│   │   ├── data-table.tsx            # DataTable, Header, Body, SortableHeader, Loading
+│   │   ├── data-table-pagination.tsx # Server-side pagination
+│   │   ├── data-table-search.tsx     # Search input
+│   │   └── ...                       # Other shadcn components
+│   ├── app-layout/         # Main app layout (Header + Outlet)
+│   ├── auth/auth-layout/   # Auth pages layout (tabs + Outlet)
+│   ├── route-layout/       # Route guards (public/private)
+│   └── operations/         # Operations feature (see src/components/operations/CLAUDE.md)
 ├── pages/                  # Flat page files (login-page.tsx, etc.)
 ├── i18n/                   # Internationalization (see src/i18n/CLAUDE.md)
 │   ├── i18n.ts             # i18next configuration
@@ -29,6 +35,7 @@ src/
 ├── helpers/
 │   ├── validators.ts       # Regex, Luhn, validation functions
 │   └── formatters.ts       # Sanitizers (cleanPhone), display formatters (formatSiret, formatPhone)
+├── hooks/                  # Custom hooks (use-debounced-value, use-format-date, etc.)
 ├── lib/
 │   ├── react-query/        # QueryClient config
 │   └── utils.ts            # Utility functions (cn, etc.)
@@ -40,6 +47,8 @@ src/
 ## Detailed Documentation
 
 - **API Layer**: `src/api/CLAUDE.md`
+- **UI Components (shadcn pattern)**: `src/components/ui/CLAUDE.md`
+- **Operations Components**: `src/components/operations/CLAUDE.md`
 - **Internationalization**: `src/i18n/CLAUDE.md`
 
 ## Conventions
@@ -77,6 +86,15 @@ All components and functions use **arrow functions**. No `function` declarations
 /operations         - Operations list (protected)
 ```
 
+## Layouts et Outlet (React Router)
+
+Les layouts utilisent `<Outlet />` de React Router pour rendre les pages enfants.
+
+- Les layouts sont définis dans `Router.tsx` comme éléments parents des routes
+- Chaque layout rend ses pages enfants via `<Outlet />`
+- **Les pages ne doivent jamais importer ni wrapper leur contenu avec un layout**
+- Le contenu d'une page est rendu directement, sans wrapper (utiliser `<>...</>` si nécessaire)
+
 ## Development Workflow
 
 1. **Analysis**: Read the codebase to understand current implementation
@@ -105,15 +123,13 @@ All components and functions use **arrow functions**. No `function` declarations
 
 Zod schemas must remain **pure validation** — no `.transform()`. React Hook Form's `zodResolver` uses Zod for validation only; transforms are not applied to the form state.
 
-**Data transformation** (e.g., stripping spaces from phone numbers) must happen in the **mutation layer** (`mutations.ts`) before sending to the API.
+Data transformation (e.g., stripping spaces from phone numbers) must happen in the **mutation layer** (`mutations.ts`) before sending to the API.
 
-```typescript
-// schemas.ts — validation only
-phone: z.string()
-  .min(1, "validation.phoneRequired")
-  .regex(/^(?:(?:\+33|0033)\s?|0)[1-9](?:[\s.-]?\d{2}){4}$/, "validation.phoneInvalid"),
+## State Management avec setFilters
 
-// mutations.ts — transform before sending
-const cleanPhone = (v: string) => v.replace(/[\s.-]/g, "");
-const payload = { ...data, phone: cleanPhone(data.phone) };
-```
+Pour les composants avec filtres (tables, listes), utiliser le pattern `filters` + `setFilters`:
+
+- Le composant parent définit l'état `filters` avec `useState`
+- Les composants enfants reçoivent `filters` et `setFilters` en props
+- La logique de mise à jour est dans le composant qui en a besoin (ex: `DataTablePagination` gère la pagination)
+- Utiliser des noms explicites dans les callbacks: `setFilters((filters) => ...)` pas `setFilters((f) => ...)`

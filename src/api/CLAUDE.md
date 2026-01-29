@@ -31,32 +31,16 @@ Errors are based on `status_code`, never on `message`.
 
 ### Error Propagation Flow
 
-```
-API response { success: false, status_code: 401 }
-        │
-        ▼
-unwrapResponse() (client.ts)
-  → throw new Error(String(status_code))   // Error("401")
-        │
-        ▼
-React Query catches the error
-  → mutation.error = Error("401")
-  → mutation.isError = true
-        │
-        ▼
-Component reads mutation.error.message
-  → t(`errors.${mutation.error.message}`)  // t("errors.401")
-        │
-        ▼
-i18n resolves the key (auth.json)
-  → "errors.401" → "Identifiants incorrects"
-```
+1. API response returns `{ success: false, status_code: 401 }`
+2. `unwrapResponse()` throws `Error(String(status_code))`
+3. React Query catches the error (`mutation.error`, `mutation.isError`)
+4. Component translates via i18n: `t(\`errors.${error.message}\`)`
 
 ### Rules
 
 - All mutations use `unwrapResponse()` from `client.ts` to standardize error handling
 - `unwrapResponse()` checks `response.success` — returns `data` on success, throws `Error(status_code)` on failure
-- Components catch errors and translate via i18n using the status code: `t(`errors.${error.message}`)`
+- Components catch errors and translate via i18n using the status code
 - Translation keys are HTTP status codes: `"401"`, `"403"`, `"404"`, `"409"`, `"500"`, `"unknown"`
 - The `message` field from the API is **never** displayed to the user — it exists only for logs/debug
 
@@ -72,10 +56,17 @@ Configured in `client.ts`:
 
 ## Schemas & Types
 
-### When to use Zod vs TypeScript Interface
+### When to use Zod vs TypeScript Type
 
 - **Zod schemas**: Forms with user input that needs validation
-- **TypeScript interfaces**: API response types, internal data structures (no validation needed)
+- **TypeScript types**: API response types, internal data structures (no validation needed)
+
+### Const Enums Pattern
+
+Use `as const` objects for enums, with a derived type for type-safety:
+- Define a const object with values
+- Derive a union type with `(typeof Obj)[keyof typeof Obj]`
+- Use the object for runtime values, the type for compile-time checking
 
 ### Zod 4
 
@@ -85,18 +76,61 @@ Configured in `client.ts`:
 
 ## Queries (useQuery)
 
-- Use query key factories for consistency
-- Use `enabled` for conditional/dependent queries
-- Use `queryOptions` for reusable/prefetchable queries
+### Query Keys Factory
+
+Each feature exports a `keys` factory in `queries.ts` for consistent cache management:
+- `all`: Base key for the feature
+- `counts()`: For count queries
+- `lists()`: For all list queries
+- `list(filters)`: For a specific filtered list
+
+**Why?**
+- **Granular invalidation**: Invalidate all, just counts, all lists, or a specific filtered list
+- **Consistency**: No typos, all queries use the same format
+- **Hierarchy**: Parent keys invalidate all children
+- **Type-safety**: `as const` ensures correct type inference
+
+### Query Options
+
+| Option | When to use |
+|--------|-------------|
+| `enabled` | Conditional or dependent queries |
+| `staleTime` | Data that rarely changes (e.g., config, static lists) |
+| `refetchOnWindowFocus` | Disable for data that doesn't change often |
+| `placeholderData` | Keep old data during loading (pagination) |
+| `refetch` | Force manual refetch (rare, prefer invalidation) |
+
+### Rules
+
 - Include all dependencies in `queryKey`
+- Use `queryOptions` for reusable/prefetchable queries
+- Use `placeholderData: keepPreviousData` to avoid loading flash during pagination
 
 ## Mutations (useMutation)
 
-- Always wrap API calls with `unwrapResponse()` inside `mutationFn`
-- `onSuccess` in mutation definition: only for universal side effects (e.g. localStorage token storage)
-- `onSuccess` in component: for navigation, step transitions, UI-specific logic
-- Use `queryClient.invalidateQueries` after mutations that change data
-- Optimistic updates: `onMutate` → `onError` rollback → `onSettled` invalidate
+### Why Mutations Don't Need a Keys Factory
+
+Queries are cached and identified by `queryKey`. Mutations are not cached - they execute an action and don't store the result. What matters is **invalidating the affected queries** afterward.
+
+### Separation of Concerns
+
+**In `mutations.ts` (cache logic):**
+- `onSettled`: cache invalidation with `queryClient.invalidateQueries`
+- All data and cache related logic
+
+**In component (UI logic):**
+- `onSuccess`: navigation, close dialog, reset form, change step
+- `onError`: show error toast, user feedback
+
+This separation ensures mutations handle cache consistently, and components only handle what happens next in the UI.
+
+## setFilters Pattern
+
+For components with filters (tables, paginated lists):
+- Parent component defines `filters` state with `useState`
+- Child components (e.g., `DataTablePagination`) receive `filters` and `setFilters` as props
+- Update logic lives in the component that needs it
+- Use explicit names in callbacks: `setFilters((filters) => ...)` not `setFilters((f) => ...)`
 
 ## Best Practices
 
