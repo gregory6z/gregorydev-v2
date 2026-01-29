@@ -44,6 +44,7 @@
 
     /* Energer custom tokens */
     --color-primary-dark: #007f72;
+    --color-primary-dark-10: #007f721a;
     --color-primary-darker: #004d52;
     --color-primary-darkest: #053334;
     --color-surface: #dedcd4;
@@ -51,8 +52,25 @@
     --color-warning: #f5a623;
     --color-gray-200: #697077;
     --color-gray-300: #545454;
+    --color-gray-disabled: #bababa;
+    --color-gray-disabled-20: #bababa33;
+    --color-table-border: #ecebe8;
     --font-display: "Rajdhani", sans-serif;
     --font-body: "Inter", sans-serif;
+
+    /* Badge status colors */
+    --color-status-progress: #697077;
+    --color-status-progress-bg: #eceae7;
+    --color-status-done: #697077;
+    --color-status-done-bg: #eceae7;
+
+    /* Badge conformity colors */
+    --color-conformity-ok: #00b48f;
+    --color-conformity-ok-bg: #e6f7f4;
+    --color-conformity-error: #de1132;
+    --color-conformity-error-bg: #fce8eb;
+    --color-conformity-pending: #b9b9b9;
+    --color-conformity-pending-bg: #eceae7;
 }
 
 :root {

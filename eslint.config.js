@@ -19,5 +19,15 @@ export default defineConfig([
       ecmaVersion: 2020,
       globals: globals.browser,
     },
+    rules: {
+      // Allow unused vars prefixed with underscore
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
+      ],
+      // Disable React Compiler warnings (TanStack Table, recursive callbacks)
+      "react-hooks/incompatible-library": "off",
+      "react-hooks/immutability": "off",
+    },
   },
 ]);

@@ -31,10 +31,26 @@ Errors are based on `status_code`, never on `message`.
 
 ### Error Propagation Flow
 
-1. API response returns `{ success: false, status_code: 401 }`
-2. `unwrapResponse()` throws `Error(String(status_code))`
-3. React Query catches the error (`mutation.error`, `mutation.isError`)
-4. Component translates via i18n: `t(\`errors.${error.message}\`)`
+```
+API response { success: false, status_code: 401 }
+        │
+        ▼
+unwrapResponse() (client.ts)
+  → throw new Error(String(status_code))   // Error("401")
+        │
+        ▼
+React Query catches the error
+  → mutation.error = Error("401")
+  → mutation.isError = true
+        │
+        ▼
+Component reads mutation.error.message
+  → t(`errors.${mutation.error.message}`)  // t("errors.401")
+        │
+        ▼
+i18n resolves the key (auth.json)
+  → "errors.401" → "Identifiants incorrects"
+```
 
 ### Rules
 
