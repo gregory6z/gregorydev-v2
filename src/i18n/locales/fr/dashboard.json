@@ -1,0 +1,10 @@
+{
+  "title": "Opérations",
+  "tabs": {
+    "all": "Toutes les opérations",
+    "conform": "Conforme",
+    "nonConform": "Non conforme"
+  },
+  "searchPlaceholder": "Rechercher une opération",
+  "perPage": "par page"
+}
