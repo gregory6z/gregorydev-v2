@@ -70,3 +70,60 @@ export type OperationsListFilters = {
   sortBy: keyof Operation | null;
   sortOrder: "asc" | "desc";
 };
+
+// ──────────────────────────────────────────────
+// Creation - Step 1
+// ──────────────────────────────────────────────
+
+import { z } from "zod/v4";
+
+export const FileUploadStatus = {
+  PENDING: "pending",
+  UPLOADING: "uploading",
+  COMPLETED: "completed",
+  ERROR: "error",
+} as const;
+
+export type FileUploadStatusType =
+  (typeof FileUploadStatus)[keyof typeof FileUploadStatus];
+
+// Type pour un fichier en cours d'upload (pas de validation Zod car pas de form input)
+export type UploadingFile = {
+  id: string;
+  file: File;
+  name: string;
+  size: number;
+  progress: number;
+  status: FileUploadStatusType;
+  error?: string;
+};
+
+// Schema pour la validation du formulaire étape 1
+export const createOperationStep1Schema = z.object({
+  name: z
+    .string()
+    .min(1, "validation.operationNameRequired")
+    .max(100, "validation.operationNameTooLong"),
+});
+
+export type CreateOperationStep1Data = z.infer<
+  typeof createOperationStep1Schema
+>;
+
+// Type complet pour l'étape 1 (form data + fichiers)
+export type CreateOperationStep1 = {
+  name: string;
+  files: UploadingFile[];
+};
+
+// Formats de fichiers acceptés
+export const ACCEPTED_FILE_TYPES = {
+  "application/pdf": [".pdf"],
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [
+    ".xlsx",
+  ],
+  "application/vnd.ms-excel": [".xls"],
+} as const;
+
+export const ACCEPTED_EXTENSIONS = [".pdf", ".xlsx", ".xls"] as const;
+export const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB

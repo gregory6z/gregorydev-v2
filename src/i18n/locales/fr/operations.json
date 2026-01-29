@@ -35,6 +35,31 @@
   "deleteSuccess_one": "{{count}} opération supprimée",
   "deleteSuccess_other": "{{count}} opérations supprimées",
   "errors": {
-    "deleteError": "Erreur lors de la suppression"
+    "deleteError": "Erreur lors de la suppression",
+    "invalidFileType": "Format de fichier non supporté. Formats acceptés : PDF, Excel",
+    "fileTooLarge": "Le fichier est trop volumineux (max 10 Mo)",
+    "uploadFailed": "Échec de l'upload. Veuillez réessayer."
+  },
+  "creation": {
+    "title": "Nouvelle opération",
+    "nameLabel": "Nom de l'opération",
+    "namePlaceholder": "Ex: OP6548764651321",
+    "dropzoneText": "Glisser déposer ou",
+    "dropzoneLink": "sélectionner les fichiers",
+    "dropzoneHelp": "Déposez ici un PDF par document de l'opération (ex: 1 PDF pour le devis, 1 PDF pour la facture, etc...). Parmi vos documents, vous devez obligatoirement ajouter un DEVIS.",
+    "uploadHeader": "Téléchargement",
+    "cancelUpload": "Annuler l'upload",
+    "removeFile": "Supprimer le fichier",
+    "retryUpload": "Réessayer l'upload",
+    "cancel": "Annuler",
+    "next": "Suivant",
+    "cancelConfirmTitle": "Abandonner la création ?",
+    "cancelConfirmMessage": "Vous avez des données non sauvegardées. Êtes-vous sûr de vouloir abandonner ?",
+    "cancelConfirmNo": "Continuer",
+    "cancelConfirmYes": "Abandonner"
+  },
+  "validation": {
+    "operationNameRequired": "Le nom de l'opération est requis",
+    "operationNameTooLong": "Le nom ne peut pas dépasser 100 caractères"
   }
 }

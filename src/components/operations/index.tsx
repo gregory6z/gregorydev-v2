@@ -34,6 +34,7 @@ import { DeleteConfirmationDialog } from "@/components/operations/delete-dialog"
 import { OperationsHeader } from "@/components/operations/header";
 import { OperationsTabs } from "@/components/operations/tabs";
 import { createColumns } from "@/components/operations/columns";
+import { OperationCreationSheet } from "@/components/operations/creation-sheet";
 
 export const OperationsTable = () => {
   const { t } = useTranslation("operations");
@@ -54,6 +55,7 @@ export const OperationsTable = () => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [creationSheetOpen, setCreationSheetOpen] = useState(false);
 
   const debouncedSearch = useDebouncedValue(filters.search, 300);
 
@@ -104,7 +106,7 @@ export const OperationsTable = () => {
   };
 
   const handleCreateClick = () => {
-    // TODO: Navigate to create operation page (Phase 4)
+    setCreationSheetOpen(true);
   };
 
   const handleDelete = () => {
@@ -173,6 +175,11 @@ export const OperationsTable = () => {
         count={selectedIds.length}
         onConfirm={handleDelete}
         isLoading={deleteMutation.isPending}
+      />
+
+      <OperationCreationSheet
+        open={creationSheetOpen}
+        onOpenChange={setCreationSheetOpen}
       />
     </>
   );

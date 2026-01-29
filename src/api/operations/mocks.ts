@@ -129,3 +129,62 @@ export const mockDeleteOperations = (ids: string[]): Promise<void> =>
       resolve();
     }, MOCK_DELAY);
   });
+
+// ──────────────────────────────────────────────
+// MOCK: File Upload
+// ──────────────────────────────────────────────
+
+type UploadProgressCallback = (progress: number) => void;
+
+export const mockUploadFile = (
+  _file: File,
+  onProgress: UploadProgressCallback,
+): Promise<void> =>
+  new Promise((resolve, reject) => {
+    let progress = 0;
+    const increment = Math.random() * 15 + 5; // 5-20% per tick
+    const intervalTime = Math.random() * 200 + 100; // 100-300ms per tick
+
+    const interval = setInterval(() => {
+      progress += increment;
+
+      if (progress >= 100) {
+        progress = 100;
+        clearInterval(interval);
+        onProgress(100);
+
+        // 5% chance d'échec pour tester le retry
+        if (Math.random() < 0.05) {
+          reject(new Error("upload_failed"));
+        } else {
+          resolve();
+        }
+      } else {
+        onProgress(Math.min(progress, 99));
+      }
+    }, intervalTime);
+  });
+
+// ──────────────────────────────────────────────
+// MOCK: Create Operation
+// ──────────────────────────────────────────────
+
+export type CreateOperationPayload = {
+  name: string;
+  fileIds: string[];
+};
+
+export const mockCreateOperation = (
+  _payload: CreateOperationPayload,
+): Promise<{ id: string; reference: string }> =>
+  new Promise((resolve) => {
+    setTimeout(() => {
+      const reference = `OP${String(
+        Math.floor(10000000000 + Math.random() * 90000000000),
+      ).slice(0, 11)}`;
+      resolve({
+        id: `op-${Date.now()}`,
+        reference,
+      });
+    }, MOCK_DELAY);
+  });
