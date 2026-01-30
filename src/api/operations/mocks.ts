@@ -1,3 +1,4 @@
+import type { ApiResponse } from "@/api/client";
 import type {
   Operation,
   OperationsCounts,
@@ -6,8 +7,23 @@ import type {
   ExtractedData,
   CreatedOperation,
   CreateOperationPayload,
+  OperationDetails,
+  OperationFile,
 } from "./schemas";
-import { OperationStatus, ConformityStatus } from "./schemas";
+import {
+  OperationStatus,
+  ConformityStatus,
+  FileStatus,
+  AnalysisStatus,
+} from "./schemas";
+
+// Helper to wrap data in ApiResponse envelope
+const wrapResponse = <T>(data: T): ApiResponse<T> => ({
+  success: true,
+  data,
+  message: "OK",
+  status_code: 200,
+});
 
 const MOCK_DELAY = 500;
 
@@ -48,26 +64,30 @@ const getMockOperations = (): Operation[] => {
   return mockOperationsCache;
 };
 
-export const mockFetchOperationsCounts = (): Promise<OperationsCounts> =>
+export const mockFetchOperationsCounts = (): Promise<
+  ApiResponse<OperationsCounts>
+> =>
   new Promise((resolve) => {
     setTimeout(() => {
       const allOps = getMockOperations();
 
-      resolve({
-        all: allOps.length,
-        conform: allOps.filter(
-          (op) => op.conformity === ConformityStatus.CONFORM,
-        ).length,
-        nonConform: allOps.filter(
-          (op) => op.conformity === ConformityStatus.NON_CONFORM,
-        ).length,
-      });
+      resolve(
+        wrapResponse({
+          all: allOps.length,
+          conform: allOps.filter(
+            (op) => op.conformity === ConformityStatus.CONFORM,
+          ).length,
+          nonConform: allOps.filter(
+            (op) => op.conformity === ConformityStatus.NON_CONFORM,
+          ).length,
+        }),
+      );
     }, MOCK_DELAY);
   });
 
 export const mockFetchOperations = (
   filters: OperationsListFilters,
-): Promise<OperationsListResponse> =>
+): Promise<ApiResponse<OperationsListResponse>> =>
   new Promise((resolve) => {
     setTimeout(() => {
       let operations = getMockOperations();
@@ -109,19 +129,23 @@ export const mockFetchOperations = (
       const start = (filters.page - 1) * filters.perPage;
       const paginatedData = operations.slice(start, start + filters.perPage);
 
-      resolve({
-        data: paginatedData,
-        pagination: {
-          page: filters.page,
-          perPage: filters.perPage,
-          total,
-          totalPages,
-        },
-      });
+      resolve(
+        wrapResponse({
+          data: paginatedData,
+          pagination: {
+            page: filters.page,
+            perPage: filters.perPage,
+            total,
+            totalPages,
+          },
+        }),
+      );
     }, MOCK_DELAY);
   });
 
-export const mockDeleteOperations = (ids: string[]): Promise<void> =>
+export const mockDeleteOperations = (
+  ids: string[],
+): Promise<ApiResponse<void>> =>
   new Promise((resolve) => {
     setTimeout(() => {
       if (mockOperationsCache) {
@@ -129,7 +153,7 @@ export const mockDeleteOperations = (ids: string[]): Promise<void> =>
           (op) => !ids.includes(op.id),
         );
       }
-      resolve();
+      resolve(wrapResponse(undefined));
     }, MOCK_DELAY);
   });
 
@@ -193,13 +217,13 @@ const mockExtractedDataSamples: ExtractedData[] = [
   },
 ];
 
-export const mockExtractData = (): Promise<ExtractedData> =>
+export const mockExtractData = (): Promise<ApiResponse<ExtractedData>> =>
   new Promise((resolve) => {
     setTimeout(() => {
       const randomIndex = Math.floor(
         Math.random() * mockExtractedDataSamples.length,
       );
-      resolve(mockExtractedDataSamples[randomIndex]);
+      resolve(wrapResponse(mockExtractedDataSamples[randomIndex]));
     }, 800);
   });
 
@@ -209,7 +233,7 @@ export const mockExtractData = (): Promise<ExtractedData> =>
 
 export const mockCreateOperation = (
   payload: CreateOperationPayload,
-): Promise<CreatedOperation> =>
+): Promise<ApiResponse<CreatedOperation>> =>
   new Promise((resolve) => {
     setTimeout(() => {
       const reference = `OP${String(
@@ -232,16 +256,173 @@ export const mockCreateOperation = (
         mockOperationsCache.unshift(newOperation);
       }
 
-      resolve({
-        id: newId,
-        reference,
-        name: payload.name,
-        fost: payload.fost,
-        lieu: payload.lieu,
-        dateEngagement: payload.dateEngagement,
-        signature: payload.signature,
-        status: "Non analysé",
-        createdAt: new Date().toISOString(),
-      });
+      resolve(
+        wrapResponse({
+          id: newId,
+          reference,
+          name: payload.name,
+          fost: payload.fost,
+          lieu: payload.lieu,
+          dateEngagement: payload.dateEngagement,
+          signature: payload.signature,
+          status: "Non analysé",
+          createdAt: new Date().toISOString(),
+        }),
+      );
+    }, MOCK_DELAY);
+  });
+
+// ──────────────────────────────────────────────
+// MOCK: Operation Details
+// ──────────────────────────────────────────────
+
+const mockOperationDetailsData: OperationDetails = {
+  id: "op-001",
+  reference: "OP6548764651321",
+  conformity: ConformityStatus.NOT_ANALYZED,
+  analysisStatus: AnalysisStatus.NOT_ANALYZED,
+
+  creationDate: "2025-09-05",
+  engagementDate: "2026-03-10",
+  fostCode: "BAR-EN-101",
+  keywords: ["Isolation", "Extérieur", "Polystyrène", "Hydraulique"],
+  summary:
+    "Travaux d'isolation thermique par l'extérieur avec polystyrène 140 mm isolation thermique par l'extérieur en 140 mm d'épaisseur, avec 2 couches d'enduit hydraulique (plaque en polystyrène collé et chevillé, armé d'un treillis, polystyrène SINIAT unimat façade: résistance thermique = 3.70",
+
+  amountTTC: 43174.29,
+  primeCEE: 2296.58,
+  quoteSignatureDate: "2023-02-01",
+  workAddress: "141, route des Rémouleurs - 84000 Avignon",
+
+  beneficiary: {
+    name: "Jean Courty NIBOULIES",
+    address: "3 rue de la gare - 84 000 Avignon",
+    email: "jeancourty@gmail.com",
+    phone: "06 87 98 65 21",
+  },
+
+  professionalRGE: {
+    siret: "83815597600023",
+    address: "27, avenue Dausmenil - 84000 Avignon",
+  },
+
+  obligee: "PICOTY",
+
+  files: [
+    {
+      id: "file-1",
+      name: "Facture 6846513",
+      summary:
+        "Attestation sur l'honneur pour une opération CEE d'isolation de combles/toiture, référence OP156200. Engagement le 2024-03-27, travaux le 2025-01-08, facture FACT0801255305. Surface 175 m2, résistance thermique R=7, épaisseur 350 mm. Site aux Pennes-Mirabeau. Bénéficiaire Laurent Garcia.",
+      date: "2025-06-12",
+      status: FileStatus.NON_CONFORM,
+    },
+    {
+      id: "file-2",
+      name: "Facture 684651GKHD",
+      summary:
+        "Attestation sur l'honneur pour une opération CEE d'isolation de combles/toiture, référence OP156200. Engagement le 2024-03-27, travaux le 2025-01-08, facture FACT0801255305. Surface 175 m2, résistance thermique R=7, épaisseur 350 mm. Site aux Pennes-Mirabeau. Bénéficiaire Laurent Garcia.",
+      date: "2025-09-05",
+      status: FileStatus.NON_CONFORM,
+    },
+    {
+      id: "file-3",
+      name: "Facture JHG354351",
+      summary:
+        "Attestation sur l'honneur pour une opération CEE d'isolation de combles/toiture, référence OP156200. Engagement le 2024-03-27, travaux le 2025-01-08, facture FACT0801255305. Surface 175 m2, résistance thermique R=7, épaisseur 350 mm. Site aux Pennes-Mirabeau. Bénéficiaire Laurent Garcia.",
+      date: "2025-12-11",
+      status: FileStatus.CONFORM,
+    },
+    {
+      id: "file-4",
+      name: "Attestation sur l'honneur",
+      summary:
+        "Attestation sur l'honneur pour une opération CEE d'isolation de combles/toiture, référence OP156200. Engagement le 2024-03-27, travaux le 2025-01-08, facture FACT0801255305. Surface 175 m2, résistance thermique R=7, épaisseur 350 mm. Site aux Pennes-Mirabeau. Bénéficiaire Laurent Garcia.",
+      date: "2025-10-28",
+      status: FileStatus.ANALYZING,
+    },
+    {
+      id: "file-5",
+      name: "Devis signé",
+      summary:
+        "Devis CEVOHA du 2024-03-27 pour soufflage de ouate en combles perdus, avec protections électriques et rehausse de trappe. Montant HT 4025.00, TVA 221.38, TTC 4246.38. Ecoprime Picoty déduite 1137.50, net à payer 3108.88. Offre valable jusqu'au 2024-04-26.",
+      date: "2026-01-01",
+      status: FileStatus.CONFORM,
+    },
+    {
+      id: "file-6",
+      name: "Devis 67865",
+      summary:
+        "Devis CEVOHA du 2024-03-27 pour soufflage de ouate en combles perdus, avec protections électriques et rehausse de trappe. Montant HT 4025.00, TVA 221.38, TTC 4246.38. Ecoprime Picoty déduite 1137.50, net à payer 3108.88. Offre valable jusqu'au 2024-04-26.",
+      date: "2026-02-15",
+      status: FileStatus.NON_CONFORM,
+    },
+    {
+      id: "file-7",
+      name: "Cadre de contribution",
+      summary:
+        "Engagement de Picoty SAS à verser une prime CEE pour des travaux d'isolation de combles/toitures, avec montants conditionnés aux ressources. Bénéficiaire identifié, adresse des travaux, surface, fiche CEE BAR-EN-101, date de proposition 2024-12-20.",
+      date: "2026-03-20",
+      status: FileStatus.CONFORM,
+    },
+  ],
+};
+
+export const mockFetchOperationDetails = (
+  _id: string,
+): Promise<ApiResponse<OperationDetails>> =>
+  new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(wrapResponse(mockOperationDetailsData));
+    }, MOCK_DELAY);
+  });
+
+// ──────────────────────────────────────────────
+// MOCK: Run Global Analysis
+// ──────────────────────────────────────────────
+
+export const mockRunGlobalAnalysis = (
+  _id: string,
+): Promise<ApiResponse<void>> =>
+  new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(wrapResponse(undefined));
+    }, MOCK_DELAY * 2);
+  });
+
+// ──────────────────────────────────────────────
+// MOCK: Upload New File Version
+// ──────────────────────────────────────────────
+
+export const mockUploadNewFileVersion = (
+  _operationId: string,
+  _fileId: string,
+  _file: File,
+): Promise<ApiResponse<void>> =>
+  new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(wrapResponse(undefined));
+    }, MOCK_DELAY);
+  });
+
+// ──────────────────────────────────────────────
+// MOCK: Add File to Operation
+// ──────────────────────────────────────────────
+
+export const mockAddFileToOperation = (
+  _operationId: string,
+  _file: File,
+): Promise<ApiResponse<OperationFile>> =>
+  new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(
+        wrapResponse({
+          id: `file-${Date.now()}`,
+          name: "Nouveau fichier",
+          summary: "En attente d'analyse...",
+          date: new Date().toISOString().split("T")[0],
+          status: FileStatus.ANALYZING,
+        }),
+      );
     }, MOCK_DELAY);
   });
