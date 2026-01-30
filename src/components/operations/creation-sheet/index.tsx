@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useState, useCallback } from "react";
+import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslation } from "react-i18next";
 import {
@@ -19,14 +19,17 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { StepBadge } from "./step-badge";
-import { OperationNameField } from "./operation-name-field";
-import { FileUploadZone } from "./file-upload-zone";
-import { FileList } from "./file-list";
-import { CreationSheetFooter } from "./sheet-footer";
+import { Step1Form } from "./step-1/step-1-form";
+import { Step2Form } from "./step-2/step-2-form";
+import { SheetFooter } from "./sheet-footer";
+import { PdfViewer } from "@/components/pdf-viewer";
 import { useFileUpload } from "@/hooks/use-file-upload";
+import { useCreateOperation } from "@/api/operations/mutations";
 import {
   createOperationStep1Schema,
   type CreateOperationStep1Data,
+  type SignatureStatusType,
+  FileUploadStatus,
 } from "@/api/operations/schemas";
 
 type OperationCreationSheetProps = {
@@ -42,6 +45,13 @@ export function OperationCreationSheet({
   const [step, setStep] = useState(1);
   const [showCancelConfirm, setShowCancelConfirm] = useState(false);
 
+  // Form for step 1
+  const methods = useForm<CreateOperationStep1Data>({
+    resolver: zodResolver(createOperationStep1Schema),
+    defaultValues: { name: "" },
+  });
+
+  // File upload
   const {
     files,
     addFiles,
@@ -52,23 +62,24 @@ export function OperationCreationSheet({
     reset: resetFiles,
   } = useFileUpload();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isDirty },
-    reset: resetForm,
-    watch,
-  } = useForm<CreateOperationStep1Data>({
-    resolver: zodResolver(createOperationStep1Schema),
-    defaultValues: {
-      name: "",
-    },
-  });
+  // Step 2 state
+  const [isStep2Valid, setIsStep2Valid] = useState(false);
+  const [step2Data, setStep2Data] = useState<{
+    fost: string;
+    lieu: string;
+    dateEngagement: string;
+    signature: SignatureStatusType | null;
+  } | null>(null);
 
-  const nameValue = watch("name");
-  const hasData = isDirty || files.length > 0;
-  const canProceed =
+  const createOperationMutation = useCreateOperation();
+
+  // Derived state
+  const nameValue = methods.watch("name");
+  const isStep1Valid =
     nameValue.trim().length > 0 && completedCount > 0 && !isUploading;
+  const hasData = methods.formState.isDirty || files.length > 0;
+  const pdfFile =
+    files.find((f) => f.name.toLowerCase().endsWith(".pdf"))?.file ?? null;
 
   const handleClose = () => {
     if (hasData) {
@@ -79,24 +90,81 @@ export function OperationCreationSheet({
   };
 
   const handleConfirmClose = () => {
-    resetForm();
+    methods.reset();
     resetFiles();
     setStep(1);
+    setIsStep2Valid(false);
+    setStep2Data(null);
     setShowCancelConfirm(false);
     onOpenChange(false);
   };
 
   const handleNext = () => {
-    handleSubmit((data) => {
-      // Validation OK, passer à l'étape 2
-      console.log("Step 1 data:", { ...data, files });
+    methods.handleSubmit(() => {
       setStep(2);
-      // TODO: Implémenter étape 2
     })();
   };
 
+  const handleBack = () => {
+    setStep(1);
+  };
+
+  const handleCreate = () => {
+    if (!step2Data || !step2Data.signature) return;
+
+    createOperationMutation.mutate(
+      {
+        name: methods.getValues("name"),
+        fileIds: files
+          .filter((f) => f.status === FileUploadStatus.COMPLETED)
+          .map((f) => f.id),
+        fost: step2Data.fost,
+        lieu: step2Data.lieu,
+        dateEngagement: step2Data.dateEngagement,
+        signature: step2Data.signature,
+      },
+      {
+        onSuccess: () => {
+          handleConfirmClose();
+        },
+      },
+    );
+  };
+
+  const handleFormValidityChange = useCallback((isValid: boolean) => {
+    setIsStep2Valid(isValid);
+  }, []);
+
+  const handleFormStateChange = useCallback(
+    (state: {
+      fost: string;
+      lieu: string;
+      dateEngagement: string;
+      signature: SignatureStatusType | null;
+    }) => {
+      setStep2Data(state);
+    },
+    [],
+  );
+
   return (
     <>
+      {/* Custom overlay for step 2 - covers left side only */}
+      {open && step === 2 && (
+        <div
+          className="fixed inset-0 z-30 bg-black/40"
+          style={{ right: "calc(600px + 700px)" }}
+          onClick={handleClose}
+        />
+      )}
+
+      {/* PDF Viewer - Outside Sheet, only visible on step 2 */}
+      {open && step === 2 && (
+        <div className="fixed inset-y-0 right-[640px] z-40 w-[700px]">
+          <PdfViewer file={pdfFile} className="h-full rounded-none" />
+        </div>
+      )}
+
       <Sheet
         open={open}
         onOpenChange={(newOpen) => {
@@ -108,6 +176,7 @@ export function OperationCreationSheet({
         <SheetContent
           side="right"
           className="flex w-[640px] flex-col gap-0 bg-white p-6"
+          hideOverlay={step === 2}
         >
           <SheetHeader className="flex-row items-center justify-between space-y-0 p-0">
             <div className="flex items-center gap-3">
@@ -118,28 +187,44 @@ export function OperationCreationSheet({
             </div>
           </SheetHeader>
 
-          <div className="mt-5 flex flex-1 flex-col overflow-hidden">
-            <OperationNameField register={register} errors={errors} />
-
-            <div className="mt-[25px]">
-              <FileUploadZone onFilesAdded={addFiles} disabled={isUploading} />
-            </div>
-
-            <div className="mt-[25px] flex min-h-0 flex-1 flex-col">
-              <FileList
-                files={files}
-                completedCount={completedCount}
-                onRemove={removeFile}
-                onRetry={retryFile}
-              />
-            </div>
-          </div>
-
-          <CreationSheetFooter
-            onCancel={handleClose}
-            onNext={handleNext}
-            isNextDisabled={!canProceed}
-          />
+          <FormProvider {...methods}>
+            {step === 1 && (
+              <>
+                <Step1Form
+                  files={files}
+                  completedCount={completedCount}
+                  isUploading={isUploading}
+                  onFilesAdded={addFiles}
+                  onRemoveFile={removeFile}
+                  onRetryFile={retryFile}
+                />
+                <SheetFooter
+                  cancelLabel={t("creation.cancel")}
+                  confirmLabel={t("creation.next")}
+                  onCancel={handleClose}
+                  onConfirm={handleNext}
+                  isConfirmDisabled={!isStep1Valid}
+                />
+              </>
+            )}
+            {step === 2 && (
+              <>
+                <Step2Form
+                  onFormValidityChange={handleFormValidityChange}
+                  onFormStateChange={handleFormStateChange}
+                />
+                <SheetFooter
+                  cancelLabel={t("creation.cancel")}
+                  confirmLabel={t("creation.step2.create")}
+                  loadingLabel={t("creation.step2.creating")}
+                  onCancel={handleBack}
+                  onConfirm={handleCreate}
+                  isConfirmDisabled={!isStep2Valid}
+                  isLoading={createOperationMutation.isPending}
+                />
+              </>
+            )}
+          </FormProvider>
         </SheetContent>
       </Sheet>
 

@@ -3,8 +3,8 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "@/components/ui/checkbox";
 import { DataTableSortableHeader } from "@/components/ui/data-table";
 import type { Operation } from "@/api/operations/schemas";
-import { StatusBadge } from "@/components/operations/status-badge";
-import { ConformityBadge } from "@/components/operations/conformity-badge";
+import { StatusBadge } from "./status-badge";
+import { ConformityBadge } from "./conformity-badge";
 
 type ColumnConfig = {
   t: (key: string) => string;

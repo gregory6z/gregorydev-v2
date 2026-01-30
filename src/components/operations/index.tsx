@@ -30,11 +30,11 @@ import {
 } from "@/components/ui/data-table";
 import { DataTablePagination } from "@/components/ui/data-table-pagination";
 import { DataTableSearch } from "@/components/ui/data-table-search";
-import { DeleteConfirmationDialog } from "@/components/operations/delete-dialog";
-import { OperationsHeader } from "@/components/operations/header";
-import { OperationsTabs } from "@/components/operations/tabs";
-import { createColumns } from "@/components/operations/columns";
-import { OperationCreationSheet } from "@/components/operations/creation-sheet";
+import { DeleteConfirmationDialog } from "./operations-table/delete-dialog";
+import { OperationsHeader } from "./header";
+import { OperationsTabs } from "./tabs";
+import { createColumns } from "./operations-table/columns";
+import { OperationCreationSheet } from "./creation-sheet";
 
 export const OperationsTable = () => {
   const { t } = useTranslation("operations");

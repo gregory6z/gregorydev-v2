@@ -127,3 +127,60 @@ export const ACCEPTED_FILE_TYPES = {
 
 export const ACCEPTED_EXTENSIONS = [".pdf", ".xlsx", ".xls"] as const;
 export const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
+
+// ──────────────────────────────────────────────
+// Creation - Step 2
+// ──────────────────────────────────────────────
+
+export const SignatureStatus = {
+  PRESENT: "present",
+  ABSENT: "absent",
+} as const;
+
+export type SignatureStatusType =
+  (typeof SignatureStatus)[keyof typeof SignatureStatus];
+
+// Données extraites par l'API (OCR/IA)
+export type ExtractedData = {
+  fost: string;
+  lieu: string;
+  dateEngagement: string;
+  signatureDetected: boolean;
+};
+
+// État de validation d'un champ
+export type ValidationFieldState = {
+  value: string;
+  isValidated: boolean;
+};
+
+// État complet du formulaire de validation
+export type ValidationFormState = {
+  fost: ValidationFieldState;
+  lieu: ValidationFieldState;
+  dateEngagement: ValidationFieldState;
+  signature: SignatureStatusType | null;
+};
+
+// Payload pour créer l'opération (étape finale)
+export type CreateOperationPayload = {
+  name: string;
+  fileIds: string[];
+  fost: string;
+  lieu: string;
+  dateEngagement: string;
+  signature: SignatureStatusType;
+};
+
+// Opération créée (réponse API)
+export type CreatedOperation = {
+  id: string;
+  reference: string;
+  name: string;
+  fost: string;
+  lieu: string;
+  dateEngagement: string;
+  signature: SignatureStatusType;
+  status: string;
+  createdAt: string;
+};

@@ -57,7 +57,22 @@
     "cancelConfirmTitle": "Abandonner la création ?",
     "cancelConfirmMessage": "Vous avez des données non sauvegardées. Êtes-vous sûr de vouloir abandonner ?",
     "cancelConfirmNo": "Continuer",
-    "cancelConfirmYes": "Abandonner"
+    "cancelConfirmYes": "Abandonner",
+    "step2": {
+      "subtitle": "Valider les données manuscrites du devis",
+      "loading": "Extraction des données en cours...",
+      "fostLabel": "FOST",
+      "lieuLabel": "Lieu",
+      "dateEngagementLabel": "Date d'engagement",
+      "signatureLabel": "Signature",
+      "signaturePlaceholder": "Sélectionner",
+      "signaturePresent": "Présente",
+      "signatureAbsent": "Absente",
+      "create": "Créer l'opération",
+      "creating": "Création en cours...",
+      "successMessage": "Opération {{reference}} créée avec succès",
+      "errorMessage": "Une erreur est survenue lors de la création"
+    }
   },
   "validation": {
     "operationNameRequired": "Le nom de l'opération est requis",

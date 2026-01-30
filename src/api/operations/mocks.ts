@@ -3,6 +3,9 @@ import type {
   OperationsCounts,
   OperationsListResponse,
   OperationsListFilters,
+  ExtractedData,
+  CreatedOperation,
+  CreateOperationPayload,
 } from "./schemas";
 import { OperationStatus, ConformityStatus } from "./schemas";
 
@@ -166,25 +169,79 @@ export const mockUploadFile = (
   });
 
 // ──────────────────────────────────────────────
+// MOCK: Extract Data (OCR/IA)
+// ──────────────────────────────────────────────
+
+const mockExtractedDataSamples: ExtractedData[] = [
+  {
+    fost: "BAR-EN-101",
+    lieu: "Pennes Mirabeau",
+    dateEngagement: "27/03/24",
+    signatureDetected: true,
+  },
+  {
+    fost: "BAR-TH-106",
+    lieu: "Marseille",
+    dateEngagement: "15/04/24",
+    signatureDetected: false,
+  },
+  {
+    fost: "BAR-EN-103",
+    lieu: "Aix-en-Provence",
+    dateEngagement: "02/05/24",
+    signatureDetected: true,
+  },
+];
+
+export const mockExtractData = (): Promise<ExtractedData> =>
+  new Promise((resolve) => {
+    setTimeout(() => {
+      const randomIndex = Math.floor(
+        Math.random() * mockExtractedDataSamples.length,
+      );
+      resolve(mockExtractedDataSamples[randomIndex]);
+    }, 800);
+  });
+
+// ──────────────────────────────────────────────
 // MOCK: Create Operation
 // ──────────────────────────────────────────────
 
-export type CreateOperationPayload = {
-  name: string;
-  fileIds: string[];
-};
-
 export const mockCreateOperation = (
-  _payload: CreateOperationPayload,
-): Promise<{ id: string; reference: string }> =>
+  payload: CreateOperationPayload,
+): Promise<CreatedOperation> =>
   new Promise((resolve) => {
     setTimeout(() => {
       const reference = `OP${String(
         Math.floor(10000000000 + Math.random() * 90000000000),
       ).slice(0, 11)}`;
+      const newId = `op-${Date.now()}`;
+
+      // Add to cache so it appears in the list
+      if (mockOperationsCache) {
+        const newOperation: Operation = {
+          id: newId,
+          reference,
+          filesCount: payload.fileIds.length,
+          delegataire: "Total", // Default delegataire for new operations
+          engagementDate: new Date().toISOString(),
+          fost: payload.fost,
+          status: OperationStatus.IN_PROGRESS,
+          conformity: ConformityStatus.NOT_ANALYZED,
+        };
+        mockOperationsCache.unshift(newOperation);
+      }
+
       resolve({
-        id: `op-${Date.now()}`,
+        id: newId,
         reference,
+        name: payload.name,
+        fost: payload.fost,
+        lieu: payload.lieu,
+        dateEngagement: payload.dateEngagement,
+        signature: payload.signature,
+        status: "Non analysé",
+        createdAt: new Date().toISOString(),
       });
     }, MOCK_DELAY);
   });

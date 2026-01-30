@@ -1,39 +1,51 @@
-import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
 
-type CreationSheetFooterProps = {
+type SheetFooterProps = {
+  cancelLabel: string;
+  confirmLabel: string;
+  loadingLabel?: string;
   onCancel: () => void;
-  onNext: () => void;
-  isNextDisabled: boolean;
+  onConfirm: () => void;
+  isConfirmDisabled: boolean;
+  isLoading?: boolean;
 };
 
-export function CreationSheetFooter({
+export function SheetFooter({
+  cancelLabel,
+  confirmLabel,
+  loadingLabel,
   onCancel,
-  onNext,
-  isNextDisabled,
-}: CreationSheetFooterProps) {
-  const { t } = useTranslation("operations");
-
+  onConfirm,
+  isConfirmDisabled,
+  isLoading = false,
+}: SheetFooterProps) {
   return (
-    <div
-      data-slot="creation-sheet-footer"
-      className="mt-auto flex gap-4 border-t border-table-border pt-6"
-    >
+    <div className="mt-auto flex gap-4 border-t border-table-border pt-6">
       <Button
         type="button"
         variant="outline-primary"
-        className="flex-1"
+        className="flex-1 font-display text-base font-semibold leading-5"
         onClick={onCancel}
+        disabled={isLoading}
       >
-        {t("creation.cancel")}
+        {cancelLabel}
       </Button>
       <Button
         type="button"
-        className="flex-1"
-        disabled={isNextDisabled}
-        onClick={onNext}
+        variant="primary-dark"
+        className="flex-1 font-display text-base font-semibold leading-5"
+        disabled={isConfirmDisabled || isLoading}
+        onClick={onConfirm}
       >
-        {t("creation.next")}
+        {isLoading ? (
+          <>
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            {loadingLabel}
+          </>
+        ) : (
+          confirmLabel
+        )}
       </Button>
     </div>
   );
