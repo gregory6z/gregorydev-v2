@@ -153,7 +153,9 @@ export function OperationCreationSheet({
         signature,
       },
       {
-        onSuccess: () => {
+        onSettled: () => {
+          queryClient.invalidateQueries({ queryKey: operationsKeys.counts() });
+          queryClient.invalidateQueries({ queryKey: operationsKeys.lists() });
           handleConfirmClose();
         },
       },
@@ -201,7 +203,7 @@ export function OperationCreationSheet({
         <div className="fixed inset-y-0 right-[640px] z-40 w-[700px]">
           <Suspense
             fallback={
-              <div className="flex h-full items-center justify-center bg-[#ECEBE8]">
+              <div className="flex h-full items-center justify-center bg-background">
                 <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
               </div>
             }

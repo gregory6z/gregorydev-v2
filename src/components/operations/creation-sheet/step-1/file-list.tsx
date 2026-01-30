@@ -28,7 +28,7 @@ export function FileList({
         <span className="font-display text-lg font-semibold leading-[140%] text-foreground">
           {t("creation.uploadHeader")}
         </span>
-        <span className="inline-flex items-center rounded-md bg-[#E6F7F4] px-2 py-0.5 text-xs font-medium text-primary">
+        <span className="inline-flex items-center rounded-md bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
           {completedCount}/{files.length}
         </span>
       </div>
