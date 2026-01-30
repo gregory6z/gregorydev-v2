@@ -7,6 +7,19 @@ const envSchema = z.object({
     .optional()
     .default("prod"),
   VITE_REFRESH_BUFFER_MINUTES: z.coerce.number().optional().default(10),
+  VITE_MAX_FILE_SIZE_MB: z.coerce.number().optional().default(10),
+  VITE_ACCEPTED_FILE_EXTENSIONS: z
+    .string()
+    .optional()
+    .default(".pdf,.xlsx,.xls"),
 });
 
-export const env = envSchema.parse(import.meta.env);
+const parsedEnv = envSchema.parse(import.meta.env);
+
+export const env = {
+  ...parsedEnv,
+  MAX_FILE_SIZE: parsedEnv.VITE_MAX_FILE_SIZE_MB * 1024 * 1024,
+  ACCEPTED_FILE_EXTENSIONS: parsedEnv.VITE_ACCEPTED_FILE_EXTENSIONS.split(
+    ",",
+  ) as readonly string[],
+};

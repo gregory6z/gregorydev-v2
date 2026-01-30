@@ -116,7 +116,7 @@ export type CreateOperationStep1 = {
   files: UploadingFile[];
 };
 
-// Formats de fichiers acceptés
+// Formats de fichiers acceptés (MIME types pour react-dropzone)
 export const ACCEPTED_FILE_TYPES = {
   "application/pdf": [".pdf"],
   "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [
@@ -124,9 +124,6 @@ export const ACCEPTED_FILE_TYPES = {
   ],
   "application/vnd.ms-excel": [".xls"],
 } as const;
-
-export const ACCEPTED_EXTENSIONS = [".pdf", ".xlsx", ".xls"] as const;
-export const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
 
 // ──────────────────────────────────────────────
 // Creation - Step 2

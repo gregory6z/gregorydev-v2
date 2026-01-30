@@ -1,14 +1,11 @@
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { mockUploadFile } from "@/api/operations/mocks";
-import type {
-  UploadingFile,
-  FileUploadStatusType,
-} from "@/api/operations/schemas";
+import { env } from "@/env";
 import {
   FileUploadStatus,
-  MAX_FILE_SIZE,
-  ACCEPTED_EXTENSIONS,
+  type UploadingFile,
+  type FileUploadStatusType,
 } from "@/api/operations/schemas";
 
 type UseFileUploadReturn = {
@@ -60,15 +57,11 @@ export const useFileUpload = (): UseFileUploadReturn => {
   const validateFile = (file: File): string | null => {
     const extension = `.${file.name.split(".").pop()?.toLowerCase()}`;
 
-    if (
-      !ACCEPTED_EXTENSIONS.includes(
-        extension as (typeof ACCEPTED_EXTENSIONS)[number],
-      )
-    ) {
+    if (!env.ACCEPTED_FILE_EXTENSIONS.includes(extension)) {
       return "errors.invalidFileType";
     }
 
-    if (file.size > MAX_FILE_SIZE) {
+    if (file.size > env.MAX_FILE_SIZE) {
       return "errors.fileTooLarge";
     }
 

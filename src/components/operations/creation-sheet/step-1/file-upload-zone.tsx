@@ -3,7 +3,8 @@ import { useDropzone } from "react-dropzone";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
 import { DocumentStackIcon } from "@/components/icons";
-import { ACCEPTED_FILE_TYPES, MAX_FILE_SIZE } from "@/api/operations/schemas";
+import { env } from "@/env";
+import { ACCEPTED_FILE_TYPES } from "@/api/operations/schemas";
 
 type FileUploadZoneProps = {
   onFilesAdded: (files: File[]) => void;
@@ -28,7 +29,7 @@ export function FileUploadZone({
     onDropAccepted: () => setIsDragActive(false),
     onDropRejected: () => setIsDragActive(false),
     accept: ACCEPTED_FILE_TYPES,
-    maxSize: MAX_FILE_SIZE,
+    maxSize: env.MAX_FILE_SIZE,
     multiple: true,
     disabled,
     noClick: true,
