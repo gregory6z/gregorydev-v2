@@ -148,20 +148,6 @@ export type ExtractedData = {
   signatureDetected: boolean;
 };
 
-// État de validation d'un champ
-export type ValidationFieldState = {
-  value: string;
-  isValidated: boolean;
-};
-
-// État complet du formulaire de validation
-export type ValidationFormState = {
-  fost: ValidationFieldState;
-  lieu: ValidationFieldState;
-  dateEngagement: ValidationFieldState;
-  signature: SignatureStatusType | null;
-};
-
 // Payload pour créer l'opération (étape finale)
 export type CreateOperationPayload = {
   name: string;

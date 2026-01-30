@@ -7,7 +7,7 @@ operations/
 ├── index.tsx           # Main component (OperationsTable)
 ├── header.tsx          # Page header with title + create button
 ├── tabs.tsx            # Conformity filter tabs with counts
-├── creation-sheet/     # Operation creation modal
+├── creation-sheet/     # Operation creation modal (see creation-sheet/CLAUDE.md)
 │   ├── index.tsx       # Main orchestrator
 │   ├── step-badge.tsx  # Shared step indicator
 │   ├── step-1/         # Step 1 components (name + file upload)
@@ -33,6 +33,8 @@ Two-step modal for creating operations:
 - Step 2: PDF viewer (outside sheet) + validation form
 
 PDF viewer appears on the left (700px), sheet stays on the right (640px).
+
+Step 2 uses `useExtractedData` from `api/operations/queries.ts` to fetch OCR/AI extracted data. Validation state is simplified: `validatedFields: Set` for checkboxes and `signature` for the dropdown.
 
 ## Rules
 

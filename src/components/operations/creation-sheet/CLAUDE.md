@@ -13,8 +13,7 @@ creation-sheet/
 │   ├── file-list.tsx        # List of uploaded files
 │   └── file-item.tsx        # Single file row
 └── step-2/
-    ├── step-2-form.tsx      # Fetches data + manages validation state
-    ├── validation-form.tsx  # Renders validation fields
+    ├── step-2-form.tsx      # Renders validation fields
     ├── validation-field.tsx # Input + OK button to toggle validation
     └── signature-select.tsx # Signature dropdown
 ```
@@ -27,12 +26,27 @@ creation-sheet/
 4. Step 2: Validate extracted data + select signature
 5. Click "Créer opération" → Create operation + close sheet
 
+## Code Organization (index.tsx)
+
+The component is organized by sections:
+1. **Shared State** - step, confirmDialog, mutation
+2. **Step 1** - form, files, derived state, handleNext
+3. **Step 2** - query, validation state, handlers, handleCreate
+4. **Shared Handlers** - handleClose, handleConfirmClose
+5. **Render**
+
 ## State Management
 
-- **FormProvider** wraps both steps to persist form data
-- **useFileUpload** hook manages file upload state
-- Step 2 data stored in local state (step2Data)
-- PDF file derived from uploaded files
+State lives in `index.tsx` because `handleCreate` needs data from both steps and `handleConfirmClose` needs to reset everything.
+
+**Step 1:**
+- `methods` (useForm) - operation name
+- `useFileUpload` - file upload state
+
+**Step 2:**
+- `useExtractedData` (React Query) - fetches OCR/AI extracted data
+- `validatedFields: Set<"fost" | "lieu" | "dateEngagement">` - tracks validated checkboxes
+- `signature: SignatureStatusType | null` - selected signature status
 
 ## Layout (Step 2)
 
@@ -62,7 +76,6 @@ creation-sheet/
 
 ## Step 2 Components
 
-- **Step2Form**: Fetches extracted data, manages validation state
-- **ValidationForm**: Renders validation fields
-- **ValidationField**: Input + OK button to toggle validation
+- **Step2Form**: Receives `extractedData`, `validatedFields`, `signature` and callbacks as props
+- **ValidationField**: Read-only input + OK button to toggle validation
 - **SignatureSelect**: Dropdown for signature status (Présente/Absente)

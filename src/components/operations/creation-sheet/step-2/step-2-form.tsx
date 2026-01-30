@@ -1,21 +1,28 @@
 import { useTranslation } from "react-i18next";
-import { ValidationForm } from "./validation-form";
+import { Loader2 } from "lucide-react";
+import { ValidationField } from "./validation-field";
+import { SignatureSelect } from "./signature-select";
 import type {
-  ValidationFormState,
+  ExtractedData,
   SignatureStatusType,
 } from "@/api/operations/schemas";
-import { Loader2 } from "lucide-react";
+
+type ValidationFieldName = "fost" | "lieu" | "dateEngagement";
 
 type Step2FormProps = {
   isLoading: boolean;
-  formState: ValidationFormState;
-  onToggleFieldValidation: (field: "fost" | "lieu" | "dateEngagement") => void;
+  extractedData: ExtractedData | null;
+  validatedFields: Set<ValidationFieldName>;
+  signature: SignatureStatusType | null;
+  onToggleFieldValidation: (field: ValidationFieldName) => void;
   onSignatureChange: (value: SignatureStatusType) => void;
 };
 
 export function Step2Form({
   isLoading,
-  formState,
+  extractedData,
+  validatedFields,
+  signature,
   onToggleFieldValidation,
   onSignatureChange,
 }: Step2FormProps) {
@@ -36,11 +43,38 @@ export function Step2Form({
 
   return (
     <div className="mt-5 flex flex-1 flex-col overflow-y-auto">
-      <ValidationForm
-        formState={formState}
-        onToggleFieldValidation={onToggleFieldValidation}
-        onSignatureChange={onSignatureChange}
-      />
+      <div className="space-y-6">
+        <div className="space-y-1">
+          <h3 className="text-base font-medium text-gray-200">
+            {t("creation.step2.subtitle")}
+          </h3>
+        </div>
+
+        <div className="space-y-4">
+          <ValidationField
+            label={t("creation.step2.fostLabel")}
+            value={extractedData?.fost ?? ""}
+            isValidated={validatedFields.has("fost")}
+            onToggleValidation={() => onToggleFieldValidation("fost")}
+          />
+
+          <ValidationField
+            label={t("creation.step2.lieuLabel")}
+            value={extractedData?.lieu ?? ""}
+            isValidated={validatedFields.has("lieu")}
+            onToggleValidation={() => onToggleFieldValidation("lieu")}
+          />
+
+          <ValidationField
+            label={t("creation.step2.dateEngagementLabel")}
+            value={extractedData?.dateEngagement ?? ""}
+            isValidated={validatedFields.has("dateEngagement")}
+            onToggleValidation={() => onToggleFieldValidation("dateEngagement")}
+          />
+
+          <SignatureSelect value={signature} onChange={onSignatureChange} />
+        </div>
+      </div>
     </div>
   );
 }

@@ -70,10 +70,34 @@ All components and functions use **arrow functions**. No `function` declarations
 ### Key Dependencies
 - **UI**: shadcn/ui, Tailwind CSS v4, Lucide icons
 - **Forms**: react-hook-form, Zod validation
-- **Data**: TanStack Query (React Query)
+- **Data**: TanStack Query (React Query), TanStack Table
 - **HTTP**: ky
 - **Routing**: React Router v6
 - **i18n**: i18next, react-i18next
+
+## React Compiler
+
+The project uses **React Compiler** (babel-plugin-react-compiler) to automatically optimize memoization.
+
+### TanStack Table - Known Incompatibility
+
+**TanStack Table is officially incompatible with React Compiler.** The compiler applies aggressive memoization that conflicts with TanStack Table's internal pattern (stable table instance reference).
+
+**Symptoms**: pagination, sorting, and row selection stop working.
+
+**Solution**: Add `"use no memo"` at the top of files that use TanStack Table.
+
+**Affected files**:
+- `src/components/ui/data-table.tsx`
+- `src/components/ui/data-table-pagination.tsx`
+- Any component using `useReactTable`
+
+**References**:
+- [TanStack Table #5567](https://github.com/TanStack/table/issues/5567)
+- [React #33057](https://github.com/facebook/react/issues/33057)
+- [React PR #31820](https://github.com/facebook/react/pull/31820)
+
+TanStack Table v9 (currently in alpha) aims to add React Compiler compatibility, with a stable release expected in 2025.
 
 ## Route Structure
 

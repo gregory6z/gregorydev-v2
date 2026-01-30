@@ -1,5 +1,9 @@
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
-import { mockFetchOperationsCounts, mockFetchOperations } from "./mocks";
+import {
+  mockFetchOperationsCounts,
+  mockFetchOperations,
+  mockExtractData,
+} from "./mocks";
 import type { OperationsListFilters } from "./schemas";
 
 // Query keys factory
@@ -9,6 +13,7 @@ export const operationsKeys = {
   lists: () => [...operationsKeys.all, "list"] as const,
   list: (filters: OperationsListFilters) =>
     [...operationsKeys.lists(), filters] as const,
+  extractedData: () => [...operationsKeys.all, "extractedData"] as const,
 };
 
 export const useOperationsCounts = () => {
@@ -33,5 +38,18 @@ export const useOperations = (filters: OperationsListFilters) => {
     refetchOnMount: true,
     refetchOnWindowFocus: false,
     refetchOnReconnect: true,
+  });
+};
+
+export const useExtractedData = (enabled: boolean) => {
+  return useQuery({
+    queryKey: operationsKeys.extractedData(),
+    queryFn: () => mockExtractData(),
+    enabled,
+    staleTime: Infinity,
+    gcTime: 0,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
   });
 };

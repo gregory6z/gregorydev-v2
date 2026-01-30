@@ -1,7 +1,8 @@
-import { useState, lazy, Suspense } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslation } from "react-i18next";
+import { useQueryClient } from "@tanstack/react-query";
 import {
   Sheet,
   SheetContent,
@@ -24,16 +25,16 @@ import { Step2Form } from "./step-2/step-2-form";
 import { SheetFooter } from "./sheet-footer";
 
 import { useFileUpload } from "@/hooks/use-file-upload";
-import { useExtractedData } from "@/hooks/use-extracted-data";
-import { useValidationForm } from "@/hooks/use-validation-form";
+import { useExtractedData, operationsKeys } from "@/api/operations/queries";
 import { useCreateOperation } from "@/api/operations/mutations";
 import {
   createOperationStep1Schema,
   type CreateOperationStep1Data,
+  type SignatureStatusType,
   FileUploadStatus,
+  SignatureStatus,
 } from "@/api/operations/schemas";
 
-// Lazy load PdfViewer - only needed in step 2
 const PdfViewer = lazy(() =>
   import("@/components/pdf-viewer").then((m) => ({ default: m.PdfViewer })),
 );
@@ -43,21 +44,32 @@ type OperationCreationSheetProps = {
   onOpenChange: (open: boolean) => void;
 };
 
+type ValidationField = "fost" | "lieu" | "dateEngagement";
+
 export function OperationCreationSheet({
   open,
   onOpenChange,
 }: OperationCreationSheetProps) {
   const { t } = useTranslation("operations");
+  const queryClient = useQueryClient();
+
+  // ──────────────────────────────────────────────
+  // Shared State
+  // ──────────────────────────────────────────────
+
   const [step, setStep] = useState(1);
   const [showCancelConfirm, setShowCancelConfirm] = useState(false);
+  const createOperationMutation = useCreateOperation();
 
-  // Form for step 1
+  // ──────────────────────────────────────────────
+  // Step 1: Name & File Upload
+  // ──────────────────────────────────────────────
+
   const methods = useForm<CreateOperationStep1Data>({
     resolver: zodResolver(createOperationStep1Schema),
     defaultValues: { name: "" },
   });
 
-  // File upload
   const {
     files,
     addFiles,
@@ -68,27 +80,89 @@ export function OperationCreationSheet({
     reset: resetFiles,
   } = useFileUpload();
 
-  // Step 2: Extract data and validation form (lifted state)
-  const isStep2 = step === 2;
-  const { data: extractedData, isLoading: isExtractingData } =
-    useExtractedData(isStep2);
-  const {
-    formState,
-    toggleFieldValidation,
-    setSignature,
-    isFormValid: isStep2Valid,
-    reset: resetValidationForm,
-  } = useValidationForm(extractedData);
-
-  const createOperationMutation = useCreateOperation();
-
-  // Derived state
   const nameValue = methods.watch("name");
   const isStep1Valid =
     nameValue.trim().length > 0 && completedCount > 0 && !isUploading;
   const hasData = methods.formState.isDirty || files.length > 0;
   const pdfFile =
     files.find((f) => f.name.toLowerCase().endsWith(".pdf"))?.file ?? null;
+
+  const handleNext = () => {
+    methods.handleSubmit(() => {
+      setStep(2);
+    })();
+  };
+
+  // ──────────────────────────────────────────────
+  // Step 2: Extracted Data Validation
+  // ──────────────────────────────────────────────
+
+  const isStep2 = step === 2;
+  const { data: extractedData, isLoading: isExtractingData } =
+    useExtractedData(isStep2);
+
+  const [validatedFields, setValidatedFields] = useState<Set<ValidationField>>(
+    new Set(),
+  );
+  const [signature, setSignature] = useState<SignatureStatusType | null>(null);
+
+  useEffect(() => {
+    if (extractedData) {
+      setSignature(
+        extractedData.signatureDetected
+          ? SignatureStatus.PRESENT
+          : SignatureStatus.ABSENT,
+      );
+    }
+  }, [extractedData]);
+
+  const toggleFieldValidation = (field: ValidationField) => {
+    setValidatedFields((prev) => {
+      const next = new Set(prev);
+      if (next.has(field)) {
+        next.delete(field);
+      } else {
+        next.add(field);
+      }
+      return next;
+    });
+  };
+
+  const isStep2Valid =
+    validatedFields.has("fost") &&
+    validatedFields.has("lieu") &&
+    validatedFields.has("dateEngagement") &&
+    signature !== null;
+
+  const handleBack = () => {
+    setStep(1);
+  };
+
+  const handleCreate = () => {
+    if (!extractedData || !signature) return;
+
+    createOperationMutation.mutate(
+      {
+        name: methods.getValues("name"),
+        fileIds: files
+          .filter((f) => f.status === FileUploadStatus.COMPLETED)
+          .map((f) => f.id),
+        fost: extractedData.fost,
+        lieu: extractedData.lieu,
+        dateEngagement: extractedData.dateEngagement,
+        signature,
+      },
+      {
+        onSuccess: () => {
+          handleConfirmClose();
+        },
+      },
+    );
+  };
+
+  // ──────────────────────────────────────────────
+  // Shared Handlers
+  // ──────────────────────────────────────────────
 
   const handleClose = () => {
     if (hasData) {
@@ -101,47 +175,20 @@ export function OperationCreationSheet({
   const handleConfirmClose = () => {
     methods.reset();
     resetFiles();
-    resetValidationForm();
+    setValidatedFields(new Set());
+    setSignature(null);
+    queryClient.removeQueries({ queryKey: operationsKeys.extractedData() });
     setStep(1);
     setShowCancelConfirm(false);
     onOpenChange(false);
   };
 
-  const handleNext = () => {
-    methods.handleSubmit(() => {
-      setStep(2);
-    })();
-  };
-
-  const handleBack = () => {
-    setStep(1);
-  };
-
-  const handleCreate = () => {
-    if (!formState.signature) return;
-
-    createOperationMutation.mutate(
-      {
-        name: methods.getValues("name"),
-        fileIds: files
-          .filter((f) => f.status === FileUploadStatus.COMPLETED)
-          .map((f) => f.id),
-        fost: formState.fost.value,
-        lieu: formState.lieu.value,
-        dateEngagement: formState.dateEngagement.value,
-        signature: formState.signature,
-      },
-      {
-        onSuccess: () => {
-          handleConfirmClose();
-        },
-      },
-    );
-  };
+  // ──────────────────────────────────────────────
+  // Render
+  // ──────────────────────────────────────────────
 
   return (
     <>
-      {/* Custom overlay for step 2 - covers left side only */}
       {open && step === 2 && (
         <div
           className="fixed inset-0 z-30 bg-black/40"
@@ -150,7 +197,6 @@ export function OperationCreationSheet({
         />
       )}
 
-      {/* PDF Viewer - Outside Sheet, only visible on step 2 */}
       {open && step === 2 && (
         <div className="fixed inset-y-0 right-[640px] z-40 w-[700px]">
           <Suspense
@@ -211,7 +257,9 @@ export function OperationCreationSheet({
               <>
                 <Step2Form
                   isLoading={isExtractingData}
-                  formState={formState}
+                  extractedData={extractedData ?? null}
+                  validatedFields={validatedFields}
+                  signature={signature}
                   onToggleFieldValidation={toggleFieldValidation}
                   onSignatureChange={setSignature}
                 />
