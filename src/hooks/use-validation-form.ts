@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import type {
   ExtractedData,
   ValidationFormState,
@@ -31,14 +31,11 @@ const createInitialState = (
 export const useValidationForm = (
   extractedData: ExtractedData | null,
 ): UseValidationFormReturn => {
+  // Use key pattern: when extractedData changes, React will remount
+  // the component using this hook if parent uses key={extractedData?.id}
   const [formState, setFormState] = useState<ValidationFormState>(() =>
     createInitialState(extractedData),
   );
-
-  // Update form state when extracted data changes
-  useEffect(() => {
-    setFormState(createInitialState(extractedData));
-  }, [extractedData]);
 
   const toggleFieldValidation = (field: "fost" | "lieu" | "dateEngagement") => {
     setFormState((prev) => ({
@@ -57,7 +54,7 @@ export const useValidationForm = (
     }));
   };
 
-  // Simple boolean expression - no need for useMemo
+  // Derived state - simple boolean expression
   const isFormValid =
     formState.fost.isValidated &&
     formState.lieu.isValidated &&

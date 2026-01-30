@@ -1,59 +1,25 @@
-import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ValidationForm } from "./validation-form";
-import { useValidationForm } from "@/hooks/use-validation-form";
-import { mockExtractData } from "@/api/operations/mocks";
-import type { ExtractedData, SignatureStatusType } from "@/api/operations/schemas";
+import type {
+  ValidationFormState,
+  SignatureStatusType,
+} from "@/api/operations/schemas";
 import { Loader2 } from "lucide-react";
 
 type Step2FormProps = {
-  onFormValidityChange: (isValid: boolean) => void;
-  onFormStateChange: (state: {
-    fost: string;
-    lieu: string;
-    dateEngagement: string;
-    signature: SignatureStatusType | null;
-  }) => void;
+  isLoading: boolean;
+  formState: ValidationFormState;
+  onToggleFieldValidation: (field: "fost" | "lieu" | "dateEngagement") => void;
+  onSignatureChange: (value: SignatureStatusType) => void;
 };
 
 export function Step2Form({
-  onFormValidityChange,
-  onFormStateChange,
+  isLoading,
+  formState,
+  onToggleFieldValidation,
+  onSignatureChange,
 }: Step2FormProps) {
   const { t } = useTranslation("operations");
-  const [extractedData, setExtractedData] = useState<ExtractedData | null>(
-    null,
-  );
-  const [isLoading, setIsLoading] = useState(true);
-
-  const { formState, toggleFieldValidation, setSignature, isFormValid } =
-    useValidationForm(extractedData);
-
-  // Extract data on mount
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      const data = await mockExtractData();
-      setExtractedData(data);
-      setIsLoading(false);
-    };
-    fetchData();
-  }, []);
-
-  // Notify parent of form validity changes
-  useEffect(() => {
-    onFormValidityChange(isFormValid);
-  }, [isFormValid, onFormValidityChange]);
-
-  // Notify parent of form state changes
-  useEffect(() => {
-    onFormStateChange({
-      fost: formState.fost.value,
-      lieu: formState.lieu.value,
-      dateEngagement: formState.dateEngagement.value,
-      signature: formState.signature,
-    });
-  }, [formState, onFormStateChange]);
 
   if (isLoading) {
     return (
@@ -72,8 +38,8 @@ export function Step2Form({
     <div className="mt-5 flex flex-1 flex-col overflow-y-auto">
       <ValidationForm
         formState={formState}
-        onToggleFieldValidation={toggleFieldValidation}
-        onSignatureChange={setSignature}
+        onToggleFieldValidation={onToggleFieldValidation}
+        onSignatureChange={onSignatureChange}
       />
     </div>
   );

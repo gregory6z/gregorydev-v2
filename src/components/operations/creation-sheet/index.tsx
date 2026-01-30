@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, lazy, Suspense } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslation } from "react-i18next";
@@ -22,15 +22,21 @@ import { StepBadge } from "./step-badge";
 import { Step1Form } from "./step-1/step-1-form";
 import { Step2Form } from "./step-2/step-2-form";
 import { SheetFooter } from "./sheet-footer";
-import { PdfViewer } from "@/components/pdf-viewer";
+
 import { useFileUpload } from "@/hooks/use-file-upload";
+import { useExtractedData } from "@/hooks/use-extracted-data";
+import { useValidationForm } from "@/hooks/use-validation-form";
 import { useCreateOperation } from "@/api/operations/mutations";
 import {
   createOperationStep1Schema,
   type CreateOperationStep1Data,
-  type SignatureStatusType,
   FileUploadStatus,
 } from "@/api/operations/schemas";
+
+// Lazy load PdfViewer - only needed in step 2
+const PdfViewer = lazy(() =>
+  import("@/components/pdf-viewer").then((m) => ({ default: m.PdfViewer })),
+);
 
 type OperationCreationSheetProps = {
   open: boolean;
@@ -62,14 +68,17 @@ export function OperationCreationSheet({
     reset: resetFiles,
   } = useFileUpload();
 
-  // Step 2 state
-  const [isStep2Valid, setIsStep2Valid] = useState(false);
-  const [step2Data, setStep2Data] = useState<{
-    fost: string;
-    lieu: string;
-    dateEngagement: string;
-    signature: SignatureStatusType | null;
-  } | null>(null);
+  // Step 2: Extract data and validation form (lifted state)
+  const isStep2 = step === 2;
+  const { data: extractedData, isLoading: isExtractingData } =
+    useExtractedData(isStep2);
+  const {
+    formState,
+    toggleFieldValidation,
+    setSignature,
+    isFormValid: isStep2Valid,
+    reset: resetValidationForm,
+  } = useValidationForm(extractedData);
 
   const createOperationMutation = useCreateOperation();
 
@@ -92,9 +101,8 @@ export function OperationCreationSheet({
   const handleConfirmClose = () => {
     methods.reset();
     resetFiles();
+    resetValidationForm();
     setStep(1);
-    setIsStep2Valid(false);
-    setStep2Data(null);
     setShowCancelConfirm(false);
     onOpenChange(false);
   };
@@ -110,7 +118,7 @@ export function OperationCreationSheet({
   };
 
   const handleCreate = () => {
-    if (!step2Data || !step2Data.signature) return;
+    if (!formState.signature) return;
 
     createOperationMutation.mutate(
       {
@@ -118,10 +126,10 @@ export function OperationCreationSheet({
         fileIds: files
           .filter((f) => f.status === FileUploadStatus.COMPLETED)
           .map((f) => f.id),
-        fost: step2Data.fost,
-        lieu: step2Data.lieu,
-        dateEngagement: step2Data.dateEngagement,
-        signature: step2Data.signature,
+        fost: formState.fost.value,
+        lieu: formState.lieu.value,
+        dateEngagement: formState.dateEngagement.value,
+        signature: formState.signature,
       },
       {
         onSuccess: () => {
@@ -129,19 +137,6 @@ export function OperationCreationSheet({
         },
       },
     );
-  };
-
-  const handleFormValidityChange = (isValid: boolean) => {
-    setIsStep2Valid(isValid);
-  };
-
-  const handleFormStateChange = (state: {
-    fost: string;
-    lieu: string;
-    dateEngagement: string;
-    signature: SignatureStatusType | null;
-  }) => {
-    setStep2Data(state);
   };
 
   return (
@@ -158,7 +153,15 @@ export function OperationCreationSheet({
       {/* PDF Viewer - Outside Sheet, only visible on step 2 */}
       {open && step === 2 && (
         <div className="fixed inset-y-0 right-[640px] z-40 w-[700px]">
-          <PdfViewer file={pdfFile} className="h-full rounded-none" />
+          <Suspense
+            fallback={
+              <div className="flex h-full items-center justify-center bg-[#ECEBE8]">
+                <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+              </div>
+            }
+          >
+            <PdfViewer file={pdfFile} className="h-full rounded-none" />
+          </Suspense>
         </div>
       )}
 
@@ -207,8 +210,10 @@ export function OperationCreationSheet({
             {step === 2 && (
               <>
                 <Step2Form
-                  onFormValidityChange={handleFormValidityChange}
-                  onFormStateChange={handleFormStateChange}
+                  isLoading={isExtractingData}
+                  formState={formState}
+                  onToggleFieldValidation={toggleFieldValidation}
+                  onSignatureChange={setSignature}
                 />
                 <SheetFooter
                   cancelLabel={t("creation.cancel")}
