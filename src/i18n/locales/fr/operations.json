@@ -13,7 +13,8 @@
   },
   "status": {
     "inProgress": "En cours",
-    "done": "Terminé"
+    "done": "Terminé",
+    "analyzing": "Analyse en cours"
   },
   "conformity": {
     "conform": "Conforme",
@@ -77,5 +78,48 @@
   "validation": {
     "operationNameRequired": "Le nom de l'opération est requis",
     "operationNameTooLong": "Le nom ne peut pas dépasser 100 caractères"
+  },
+  "details": {
+    "unknownBeneficiary": "Bénéficiaire inconnu",
+    "notAnalyzed": "Non analysé",
+    "creationDate": "Date de création",
+    "engagementDate": "Date d'engagement",
+    "fostCode": "FOST CEE concernée",
+    "keywords": "Mots clés",
+    "summary": "Synthèse de l'opération",
+    "mentionsOperation": "Mentions opération",
+    "amountTTC": "Montant TTC",
+    "primeCEE": "Prime CEE",
+    "quoteSignatureDate": "Signature devis",
+    "workAddress": "Adresse des travaux",
+    "beneficiary": "Bénéficiaire",
+    "beneficiaryName": "Nom",
+    "beneficiaryAddress": "Adresse",
+    "beneficiaryEmail": "Email",
+    "beneficiaryPhone": "Téléphone",
+    "professionalRGE": "Professionnel RGE",
+    "siret": "Siret",
+    "professionalAddress": "Adresse",
+    "obligee": "Obligé/Délégataire",
+    "files": {
+      "title": "Fichiers",
+      "addFile": "Ajouter un fichier",
+      "name": "Intitulé",
+      "summary": "Synthèse",
+      "date": "Date",
+      "status": "Statut",
+      "newVersion": "Nouvelle version",
+      "uploadNewVersion": "Télécharger une nouvelle version"
+    },
+    "fileStatus": {
+      "conform": "Conforme",
+      "nonConform": "Non conforme",
+      "analyzing": "Analyse en cours"
+    },
+    "analysisButton": "Analyse cohérence globale",
+    "analysisStarted": "Analyse lancée avec succès",
+    "analysisError": "Erreur lors du lancement de l'analyse",
+    "loadError": "Erreur lors du chargement de l'opération",
+    "backToList": "Retour à la liste"
   }
 }

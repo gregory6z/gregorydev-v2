@@ -107,24 +107,58 @@ function DataTableHeader({ className }: DataTableHeaderProps) {
  * DataTableBody
  * -------------------------------------------------------------------------- */
 
-interface DataTableBodyProps {
+interface DataTableBodyProps<TData> {
   className?: string;
   emptyMessage?: string;
+  onRowClick?: (row: TData) => void;
+  /** Column IDs that should NOT trigger row click (e.g., "select" for checkboxes) */
+  excludeClickColumns?: string[];
+  /** Custom row height (e.g., "100px") */
+  rowHeight?: string;
 }
 
-function DataTableBody({
+function DataTableBody<TData>({
   className,
   emptyMessage = "No results.",
-}: DataTableBodyProps) {
-  const { table } = useDataTable();
+  onRowClick,
+  excludeClickColumns = [],
+  rowHeight,
+}: DataTableBodyProps<TData>) {
+  const { table } = useDataTable<TData>();
+
+  const handleCellClick = (
+    row: TData,
+    columnId: string,
+    e: React.MouseEvent,
+  ) => {
+    if (!onRowClick) return;
+    if (excludeClickColumns.includes(columnId)) return;
+    // Don't trigger if clicking on interactive elements
+    const target = e.target as HTMLElement;
+    if (target.closest("button, a, input, [role='checkbox']")) return;
+    onRowClick(row);
+  };
 
   return (
     <TableBody className={className}>
       {table.getRowModel().rows?.length ? (
         table.getRowModel().rows.map((row) => (
-          <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
+          <TableRow
+            key={row.id}
+            data-state={row.getIsSelected() && "selected"}
+            className={onRowClick ? "cursor-pointer" : undefined}
+          >
             {row.getVisibleCells().map((cell) => (
-              <TableCell key={cell.id} style={{ width: cell.column.getSize() }}>
+              <TableCell
+                key={cell.id}
+                style={{
+                  width: cell.column.getSize(),
+                  height: rowHeight,
+                }}
+                onClick={(e) =>
+                  handleCellClick(row.original, cell.column.id, e)
+                }
+              >
                 {render(cell.column.columnDef.cell, cell.getContext())}
               </TableCell>
             ))}

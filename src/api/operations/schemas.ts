@@ -167,3 +167,74 @@ export type CreatedOperation = {
   status: string;
   createdAt: string;
 };
+
+// ──────────────────────────────────────────────
+// Operation Details
+// ──────────────────────────────────────────────
+
+export const FileStatus = {
+  CONFORM: "conform",
+  NON_CONFORM: "non_conform",
+  ANALYZING: "analyzing",
+} as const;
+
+export type FileStatusType = (typeof FileStatus)[keyof typeof FileStatus];
+
+export const AnalysisStatus = {
+  NOT_ANALYZED: "not_analyzed",
+  ANALYZED: "analyzed",
+} as const;
+
+export type AnalysisStatusType =
+  (typeof AnalysisStatus)[keyof typeof AnalysisStatus];
+
+// Fichier dans la liste des détails
+export type OperationFile = {
+  id: string;
+  name: string;
+  summary: string;
+  date: string;
+  status: FileStatusType;
+};
+
+// Bénéficiaire (tous les champs peuvent être null - extraits par IA)
+export type Beneficiary = {
+  name: string | null;
+  address: string | null;
+  email: string | null;
+  phone: string | null;
+};
+
+// Professionnel RGE (tous les champs peuvent être null - extraits par IA)
+export type ProfessionalRGE = {
+  siret: string | null;
+  address: string | null;
+};
+
+// Détails complets de l'opération
+export type OperationDetails = {
+  // Champs obligatoires (générés par le système)
+  id: string;
+  reference: string;
+  conformity: ConformityStatusType;
+  analysisStatus: AnalysisStatusType;
+  files: OperationFile[];
+
+  // Champs extraits par IA (peuvent être null)
+  creationDate: string | null;
+  engagementDate: string | null;
+  fostCode: string | null;
+  keywords: string[] | null;
+  summary: string | null;
+
+  // Mentions opération
+  amountTTC: number | null;
+  primeCEE: number | null;
+  quoteSignatureDate: string | null;
+  workAddress: string | null;
+
+  // Entités liées
+  beneficiary: Beneficiary | null;
+  professionalRGE: ProfessionalRGE | null;
+  obligee: string | null;
+};
