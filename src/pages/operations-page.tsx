@@ -1,5 +1,5 @@
 import { OperationsTable } from "@/components/operations";
 
-export const DashboardPage = () => {
+export const OperationsPage = () => {
   return <OperationsTable />;
 };

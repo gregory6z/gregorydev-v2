@@ -31,7 +31,7 @@ export function Header() {
   return (
     <header className="h-16 bg-white border-b border-table-border">
       <div className="max-w-[1380px] mx-auto px-6 h-full flex items-center justify-between">
-        <Link to="/dashboard">
+        <Link to="/operations">
           <img src={logo} alt="Energer" className="h-8" />
         </Link>
 

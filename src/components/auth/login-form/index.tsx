@@ -28,7 +28,7 @@ export const LoginForm = () => {
     loginMutation.mutate(data, {
       onSuccess: (response) => {
         auth.login(response.access_token);
-        navigate("/dashboard");
+        navigate("/operations");
       },
     });
   };
@@ -67,7 +67,7 @@ export const LoginForm = () => {
           )}
         </div>
 
-        {loginMutation.isError && (
+        {loginMutation.error && (
           <p className="text-base text-primary">
             {t(`errors.${loginMutation.error.message}`)}
           </p>
