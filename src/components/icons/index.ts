@@ -1,9 +1,13 @@
 export { ArrowLeftIcon } from "./arrow-left";
 export { ArrowRightIcon } from "./arrow-right";
 export { CheckCircleIcon } from "./check-circle";
+export { ClockIcon } from "./clock";
 export { DocumentStackIcon } from "./document-stack";
 export { DotsHorizontalIcon } from "./dots-horizontal";
+export { FileUploadIcon } from "./file-upload";
+export { LoadingIcon } from "./loading";
 export { PlusIcon } from "./plus";
 export { SquareOutlineIcon } from "./square-outline";
 export { SquareRoundedIcon } from "./square-rounded";
+export { UploadIcon } from "./upload";
 export { XCircleIcon } from "./x-circle";
