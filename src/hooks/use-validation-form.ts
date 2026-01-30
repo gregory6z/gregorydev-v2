@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo, useEffect } from "react";
+import { useState, useEffect } from "react";
 import type {
   ExtractedData,
   ValidationFormState,
@@ -14,64 +14,59 @@ type UseValidationFormReturn = {
   reset: () => void;
 };
 
+const createInitialState = (
+  extractedData: ExtractedData | null,
+): ValidationFormState => ({
+  fost: { value: extractedData?.fost ?? "", isValidated: false },
+  lieu: { value: extractedData?.lieu ?? "", isValidated: false },
+  dateEngagement: {
+    value: extractedData?.dateEngagement ?? "",
+    isValidated: false,
+  },
+  signature: extractedData?.signatureDetected
+    ? SignatureStatus.PRESENT
+    : SignatureStatus.ABSENT,
+});
+
 export const useValidationForm = (
   extractedData: ExtractedData | null,
 ): UseValidationFormReturn => {
-  const createInitialState = useCallback(
-    (): ValidationFormState => ({
-      fost: { value: extractedData?.fost ?? "", isValidated: false },
-      lieu: { value: extractedData?.lieu ?? "", isValidated: false },
-      dateEngagement: {
-        value: extractedData?.dateEngagement ?? "",
-        isValidated: false,
-      },
-      signature: extractedData?.signatureDetected
-        ? SignatureStatus.PRESENT
-        : SignatureStatus.ABSENT,
-    }),
-    [extractedData],
+  const [formState, setFormState] = useState<ValidationFormState>(() =>
+    createInitialState(extractedData),
   );
-
-  const [formState, setFormState] =
-    useState<ValidationFormState>(createInitialState());
 
   // Update form state when extracted data changes
   useEffect(() => {
-    setFormState(createInitialState());
-  }, [createInitialState]);
+    setFormState(createInitialState(extractedData));
+  }, [extractedData]);
 
-  const toggleFieldValidation = useCallback(
-    (field: "fost" | "lieu" | "dateEngagement") => {
-      setFormState((prev) => ({
-        ...prev,
-        [field]: {
-          ...prev[field],
-          isValidated: !prev[field].isValidated,
-        },
-      }));
-    },
-    [],
-  );
+  const toggleFieldValidation = (field: "fost" | "lieu" | "dateEngagement") => {
+    setFormState((prev) => ({
+      ...prev,
+      [field]: {
+        ...prev[field],
+        isValidated: !prev[field].isValidated,
+      },
+    }));
+  };
 
-  const setSignature = useCallback((value: SignatureStatusType) => {
+  const setSignature = (value: SignatureStatusType) => {
     setFormState((prev) => ({
       ...prev,
       signature: value,
     }));
-  }, []);
+  };
 
-  const isFormValid = useMemo(() => {
-    return (
-      formState.fost.isValidated &&
-      formState.lieu.isValidated &&
-      formState.dateEngagement.isValidated &&
-      formState.signature !== null
-    );
-  }, [formState]);
+  // Simple boolean expression - no need for useMemo
+  const isFormValid =
+    formState.fost.isValidated &&
+    formState.lieu.isValidated &&
+    formState.dateEngagement.isValidated &&
+    formState.signature !== null;
 
-  const reset = useCallback(() => {
-    setFormState(createInitialState());
-  }, [createInitialState]);
+  const reset = () => {
+    setFormState(createInitialState(extractedData));
+  };
 
   return {
     formState,

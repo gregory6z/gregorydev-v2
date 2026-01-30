@@ -1,4 +1,3 @@
-import { memo } from "react";
 import { Page } from "react-pdf";
 import { useInView } from "react-intersection-observer";
 
@@ -8,7 +7,7 @@ type LazyPageProps = {
   width?: number;
 };
 
-function LazyPageComponent({ pageNumber, scale, width }: LazyPageProps) {
+export function LazyPage({ pageNumber, scale, width }: LazyPageProps) {
   const { ref, inView } = useInView({
     triggerOnce: false,
     rootMargin: "200px 0px", // Pre-load pages 200px before they become visible
@@ -48,12 +47,3 @@ function LazyPageComponent({ pageNumber, scale, width }: LazyPageProps) {
     </div>
   );
 }
-
-// Memoize to prevent unnecessary re-renders
-export const LazyPage = memo(LazyPageComponent, (prevProps, nextProps) => {
-  return (
-    prevProps.pageNumber === nextProps.pageNumber &&
-    prevProps.scale === nextProps.scale &&
-    prevProps.width === nextProps.width
-  );
-});

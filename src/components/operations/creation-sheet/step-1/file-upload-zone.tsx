@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
@@ -17,12 +17,9 @@ export function FileUploadZone({
   const { t } = useTranslation("operations");
   const [isDragActive, setIsDragActive] = useState(false);
 
-  const onDrop = useCallback(
-    (acceptedFiles: File[]) => {
-      onFilesAdded(acceptedFiles);
-    },
-    [onFilesAdded],
-  );
+  const onDrop = (acceptedFiles: File[]) => {
+    onFilesAdded(acceptedFiles);
+  };
 
   const { getRootProps, getInputProps, open } = useDropzone({
     onDrop,

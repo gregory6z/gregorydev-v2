@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { mockUploadFile } from "@/api/operations/mocks";
 import type {
@@ -26,38 +26,36 @@ type UseFileUploadReturn = {
 export const useFileUpload = (): UseFileUploadReturn => {
   const [files, setFiles] = useState<UploadingFile[]>([]);
 
-  const updateFileProgress = useCallback((id: string, progress: number) => {
+  const updateFileProgress = (id: string, progress: number) => {
     setFiles((prev) => prev.map((f) => (f.id === id ? { ...f, progress } : f)));
-  }, []);
+  };
 
-  const updateFileStatus = useCallback(
-    (id: string, status: FileUploadStatusType, error?: string) => {
-      setFiles((prev) =>
-        prev.map((f) => (f.id === id ? { ...f, status, error } : f)),
+  const updateFileStatus = (
+    id: string,
+    status: FileUploadStatusType,
+    error?: string,
+  ) => {
+    setFiles((prev) =>
+      prev.map((f) => (f.id === id ? { ...f, status, error } : f)),
+    );
+  };
+
+  const uploadFile = async (uploadingFile: UploadingFile) => {
+    updateFileStatus(uploadingFile.id, FileUploadStatus.UPLOADING);
+
+    try {
+      await mockUploadFile(uploadingFile.file, (progress) => {
+        updateFileProgress(uploadingFile.id, progress);
+      });
+      updateFileStatus(uploadingFile.id, FileUploadStatus.COMPLETED);
+    } catch {
+      updateFileStatus(
+        uploadingFile.id,
+        FileUploadStatus.ERROR,
+        "errors.uploadFailed",
       );
-    },
-    [],
-  );
-
-  const uploadFile = useCallback(
-    async (uploadingFile: UploadingFile) => {
-      updateFileStatus(uploadingFile.id, FileUploadStatus.UPLOADING);
-
-      try {
-        await mockUploadFile(uploadingFile.file, (progress) => {
-          updateFileProgress(uploadingFile.id, progress);
-        });
-        updateFileStatus(uploadingFile.id, FileUploadStatus.COMPLETED);
-      } catch {
-        updateFileStatus(
-          uploadingFile.id,
-          FileUploadStatus.ERROR,
-          "errors.uploadFailed",
-        );
-      }
-    },
-    [updateFileProgress, updateFileStatus],
-  );
+    }
+  };
 
   const validateFile = (file: File): string | null => {
     const extension = `.${file.name.split(".").pop()?.toLowerCase()}`;
@@ -77,54 +75,49 @@ export const useFileUpload = (): UseFileUploadReturn => {
     return null;
   };
 
-  const addFiles = useCallback(
-    (newFiles: File[]) => {
-      const uploadingFiles: UploadingFile[] = newFiles.map((file) => {
-        const error = validateFile(file);
-        return {
-          id: uuidv4(),
-          file,
-          name: file.name,
-          size: file.size,
-          progress: 0,
-          status: error ? FileUploadStatus.ERROR : FileUploadStatus.PENDING,
-          error: error ?? undefined,
-        };
-      });
+  const addFiles = (newFiles: File[]) => {
+    const uploadingFiles: UploadingFile[] = newFiles.map((file) => {
+      const error = validateFile(file);
+      return {
+        id: uuidv4(),
+        file,
+        name: file.name,
+        size: file.size,
+        progress: 0,
+        status: error ? FileUploadStatus.ERROR : FileUploadStatus.PENDING,
+        error: error ?? undefined,
+      };
+    });
 
-      setFiles((prev) => [...prev, ...uploadingFiles]);
+    setFiles((prev) => [...prev, ...uploadingFiles]);
 
-      // Start upload for valid files
-      uploadingFiles
-        .filter((f) => f.status === FileUploadStatus.PENDING)
-        .forEach((f) => uploadFile(f));
-    },
-    [uploadFile],
-  );
+    // Start upload for valid files
+    uploadingFiles
+      .filter((f) => f.status === FileUploadStatus.PENDING)
+      .forEach((f) => uploadFile(f));
+  };
 
-  const removeFile = useCallback((id: string) => {
+  const removeFile = (id: string) => {
     setFiles((prev) => prev.filter((f) => f.id !== id));
-  }, []);
+  };
 
-  const retryFile = useCallback(
-    (id: string) => {
-      const file = files.find((f) => f.id === id);
-      if (file && file.status === FileUploadStatus.ERROR) {
-        updateFileProgress(id, 0);
-        uploadFile({
-          ...file,
-          status: FileUploadStatus.PENDING,
-          error: undefined,
-        });
-      }
-    },
-    [files, updateFileProgress, uploadFile],
-  );
+  const retryFile = (id: string) => {
+    const file = files.find((f) => f.id === id);
+    if (file && file.status === FileUploadStatus.ERROR) {
+      updateFileProgress(id, 0);
+      uploadFile({
+        ...file,
+        status: FileUploadStatus.PENDING,
+        error: undefined,
+      });
+    }
+  };
 
-  const reset = useCallback(() => {
+  const reset = () => {
     setFiles([]);
-  }, []);
+  };
 
+  // Derived state - no need for useMemo with React Compiler
   const isUploading = files.some(
     (f) =>
       f.status === FileUploadStatus.UPLOADING ||

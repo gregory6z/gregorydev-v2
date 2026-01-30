@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, memo } from "react";
+import { useState, useEffect } from "react";
 import { Document, pdfjs } from "react-pdf";
 import { PdfToolbar } from "./toolbar";
 import { LazyPage } from "./lazy-page";
@@ -38,17 +38,14 @@ function useFileSource(file: File | string | null) {
   return blobUrl;
 }
 
-function PdfViewerComponent({ file, className }: PdfViewerProps) {
+export function PdfViewer({ file, className }: PdfViewerProps) {
   const [numPages, setNumPages] = useState(0);
   const [zoom, setZoom] = useState(1);
   const fileSource = useFileSource(file);
 
-  const onDocumentLoadSuccess = useCallback(
-    ({ numPages }: { numPages: number }) => {
-      setNumPages(numPages);
-    },
-    [],
-  );
+  const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
+    setNumPages(numPages);
+  };
 
   const handleZoomIn = () => setZoom((prev) => Math.min(prev + 0.1, 2));
   const handleZoomOut = () => setZoom((prev) => Math.max(prev - 0.1, 0.5));
@@ -137,6 +134,3 @@ function PdfViewerComponent({ file, className }: PdfViewerProps) {
     </div>
   );
 }
-
-// Memoize the entire component to prevent unnecessary re-renders
-export const PdfViewer = memo(PdfViewerComponent);

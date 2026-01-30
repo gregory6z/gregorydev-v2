@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState } from "react";
 
 type UsePdfViewerOptions = {
   initialZoom?: number;
@@ -34,17 +34,17 @@ export const usePdfViewer = (
   const [totalPages, setTotalPages] = useState(0);
   const [zoom, setZoom] = useState(initialZoom);
 
-  const zoomIn = useCallback(() => {
+  const zoomIn = () => {
     setZoom((prev) => Math.min(prev + zoomStep, maxZoom));
-  }, [zoomStep, maxZoom]);
+  };
 
-  const zoomOut = useCallback(() => {
+  const zoomOut = () => {
     setZoom((prev) => Math.max(prev - zoomStep, minZoom));
-  }, [zoomStep, minZoom]);
+  };
 
-  const resetZoom = useCallback(() => {
+  const resetZoom = () => {
     setZoom(initialZoom);
-  }, [initialZoom]);
+  };
 
   return {
     currentPage,

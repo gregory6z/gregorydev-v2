@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslation } from "react-i18next";
@@ -131,21 +131,18 @@ export function OperationCreationSheet({
     );
   };
 
-  const handleFormValidityChange = useCallback((isValid: boolean) => {
+  const handleFormValidityChange = (isValid: boolean) => {
     setIsStep2Valid(isValid);
-  }, []);
+  };
 
-  const handleFormStateChange = useCallback(
-    (state: {
-      fost: string;
-      lieu: string;
-      dateEngagement: string;
-      signature: SignatureStatusType | null;
-    }) => {
-      setStep2Data(state);
-    },
-    [],
-  );
+  const handleFormStateChange = (state: {
+    fost: string;
+    lieu: string;
+    dateEngagement: string;
+    signature: SignatureStatusType | null;
+  }) => {
+    setStep2Data(state);
+  };
 
   return (
     <>

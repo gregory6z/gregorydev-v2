@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Trash2 } from "lucide-react";
 import {
@@ -68,11 +68,8 @@ export const OperationsTable = () => {
 
   const deleteMutation = useDeleteOperations();
 
-  // Columns
-  const columns = useMemo(
-    () => createColumns({ t, formatDate }),
-    [t, formatDate],
-  );
+  // Columns - React Compiler handles memoization
+  const columns = createColumns({ t, formatDate });
 
   // Table instance
   const table = useReactTable<Operation>({

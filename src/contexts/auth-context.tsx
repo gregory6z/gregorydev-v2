@@ -31,6 +31,9 @@ const AuthContext = createContext<AuthContextValue | null>(null);
 
 // ── Provider ─────────────────────────────────────────────────────────────────
 
+// Note: useCallback and useMemo are intentionally kept here.
+// Context providers need stable references to prevent all consumers from re-rendering.
+// React Compiler optimizes components but doesn't handle context value stability automatically.
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [token, setToken] = useState<string | null>(
     () => Cookies.get(JWT_TOKEN_NAME) ?? null,
