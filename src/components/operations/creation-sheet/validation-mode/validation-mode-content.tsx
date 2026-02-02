@@ -9,7 +9,7 @@ import type {
 
 type ValidationFieldName = "fost" | "lieu" | "dateEngagement";
 
-type Step2FormProps = {
+type ValidationModeContentProps = {
   isLoading: boolean;
   extractedData: ExtractedData | null;
   validatedFields: Set<ValidationFieldName>;
@@ -18,14 +18,14 @@ type Step2FormProps = {
   onSignatureChange: (value: SignatureStatusType) => void;
 };
 
-export function Step2Form({
+export function ValidationModeContent({
   isLoading,
   extractedData,
   validatedFields,
   signature,
   onToggleFieldValidation,
   onSignatureChange,
-}: Step2FormProps) {
+}: ValidationModeContentProps) {
   const { t } = useTranslation("operations");
 
   if (isLoading) {

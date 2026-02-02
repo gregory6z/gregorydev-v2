@@ -9,7 +9,7 @@ import type {
   UploadingFile,
 } from "@/api/operations/schemas";
 
-type Step1ContentProps = {
+type UploadModeContentProps = {
   files: UploadingFile[];
   completedCount: number;
   isUploading: boolean;
@@ -18,14 +18,14 @@ type Step1ContentProps = {
   onRetryFile: (id: string) => void;
 };
 
-export function Step1Form({
+export function UploadModeContent({
   files,
   completedCount,
   isUploading,
   onFilesAdded,
   onRemoveFile,
   onRetryFile,
-}: Step1ContentProps) {
+}: UploadModeContentProps) {
   const { t } = useTranslation("operations");
   const {
     register,

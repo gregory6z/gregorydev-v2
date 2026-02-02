@@ -20,8 +20,8 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { StepBadge } from "./step-badge";
-import { Step1Form } from "./step-1/step-1-form";
-import { Step2Form } from "./step-2/step-2-form";
+import { UploadModeContent } from "./upload-mode/upload-mode-content";
+import { ValidationModeContent } from "./validation-mode/validation-mode-content";
 import { SheetFooter } from "./sheet-footer";
 
 import { useFileUpload } from "@/hooks/use-file-upload";
@@ -238,7 +238,7 @@ export function OperationCreationSheet({
           <FormProvider {...methods}>
             {step === 1 && (
               <>
-                <Step1Form
+                <UploadModeContent
                   files={files}
                   completedCount={completedCount}
                   isUploading={isUploading}
@@ -257,7 +257,7 @@ export function OperationCreationSheet({
             )}
             {step === 2 && (
               <>
-                <Step2Form
+                <ValidationModeContent
                   isLoading={isExtractingData}
                   extractedData={extractedData ?? null}
                   validatedFields={validatedFields}
