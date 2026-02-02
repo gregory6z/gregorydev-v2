@@ -1,5 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -9,7 +10,8 @@ import { InfoBlock } from "@/components/operations/details/info-block";
 import { InfoField } from "@/components/operations/details/info-field";
 import { KeywordBadge } from "@/components/operations/details/keyword-badge";
 import { FilesTable } from "@/components/operations/details/files-table";
-import { useOperationDetails } from "@/api/operations/queries";
+import { GlobalCoherenceSection } from "@/components/operations/details/global-coherence";
+import { useOperationDetails, operationsKeys } from "@/api/operations/queries";
 import { useRunGlobalAnalysis } from "@/api/operations/mutations";
 import { useFormatDate } from "@/hooks/use-format-date";
 import { useFormatCurrency } from "@/hooks/use-format-currency";
@@ -18,6 +20,7 @@ export function OperationDetailsPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { t } = useTranslation("operations");
+  const queryClient = useQueryClient();
   const formatDate = useFormatDate();
   const formatCurrency = useFormatCurrency();
 
@@ -27,7 +30,13 @@ export function OperationDetailsPage() {
   const handleBack = () => navigate("/operations");
 
   const handleAnalysis = () => {
-    analysisMutation.mutate(id!);
+    analysisMutation.mutate(id!, {
+      onSettled: () => {
+        queryClient.invalidateQueries({
+          queryKey: operationsKeys.detail(id!),
+        });
+      },
+    });
   };
 
   const handleUploadNewVersion = (fileId: string) => {
@@ -188,19 +197,13 @@ export function OperationDetailsPage() {
         onAddFile={handleAddFile}
       />
 
-      {/* Analysis button */}
-      <div className="flex justify-center mt-8">
-        <Button
-          size="lg"
-          onClick={handleAnalysis}
-          disabled={analysisMutation.isPending}
-          className="px-8 bg-primary-dark hover:bg-primary-dark/90 font-display font-semibold text-base leading-5"
-        >
-          {analysisMutation.isPending && (
-            <Loader2 className="size-4 mr-2 animate-spin" />
-          )}
-          {t("details.analysisButton")}
-        </Button>
+      {/* Global Coherence Section */}
+      <div className="mt-8">
+        <GlobalCoherenceSection
+          globalCoherence={data.globalCoherence}
+          isAnalyzing={analysisMutation.isPending}
+          onAnalyze={handleAnalysis}
+        />
       </div>
     </>
   );

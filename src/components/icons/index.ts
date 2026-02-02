@@ -7,6 +7,7 @@ export { DotsHorizontalIcon } from "./dots-horizontal";
 export { FileUploadIcon } from "./file-upload";
 export { LoadingIcon } from "./loading";
 export { PlusIcon } from "./plus";
+export { SquareDashedIcon } from "./square-dashed";
 export { SquareOutlineIcon } from "./square-outline";
 export { SquareRoundedIcon } from "./square-rounded";
 export { UploadIcon } from "./upload";

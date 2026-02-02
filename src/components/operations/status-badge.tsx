@@ -4,20 +4,27 @@ import {
   OperationStatus,
   ConformityStatus,
   FileStatus,
+  CoherenceStatus,
   type OperationStatusType,
   type ConformityStatusType,
   type FileStatusType,
+  type CoherenceStatusType,
 } from "@/api/operations/schemas";
 import {
   CheckCircleIcon,
   XCircleIcon,
   SquareRoundedIcon,
+  SquareDashedIcon,
   DotsHorizontalIcon,
   SquareOutlineIcon,
   LoadingIcon,
 } from "@/components/icons";
 
-type StatusType = OperationStatusType | ConformityStatusType | FileStatusType;
+type StatusType =
+  | OperationStatusType
+  | ConformityStatusType
+  | FileStatusType
+  | CoherenceStatusType;
 
 type StatusBadgeProps = {
   status: StatusType;
@@ -68,6 +75,13 @@ export function StatusBadge({ status }: StatusBadgeProps) {
       label: t("status.analyzing"),
       icon: LoadingIcon,
       className: "bg-surface/40 text-muted-foreground",
+    },
+
+    // Coherence Status (CONFORM and NON_CONFORM use same values as ConformityStatus)
+    [CoherenceStatus.NOT_APPLICABLE]: {
+      label: t("coherenceStatus.notApplicable"),
+      icon: SquareDashedIcon,
+      className: "bg-surface/40 text-[#BABABA]",
     },
   };
 

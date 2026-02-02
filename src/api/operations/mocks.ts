@@ -9,12 +9,14 @@ import type {
   CreateOperationPayload,
   OperationDetails,
   OperationFile,
+  GlobalCoherenceAnalysis,
 } from "./schemas";
 import {
   OperationStatus,
   ConformityStatus,
   FileStatus,
   AnalysisStatus,
+  CoherenceStatus,
 } from "./schemas";
 
 // Helper to wrap data in ApiResponse envelope
@@ -273,10 +275,162 @@ export const mockCreateOperation = (
   });
 
 // ──────────────────────────────────────────────
+// MOCK: Global Coherence Analysis
+// ──────────────────────────────────────────────
+
+const mockGlobalCoherenceAnalysisData: GlobalCoherenceAnalysis = {
+  analyzedAt: "2025-01-15T14:30:00Z",
+  globalStatus: "non_conform",
+  summary:
+    "Travaux d'isolation thermique par l'extérieur avec polystyrène 140 mm. Isolation thermique par l'extérieur en 140 mm d'épaisseur, avec 2 couches d'enduit hydraulique (plaque en polystyrène collé et chevillé, armé d'un treillis, polystyrène SINIAT unimat façade: résistance thermique = 3.70",
+  verificationSteps: [
+    {
+      id: "step-1",
+      name: "Complétude du dossier",
+      subVerifications: [
+        {
+          id: "sub-1-1",
+          name: "-",
+          status: CoherenceStatus.CONFORM,
+          comment: "Documents constitutifs obligatoires présents.",
+        },
+      ],
+    },
+    {
+      id: "step-2",
+      name: "Triangulation Identité/Adresse",
+      subVerifications: [
+        {
+          id: "sub-2-1",
+          name: "Identité Bénéficiaire identique (Devis/Facture/AH)",
+          status: CoherenceStatus.NON_CONFORM,
+          comment:
+            'Devis: "ASSOCIATION ESPERANCE BANLIEUES - COURS LA PASSERELLE" ; Facture: "ASSOCIATION ESPERANCE BANLIEUES" ; AH Partie B : vide.',
+        },
+        {
+          id: "sub-2-2",
+          name: "Adresse Chantier identique (Devis/Facture/AH)",
+          status: CoherenceStatus.CONFORM,
+          comment:
+            "Adresse chantier identique 212 rue des Martyrs de la Libération, 69310 Pierre-Bénite (graphies équivalentes).",
+        },
+        {
+          id: "sub-2-3",
+          name: "Identité Entreprise (SIREN/SIRET) identique",
+          status: CoherenceStatus.NON_CONFORM,
+          comment:
+            "Devis/Facture : WIN ENERGIE (SIREN 539810135). AH Partie C : GAZPROM MARKETING & TRADING FRANCE (SIREN 491388914).",
+        },
+      ],
+    },
+    {
+      id: "step-3",
+      name: "Cohérence Technique Transversale",
+      subVerifications: [
+        {
+          id: "sub-3-1",
+          name: "Périmètre technique (hydro-économe) conforme BAT-EQ-133",
+          status: CoherenceStatus.CONFORM,
+          comment:
+            "Aérateurs auto-régulés / systèmes hydro-économes mentionnés sur toutes pièces.",
+        },
+        {
+          id: "sub-3-2",
+          name: "Nombre d'équipements (Facture vs AH)",
+          status: CoherenceStatus.CONFORM,
+          comment: "Facture: 10 aérateurs (implicite) ; AH: 10.",
+        },
+      ],
+    },
+    {
+      id: "step-4",
+      name: "Chaîne Chronologique",
+      subVerifications: [
+        {
+          id: "sub-4-1",
+          name: "Antériorité devis vs début travaux",
+          status: CoherenceStatus.NOT_APPLICABLE,
+          comment: "Aucune date de début travaux renseignée.",
+        },
+        {
+          id: "sub-4-2",
+          name: "Facture postérieure à fin travaux",
+          status: CoherenceStatus.NOT_APPLICABLE,
+          comment: "Aucune date de fin travaux renseignée.",
+        },
+        {
+          id: "sub-4-3",
+          name: "Signature AH postérieure/égale à facture",
+          status: CoherenceStatus.NON_CONFORM,
+          comment:
+            "Date signature bénéficiaire AH absente ; facture datée 2022-05-19.",
+        },
+        {
+          id: "sub-4-4",
+          name: "Antériorité visite technique",
+          status: CoherenceStatus.NOT_APPLICABLE,
+          comment: "Aucune date de début travaux renseignée.",
+        },
+      ],
+    },
+  ],
+  nonConformities: [
+    {
+      id: "nc-1",
+      issue:
+        "Identité Bénéficiaire incohérente entre pièces (Devis/Facture/AH)",
+      correction:
+        "Renseigner et harmoniser la raison sociale dans l'AH Partie B. Joindre une AH corrigée signée et cachetée par le bénéficiaire.",
+    },
+    {
+      id: "nc-2",
+      issue:
+        "Identité Entreprise/Professionnel incohérente (AH mentionne l'obligé au lieu de l'installateur)",
+      correction:
+        "Corriger l'AH Partie C avec les informations complètes de WIN ENERGIE (SIREN/SIRET, adresse), préciser le cas échéant la sous-traitance, et apposer cachet et signature.",
+    },
+    {
+      id: "nc-3",
+      issue: "Signature et dates AH manquantes",
+      correction:
+        "Compléter l'AH avec la date de signature du bénéficiaire (postérieure ou égale à la facture 2022-05-19), et les dates requises (engagement, visite si applicable, début/fin travaux).",
+    },
+    {
+      id: "nc-4",
+      issue: "Mentions techniques obligatoires absentes sur la facture",
+      correction:
+        "Émettre un avoir + facture rectificative ou attestation complémentaire précisant clairement l'opération BAT-EQ-133, la nature \"aérateurs auto-régulés\", le débit à 3 bar, la quantité installée (liste explicite), et l'adresse du chantier.",
+    },
+    {
+      id: "nc-5",
+      issue: "Absence de fiche technique fabricant avec courbe pression/débit",
+      correction:
+        "Ajouter la mention du nom de l'obligé/délégataire CEE sur le devis et la facture (par ex. Gazprom Marketing & Trading France), conformément à la fiche.",
+    },
+    {
+      id: "nc-6",
+      issue: "Mention de l'obligé/délégataire manquante sur devis/facture",
+      correction:
+        "Devis CEVOHA du 2024-03-27 pour soufflage de ouate en combles perdus, avec protections électriques et rehausse de trappe. Montant HT 4025.00, TVA 221.38, TTC 4246.38. Ecoprime Picoty déduite 1137.50, net à payer 3108.88. Offre valable jusqu'au 2024-04-26.",
+    },
+    {
+      id: "nc-7",
+      issue:
+        "Devis non valide (absence de signature bénéficiaire et identité signataire)",
+      correction:
+        "Faire signer le devis par le bénéficiaire avec nom, prénom, fonction et cachet. À défaut, établir un bon de commande signé reprenant les mentions obligatoires.",
+    },
+  ],
+};
+
+// State to simulate persistence of global coherence analysis
+let hasAnalyzedGlobalCoherence = false;
+
+// ──────────────────────────────────────────────
 // MOCK: Operation Details
 // ──────────────────────────────────────────────
 
-const mockOperationDetailsData: OperationDetails = {
+const mockOperationDetailsData: Omit<OperationDetails, "globalCoherence"> = {
   id: "op-001",
   reference: "OP6548764651321",
   conformity: ConformityStatus.NOT_ANALYZED,
@@ -373,7 +527,14 @@ export const mockFetchOperationDetails = (
 ): Promise<ApiResponse<OperationDetails>> =>
   new Promise((resolve) => {
     setTimeout(() => {
-      resolve(wrapResponse(mockOperationDetailsData));
+      resolve(
+        wrapResponse({
+          ...mockOperationDetailsData,
+          globalCoherence: hasAnalyzedGlobalCoherence
+            ? mockGlobalCoherenceAnalysisData
+            : null,
+        }),
+      );
     }, MOCK_DELAY);
   });
 
@@ -386,8 +547,9 @@ export const mockRunGlobalAnalysis = (
 ): Promise<ApiResponse<void>> =>
   new Promise((resolve) => {
     setTimeout(() => {
+      hasAnalyzedGlobalCoherence = true;
       resolve(wrapResponse(undefined));
-    }, MOCK_DELAY * 2);
+    }, MOCK_DELAY * 3); // Simulate longer analysis (1.5s)
   });
 
 // ──────────────────────────────────────────────

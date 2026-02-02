@@ -169,6 +169,50 @@ export type CreatedOperation = {
 };
 
 // ──────────────────────────────────────────────
+// Coherence Status (for global coherence verifications)
+// ──────────────────────────────────────────────
+
+export const CoherenceStatus = {
+  CONFORM: "conform",
+  NON_CONFORM: "non_conform",
+  NOT_APPLICABLE: "not_applicable",
+} as const;
+
+export type CoherenceStatusType =
+  (typeof CoherenceStatus)[keyof typeof CoherenceStatus];
+
+// ──────────────────────────────────────────────
+// Global Coherence Types
+// ──────────────────────────────────────────────
+
+export type SubVerification = {
+  id: string;
+  name: string;
+  status: CoherenceStatusType;
+  comment: string;
+};
+
+export type VerificationStep = {
+  id: string;
+  name: string;
+  subVerifications: SubVerification[];
+};
+
+export type NonConformity = {
+  id: string;
+  issue: string;
+  correction: string;
+};
+
+export type GlobalCoherenceAnalysis = {
+  analyzedAt: string;
+  globalStatus: "conform" | "non_conform";
+  summary: string;
+  verificationSteps: VerificationStep[];
+  nonConformities: NonConformity[];
+};
+
+// ──────────────────────────────────────────────
 // Operation Details
 // ──────────────────────────────────────────────
 
@@ -237,4 +281,7 @@ export type OperationDetails = {
   beneficiary: Beneficiary | null;
   professionalRGE: ProfessionalRGE | null;
   obligee: string | null;
+
+  // Global coherence analysis (null if not yet analyzed)
+  globalCoherence: GlobalCoherenceAnalysis | null;
 };

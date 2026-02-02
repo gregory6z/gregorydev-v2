@@ -1,4 +1,32 @@
 {
+  "coherenceStatus": {
+    "conform": "Conforme",
+    "nonConform": "Non conforme",
+    "notApplicable": "Non applicable"
+  },
+  "globalCoherence": {
+    "title": "Cohérence globale",
+    "launchAnalysis": "Analyse cohérence globale",
+    "relaunchAnalysis": "Relancer l'analyse",
+    "analyzing": "Analyse en cours...",
+    "download": "Télécharger",
+    "downloadFull": "Télécharger la cohérence globale",
+    "downloadMock": "Fonctionnalité de téléchargement non disponible (mock)",
+    "summaryTitle": "Synthèse",
+    "verificationStepsTitle": "Étapes de vérification",
+    "nonConformitiesTitle": "Synthèse des non conformités et modifications à apporter",
+    "noNonConformities": "Aucune non-conformité détectée",
+    "table": {
+      "step": "Étape",
+      "verification": "Vérification",
+      "status": "Statut",
+      "comment": "Commentaire"
+    },
+    "nonConformitiesTable": {
+      "issue": "Non conformité",
+      "correction": "Modifications à apporter"
+    }
+  },
   "create": "Créer une opération",
   "table": {
     "reference": "Intitulé",
