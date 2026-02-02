@@ -10,6 +10,7 @@ import type {
   OperationDetails,
   OperationFile,
   GlobalCoherenceAnalysis,
+  DocumentDetails,
 } from "./schemas";
 import {
   OperationStatus,
@@ -587,4 +588,103 @@ export const mockAddFileToOperation = (
         }),
       );
     }, MOCK_DELAY);
+  });
+
+// ──────────────────────────────────────────────
+// MOCK: Document Details (for Document Dialog Step 2)
+// ──────────────────────────────────────────────
+
+const mockDocumentDetailsData: DocumentDetails = {
+  id: "doc-1",
+  name: "Devis 67865",
+  conformityStatus: FileStatus.NON_CONFORM,
+  submissionCount: 3,
+  lastSubmissionAt: "2026-02-15T15:54:00Z",
+  versions: [
+    {
+      id: "v1",
+      versionNumber: 1,
+      uploadedAt: "2026-02-10T10:00:00Z",
+      fileUrl: "/mock/devis-v1.pdf",
+    },
+    {
+      id: "v2",
+      versionNumber: 2,
+      uploadedAt: "2026-02-12T14:30:00Z",
+      fileUrl: "/mock/devis-v2.pdf",
+    },
+    {
+      id: "v3",
+      versionNumber: 3,
+      uploadedAt: "2026-02-15T15:54:00Z",
+      fileUrl: "/mock/devis-v3.pdf",
+    },
+  ],
+  currentVersionId: "v3",
+  beneficiary: {
+    name: "Jean Courty NIBOULIES",
+    address: "141, route des Rémouleurs - 84000 Avignon",
+    engagementDate: "2025-05-10",
+    ficheCEE: "BAR-EN-101",
+    ficheCEEDescription:
+      "Isolation des combles perdus, 89m2 ISOVER Modele R=7.",
+    prime: 679,
+  },
+  professional: {
+    name: "Picoty",
+    address: "27, avenue Dausmenil - 84000 Avignon",
+  },
+  qrCodeUrl: null,
+  verifications: [
+    {
+      id: "v1",
+      name: "Mentions entreprise (Raison sociale, SIRET, adresse, coordonnées)",
+      status: CoherenceStatus.NON_CONFORM,
+      comment:
+        "SIRET introuvable. SIREN présent (539810135) sans SIRET. Réf. BAT-EQ-133 vA64.6, §2.1.1",
+    },
+    {
+      id: "v2",
+      name: "Mentions bénéficiaire (Raison sociale + adresse CP/Ville)",
+      status: CoherenceStatus.CONFORM,
+      comment: "Raison sociale et adresse complètes présentes. Réf. §2.1.2.1-2",
+    },
+    {
+      id: "v3",
+      name: "Adresse des travaux bâtiment tertiaire",
+      status: CoherenceStatus.CONFORM,
+      comment:
+        "Adresse chantier renseignée et cohérente avec bénéficiaire tertiaire. Réf. §2.1.2.2",
+    },
+    {
+      id: "v4",
+      name: "Mention explicite de la fiche BAT-EQ-133",
+      status: CoherenceStatus.CONFORM,
+      comment: "Aérateurs auto-régulés précisés. Réf. §2.1.3.2",
+    },
+    {
+      id: "v5",
+      name: "Type d'équipements",
+      status: CoherenceStatus.CONFORM,
+      comment:
+        "Aérateurs auto-régulés / systèmes hydro-économes mentionnés sur toutes pièces.",
+    },
+    {
+      id: "v6",
+      name: "Marque et référence complète",
+      status: CoherenceStatus.NON_CONFORM,
+      comment:
+        'Marque citée (ECOPERL) mais référence complète absente/incomplète ("AIR 57" générique). Réf. §2.1.4.1',
+    },
+  ],
+};
+
+export const mockFetchDocumentDetails = (
+  _operationId: string,
+  _documentId: string,
+): Promise<ApiResponse<DocumentDetails>> =>
+  new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(wrapResponse(mockDocumentDetailsData));
+    }, 800); // Slightly longer to simulate analysis
   });

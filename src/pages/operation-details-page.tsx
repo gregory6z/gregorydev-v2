@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useQueryClient } from "@tanstack/react-query";
@@ -11,6 +12,7 @@ import { InfoField } from "@/components/operations/details/info-field";
 import { KeywordBadge } from "@/components/operations/details/keyword-badge";
 import { FilesTable } from "@/components/operations/details/files-table";
 import { GlobalCoherenceSection } from "@/components/operations/details/global-coherence";
+import { DocumentDialog } from "@/components/operations/document-dialog";
 import { useOperationDetails, operationsKeys } from "@/api/operations/queries";
 import { useRunGlobalAnalysis } from "@/api/operations/mutations";
 import { useFormatDate } from "@/hooks/use-format-date";
@@ -27,6 +29,9 @@ export function OperationDetailsPage() {
   const { data, isLoading, isError } = useOperationDetails(id!);
   const analysisMutation = useRunGlobalAnalysis();
 
+  // Document Dialog state
+  const [documentDialogOpen, setDocumentDialogOpen] = useState(false);
+
   const handleBack = () => navigate("/operations");
 
   const handleAnalysis = () => {
@@ -40,13 +45,12 @@ export function OperationDetailsPage() {
   };
 
   const handleUploadNewVersion = (fileId: string) => {
-    // TODO: Ouvrir un file picker et appeler la mutation
+    // TODO: Implement upload new version
     console.log("Upload new version for file:", fileId);
   };
 
   const handleAddFile = () => {
-    // TODO: Ouvrir un file picker et appeler la mutation
-    console.log("Add new file");
+    setDocumentDialogOpen(true);
   };
 
   if (isLoading) {
@@ -195,6 +199,13 @@ export function OperationDetailsPage() {
         files={data.files}
         onUploadNewVersion={handleUploadNewVersion}
         onAddFile={handleAddFile}
+      />
+
+      {/* Document Dialog */}
+      <DocumentDialog
+        open={documentDialogOpen}
+        onOpenChange={setDocumentDialogOpen}
+        operationId={id!}
       />
 
       {/* Global Coherence Section */}

@@ -285,3 +285,54 @@ export type OperationDetails = {
   // Global coherence analysis (null if not yet analyzed)
   globalCoherence: GlobalCoherenceAnalysis | null;
 };
+
+// ──────────────────────────────────────────────
+// Document Details (for Document Dialog Step 2)
+// ──────────────────────────────────────────────
+
+// Version d'un document
+export type DocumentVersion = {
+  id: string;
+  versionNumber: 1 | 2 | 3;
+  uploadedAt: string;
+  fileUrl: string;
+};
+
+// Vérification d'analyse (réutilise CoherenceStatusType)
+export type DocumentVerification = {
+  id: string;
+  name: string;
+  status: CoherenceStatusType;
+  comment: string;
+};
+
+// Informations extraites du bénéficiaire (document)
+export type DocumentBeneficiary = {
+  name: string;
+  address: string;
+  engagementDate: string;
+  ficheCEE: string;
+  ficheCEEDescription: string;
+  prime: number;
+};
+
+// Informations extraites du professionnel (document)
+export type DocumentProfessional = {
+  name: string;
+  address: string;
+};
+
+// Détails complets d'un document
+export type DocumentDetails = {
+  id: string;
+  name: string;
+  conformityStatus: FileStatusType;
+  submissionCount: number;
+  lastSubmissionAt: string;
+  versions: DocumentVersion[];
+  currentVersionId: string;
+  beneficiary: DocumentBeneficiary;
+  professional: DocumentProfessional;
+  qrCodeUrl: string | null;
+  verifications: DocumentVerification[];
+};
