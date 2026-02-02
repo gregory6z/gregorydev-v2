@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useReactTable, getCoreRowModel } from "@tanstack/react-table";
 import {
@@ -19,20 +18,16 @@ export function VerificationTable({ steps }: VerificationTableProps) {
 
   // Flatten steps into rows for table display
   // Each sub-verification becomes a row, with step name shown only on first sub
-  const rows: VerificationRow[] = useMemo(
-    () =>
-      steps.flatMap((step) =>
-        step.subVerifications.map((sub, index) => ({
-          stepId: step.id,
-          stepName: index === 0 ? step.name : null,
-          rowSpan: index === 0 ? step.subVerifications.length : 0,
-          subVerification: sub,
-        })),
-      ),
-    [steps],
+  const rows: VerificationRow[] = steps.flatMap((step) =>
+    step.subVerifications.map((sub, index) => ({
+      stepId: step.id,
+      stepName: index === 0 ? step.name : null,
+      rowSpan: index === 0 ? step.subVerifications.length : 0,
+      subVerification: sub,
+    })),
   );
 
-  const columns = useMemo(() => createVerificationColumns(t), [t]);
+  const columns = createVerificationColumns(t);
 
   const table = useReactTable({
     data: rows,
@@ -43,9 +38,13 @@ export function VerificationTable({ steps }: VerificationTableProps) {
 
   return (
     <DataTable table={table} className="w-full">
-      <DataTableContent>
+      <DataTableContent wrapText>
         <DataTableHeader />
-        <DataTableBody emptyMessage={t("table.empty")} rowHeight="76px" />
+        <DataTableBody
+          emptyMessage={t("table.empty")}
+          rowHeight="76px"
+          wrapText
+        />
       </DataTableContent>
     </DataTable>
   );

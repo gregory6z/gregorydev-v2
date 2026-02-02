@@ -4,12 +4,14 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
 
 type TruncatedTextProps = {
   text: string;
+  className?: string;
 };
 
-export function TruncatedText({ text }: TruncatedTextProps) {
+export function TruncatedText({ text, className }: TruncatedTextProps) {
   const textRef = useRef<HTMLSpanElement>(null);
   const [isTruncated, setIsTruncated] = useState(false);
 
@@ -23,7 +25,11 @@ export function TruncatedText({ text }: TruncatedTextProps) {
   const textElement = (
     <span
       ref={textRef}
-      className={`text-sm text-foreground line-clamp-3 whitespace-normal ${isTruncated ? "cursor-default" : ""}`}
+      className={cn(
+        "line-clamp-3 whitespace-normal text-sm text-foreground",
+        isTruncated && "cursor-default",
+        className,
+      )}
     >
       {text}
     </span>

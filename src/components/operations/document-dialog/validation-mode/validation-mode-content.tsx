@@ -1,10 +1,10 @@
-import { Loader2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import type { DocumentDetails } from "@/api/operations/schemas";
-import { DocumentHeader } from "./document-header";
-import { DocumentInfo } from "./document-info";
+import { Loader2 } from "lucide-react";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { ValidationModeInfo } from "./validation-mode-info";
 import { AnalysisTable } from "./analysis-table";
-import { VersionSelector } from "./version-selector";
+import { ValidationModeFooter } from "./validation-mode-footer";
+import type { DocumentDetails } from "@/api/operations/schemas";
 
 type ValidationModeContentProps = {
   isLoading: boolean;
@@ -25,44 +25,61 @@ export function ValidationModeContent({
 }: ValidationModeContentProps) {
   const { t } = useTranslation("operations");
 
-  if (isLoading || !documentDetails) {
+  if (isLoading) {
     return (
-      <div className="mt-5 flex flex-1 flex-col items-center justify-center">
-        <div className="flex flex-col items-center gap-3">
-          <Loader2 className="size-8 animate-spin text-primary" />
-          <p className="text-sm text-muted-foreground">
-            {t("documentDialog.analyzing")}
-          </p>
-        </div>
+      <div className="flex flex-1 flex-col items-center justify-center gap-4">
+        <Loader2 className="size-8 animate-spin text-primary" />
+        <p className="text-sm text-muted-foreground">
+          {t("documentDialog.analyzing")}
+        </p>
       </div>
     );
   }
 
+  if (!documentDetails) {
+    return null;
+  }
+
+  const formattedLastSubmission = new Date(
+    documentDetails.lastSubmissionAt,
+  ).toLocaleString("fr-FR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  });
+
   return (
-    <div className="mt-5 flex flex-1 flex-col overflow-hidden">
-      <DocumentHeader
-        name={documentDetails.name}
-        conformityStatus={documentDetails.conformityStatus}
-        submissionCount={documentDetails.submissionCount}
-        lastSubmissionAt={documentDetails.lastSubmissionAt}
-      />
+    <div className="mt-2 flex flex-1 flex-col overflow-hidden">
+      {/* Scrollable content */}
+      <ScrollArea className="flex-1">
+        <div className="flex flex-col gap-6 pr-4">
+          {/* Subtitle */}
+          <p className="text-sm text-muted-foreground">
+            {t("documentDialog.lastSubmission", {
+              count: documentDetails.submissionCount,
+              date: formattedLastSubmission,
+            })}
+          </p>
 
-      <div className="mt-6 flex-1 space-y-6 overflow-y-auto">
-        <DocumentInfo
-          beneficiary={documentDetails.beneficiary}
-          professional={documentDetails.professional}
-          qrCodeUrl={documentDetails.qrCodeUrl}
-        />
+          <ValidationModeInfo
+            beneficiary={documentDetails.beneficiary}
+            professional={documentDetails.professional}
+          />
 
-        <AnalysisTable verifications={documentDetails.verifications} />
-      </div>
+          <AnalysisTable verifications={documentDetails.verifications} />
+        </div>
+      </ScrollArea>
 
-      <VersionSelector
+      {/* Fixed footer with version buttons */}
+      <ValidationModeFooter
         versions={documentDetails.versions}
-        currentVersionId={selectedVersionId}
+        selectedVersionId={selectedVersionId}
         onVersionSelect={onVersionSelect}
         onNewVersion={onNewVersion}
-        isUploadingNewVersion={isUploadingNewVersion}
+        isUploading={isUploadingNewVersion}
       />
     </div>
   );

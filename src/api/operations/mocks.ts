@@ -11,14 +11,14 @@ import type {
   OperationFile,
   GlobalCoherenceAnalysis,
   DocumentDetails,
-} from "./schemas";
+} from "@/api/operations/schemas";
 import {
   OperationStatus,
   ConformityStatus,
   FileStatus,
   AnalysisStatus,
   CoherenceStatus,
-} from "./schemas";
+} from "@/api/operations/schemas";
 
 // Helper to wrap data in ApiResponse envelope
 const wrapResponse = <T>(data: T): ApiResponse<T> => ({
@@ -675,6 +675,97 @@ const mockDocumentDetailsData: DocumentDetails = {
       status: CoherenceStatus.NON_CONFORM,
       comment:
         'Marque citée (ECOPERL) mais référence complète absente/incomplète ("AIR 57" générique). Réf. §2.1.4.1',
+    },
+  ],
+  verificationSteps: [
+    {
+      id: "step-1",
+      name: "Complétude du dossier",
+      subVerifications: [
+        {
+          id: "sub-1-1",
+          name: "-",
+          status: CoherenceStatus.CONFORM,
+          comment: "Documents constitutifs obligatoires présents.",
+        },
+      ],
+    },
+    {
+      id: "step-2",
+      name: "Triangulation Identité/Adresse",
+      subVerifications: [
+        {
+          id: "sub-2-1",
+          name: "Identité Bénéficiaire identique (Devis/Facture/AH)",
+          status: CoherenceStatus.NON_CONFORM,
+          comment:
+            'Devis: "ASSOCIATION ESPERANCE BANLIEUES - COURS LA PASSERELLE" ; Facture: "ASSOCIATION ESPERANCE BANLIEUES" ; AH Partie B : vide.',
+        },
+        {
+          id: "sub-2-2",
+          name: "Adresse Chantier identique (Devis/Facture/AH)",
+          status: CoherenceStatus.CONFORM,
+          comment:
+            "Adresse chantier identique 212 rue des Martyrs de la Libération, 69310 Pierre-Bénite (graphies équivalentes).",
+        },
+        {
+          id: "sub-2-3",
+          name: "Identité Entreprise (SIREN/SIRET) identique",
+          status: CoherenceStatus.NON_CONFORM,
+          comment:
+            "Devis/Facture : WIN ENERGIE (SIREN 539810135). AH Partie C : GAZPROM MARKETING & TRADING FRANCE (SIREN 491388914).",
+        },
+      ],
+    },
+    {
+      id: "step-3",
+      name: "Cohérence Technique Transversale",
+      subVerifications: [
+        {
+          id: "sub-3-1",
+          name: "Périmètre technique (hydro-économe) conforme BAT-EQ-133",
+          status: CoherenceStatus.CONFORM,
+          comment:
+            "Aérateurs auto-régulés / systèmes hydro-économes mentionnés sur toutes pièces.",
+        },
+        {
+          id: "sub-3-2",
+          name: "Nombre d'équipements (Facture vs AH)",
+          status: CoherenceStatus.CONFORM,
+          comment: "Facture: 10 aérateurs (implicite) ; AH: 10.",
+        },
+      ],
+    },
+    {
+      id: "step-4",
+      name: "Chaîne Chronologique",
+      subVerifications: [
+        {
+          id: "sub-4-1",
+          name: "Antériorité devis vs début travaux",
+          status: CoherenceStatus.NOT_APPLICABLE,
+          comment: "Aucune date de début travaux renseignée.",
+        },
+        {
+          id: "sub-4-2",
+          name: "Facture postérieure à fin travaux",
+          status: CoherenceStatus.NOT_APPLICABLE,
+          comment: "Aucune date de fin travaux renseignée.",
+        },
+        {
+          id: "sub-4-3",
+          name: "Signature AH postérieure/égale à facture",
+          status: CoherenceStatus.NON_CONFORM,
+          comment:
+            "Date signature bénéficiaire AH absente ; facture datée 2022-05-19.",
+        },
+        {
+          id: "sub-4-4",
+          name: "Antériorité visite technique",
+          status: CoherenceStatus.NOT_APPLICABLE,
+          comment: "Aucune date de début travaux renseignée.",
+        },
+      ],
     },
   ],
 };

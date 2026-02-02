@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useReactTable, getCoreRowModel } from "@tanstack/react-table";
 import {
@@ -17,7 +16,7 @@ type IssuesTableProps = {
 export function IssuesTable({ issues }: IssuesTableProps) {
   const { t } = useTranslation("operations");
 
-  const columns = useMemo(() => createIssuesColumns(t), [t]);
+  const columns = createIssuesColumns(t);
 
   const table = useReactTable({
     data: issues,
@@ -36,9 +35,13 @@ export function IssuesTable({ issues }: IssuesTableProps) {
 
   return (
     <DataTable table={table} className="w-full">
-      <DataTableContent>
+      <DataTableContent wrapText>
         <DataTableHeader />
-        <DataTableBody emptyMessage={t("table.empty")} rowHeight="76px" />
+        <DataTableBody
+          emptyMessage={t("table.empty")}
+          rowHeight="76px"
+          wrapText
+        />
       </DataTableContent>
     </DataTable>
   );

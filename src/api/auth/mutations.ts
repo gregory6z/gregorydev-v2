@@ -8,14 +8,14 @@ import {
   mockRefreshToken,
   mockRegister,
   mockResetPassword,
-} from "./mocks";
+} from "@/api/auth/mocks";
 import type {
   ForgotPasswordFormData,
   LoginFormData,
   LoginResponse,
   RegisterFormData,
   ResetPasswordFormData,
-} from "./schemas";
+} from "@/api/auth/schemas";
 
 // ── Functions (called outside React components, e.g. timers, interceptors) ──
 

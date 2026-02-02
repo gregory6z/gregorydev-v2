@@ -9,7 +9,7 @@ import type {
   ResetPasswordFormData,
   ResetPasswordResponse,
   SiretLookupResponse,
-} from "./schemas";
+} from "@/api/auth/schemas";
 
 const MOCK_DELAY = 800;
 

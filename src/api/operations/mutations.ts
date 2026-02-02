@@ -6,8 +6,8 @@ import {
   mockRunGlobalAnalysis,
   mockUploadNewFileVersion,
   mockAddFileToOperation,
-} from "./mocks";
-import type { CreateOperationPayload } from "./schemas";
+} from "@/api/operations/mocks";
+import type { CreateOperationPayload } from "@/api/operations/schemas";
 
 export const useDeleteOperations = () => {
   return useMutation({

@@ -335,4 +335,5 @@ export type DocumentDetails = {
   professional: DocumentProfessional;
   qrCodeUrl: string | null;
   verifications: DocumentVerification[];
+  verificationSteps: VerificationStep[];
 };

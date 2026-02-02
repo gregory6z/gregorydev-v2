@@ -1,8 +1,11 @@
 {
   "coherenceStatus": {
     "conform": "Conforme",
+    "conformShort": "C.",
     "nonConform": "Non conforme",
-    "notApplicable": "Non applicable"
+    "nonConformShort": "N.C.",
+    "notApplicable": "Non applicable",
+    "notApplicableShort": "N.A."
   },
   "globalCoherence": {
     "title": "Cohérence globale",
@@ -41,13 +44,19 @@
   },
   "status": {
     "inProgress": "En cours",
+    "inProgressShort": "E.C.",
     "done": "Terminé",
-    "analyzing": "Analyse en cours"
+    "doneShort": "T.",
+    "analyzing": "Analyse en cours",
+    "analyzingShort": "A."
   },
   "conformity": {
     "conform": "Conforme",
+    "conformShort": "C.",
     "nonConform": "Non conforme",
-    "notAnalyzed": "Non analysé"
+    "nonConformShort": "N.C.",
+    "notAnalyzed": "Non analysé",
+    "notAnalyzedShort": "N.A."
   },
   "selected_one": "{{count}} opération sélectionnée",
   "selected_other": "{{count}} opérations sélectionnées",
@@ -111,13 +120,14 @@
     "title": "Nouveau fichier",
     "dropzoneText": "Glisser déposer ou",
     "dropzoneLink": "sélectionner le fichier",
-    "dropzoneHelp": "Déposez ici un PDF par document de l'opération (ex: 1 PDF pour le devis, 1 PDF pour la facture, etc...).",
+    "dropzoneHelp": "Déposez ici le fichier PDF du document à ajouter à l'opération.",
     "removeFile": "Supprimer le fichier",
     "cancel": "Annuler",
     "back": "Retour",
     "next": "Suivant",
     "addFile": "Ajouter le fichier",
     "adding": "Ajout en cours...",
+    "finish": "Terminer",
     "analyzing": "Analyse du document en cours...",
     "submittedTimes_one": "Déposé {{count}} fois",
     "submittedTimes_other": "Déposé {{count}} fois",
@@ -133,6 +143,7 @@
       "comment": "Commentaire"
     },
     "noVerifications": "Aucune vérification disponible",
+    "verificationSteps": "Étapes de vérification",
     "newVersion": "Nouvelle version",
     "uploadingVersion": "Upload en cours...",
     "cancelConfirmTitle": "Abandonner l'ajout ?",

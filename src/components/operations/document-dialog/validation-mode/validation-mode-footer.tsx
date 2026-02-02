@@ -1,24 +1,24 @@
 import { useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { Loader2, Upload } from "lucide-react";
+import { Upload, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { DocumentVersion } from "@/api/operations/schemas";
 
-type VersionSelectorProps = {
+type ValidationModeFooterProps = {
   versions: DocumentVersion[];
-  currentVersionId: string;
+  selectedVersionId: string;
   onVersionSelect: (versionId: string) => void;
   onNewVersion: (file: File) => void;
-  isUploadingNewVersion?: boolean;
+  isUploading: boolean;
 };
 
-export function VersionSelector({
+export function ValidationModeFooter({
   versions,
-  currentVersionId,
+  selectedVersionId,
   onVersionSelect,
   onNewVersion,
-  isUploadingNewVersion = false,
-}: VersionSelectorProps) {
+  isUploading,
+}: ValidationModeFooterProps) {
   const { t } = useTranslation("operations");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -26,46 +26,45 @@ export function VersionSelector({
     fileInputRef.current?.click();
   };
 
-  const handleFileSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       onNewVersion(file);
-      // Reset input so the same file can be selected again if needed
       e.target.value = "";
     }
   };
 
   return (
-    <div
-      data-slot="version-selector"
-      className="mt-auto flex items-center gap-3 border-t border-table-border bg-white pt-4"
-    >
+    <div className="mt-auto flex items-center justify-between border-t border-table-border pt-6">
       {/* Version buttons */}
-      <div className="flex gap-2">
+      <div className="flex items-center gap-2">
         {versions.map((version) => (
           <Button
             key={version.id}
+            type="button"
             variant={
-              version.id === currentVersionId ? "primary-dark" : "outline"
+              selectedVersionId === version.id
+                ? "primary-dark"
+                : "outline-primary"
             }
             size="sm"
             onClick={() => onVersionSelect(version.id)}
+            className="min-w-[60px]"
           >
-            V{version.versionNumber}
+            V {version.versionNumber}
           </Button>
         ))}
       </div>
 
-      {/* Spacer */}
-      <div className="flex-1" />
-
       {/* New version button */}
       <Button
+        type="button"
         variant="primary-dark"
         onClick={handleNewVersionClick}
-        disabled={isUploadingNewVersion}
+        disabled={isUploading}
+        className="font-display text-base font-semibold leading-5"
       >
-        {isUploadingNewVersion ? (
+        {isUploading ? (
           <>
             <Loader2 className="mr-2 size-4 animate-spin" />
             {t("documentDialog.uploadingVersion")}
@@ -78,13 +77,12 @@ export function VersionSelector({
         )}
       </Button>
 
-      {/* Hidden file input */}
       <input
         ref={fileInputRef}
         type="file"
         accept=".pdf"
-        onChange={handleFileSelected}
         className="hidden"
+        onChange={handleFileChange}
       />
     </div>
   );

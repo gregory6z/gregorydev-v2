@@ -10,12 +10,10 @@ export const createIssuesColumns = (
     accessorKey: "issue",
     header: () => t("globalCoherence.nonConformitiesTable.issue"),
     cell: ({ row }) => <TruncatedText text={row.getValue("issue")} />,
-    size: 400,
   },
   {
     accessorKey: "correction",
     header: () => t("globalCoherence.nonConformitiesTable.correction"),
     cell: ({ row }) => <TruncatedText text={row.getValue("correction")} />,
-    size: 600,
   },
 ];

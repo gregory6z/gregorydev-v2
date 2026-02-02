@@ -1,6 +1,7 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import type { TFunction } from "i18next";
 import { StatusBadge } from "@/components/operations/status-badge";
+import { TruncatedText } from "@/components/operations/details/files-table/truncated-text";
 import type { SubVerification } from "@/api/operations/schemas";
 
 export type VerificationRow = {
@@ -20,21 +21,25 @@ export const createVerificationColumns = (
     cell: ({ row }) => {
       if (row.original.rowSpan === 0) return null;
       return (
-        <span className="font-medium text-foreground">
-          {row.original.stepName}
-        </span>
+        <TruncatedText
+          text={row.original.stepName || ""}
+          className="font-medium text-black"
+        />
       );
     },
-    size: 200,
+    meta: { width: "17%" },
   },
   {
     id: "verification",
     accessorFn: (row) => row.subVerification.name,
     header: () => t("globalCoherence.table.verification"),
     cell: ({ row }) => (
-      <span className="text-foreground">{row.original.subVerification.name}</span>
+      <TruncatedText
+        text={row.original.subVerification.name}
+        className="text-black"
+      />
     ),
-    size: 280,
+    meta: { width: "19%" },
   },
   {
     id: "status",
@@ -43,16 +48,18 @@ export const createVerificationColumns = (
     cell: ({ row }) => (
       <StatusBadge status={row.original.subVerification.status} />
     ),
-    size: 140,
+    meta: { width: "14%" },
   },
   {
     id: "comment",
     accessorFn: (row) => row.subVerification.comment,
     header: () => t("globalCoherence.table.comment"),
     cell: ({ row }) => (
-      <span className="text-sm text-muted-foreground">
-        {row.original.subVerification.comment}
-      </span>
+      <TruncatedText
+        text={row.original.subVerification.comment}
+        className="text-sm text-black"
+      />
     ),
+    meta: { width: "50%" },
   },
 ];

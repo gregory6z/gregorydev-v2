@@ -1,5 +1,6 @@
-import { useTranslation } from "react-i18next";
-import { SingleFileUpload } from "./single-file-upload";
+import { FileUploadZone } from "@/components/operations/creation-sheet/upload-mode/file-upload-zone";
+import { FileList } from "@/components/operations/creation-sheet/upload-mode/file-list";
+import { FileUploadStatus, type UploadingFile } from "@/api/operations/schemas";
 
 type UploadModeContentProps = {
   file: File | null;
@@ -14,19 +15,47 @@ export function UploadModeContent({
   onFileRemoved,
   disabled,
 }: UploadModeContentProps) {
-  const { t } = useTranslation("operations");
+  const handleFilesAdded = (files: File[]) => {
+    if (files.length > 0) {
+      onFileAdded(files[0]);
+    }
+  };
+
+  // Convert File to UploadingFile format for reusing FileList component
+  const files: UploadingFile[] = file
+    ? [
+        {
+          id: "single-file",
+          file,
+          name: file.name,
+          size: file.size,
+          progress: 100,
+          status: FileUploadStatus.COMPLETED,
+        },
+      ]
+    : [];
+
+  const handleRemove = () => {
+    onFileRemoved();
+  };
 
   return (
     <div className="mt-5 flex flex-1 flex-col overflow-hidden">
-      <SingleFileUpload
-        file={file}
-        onFileAdded={onFileAdded}
-        onFileRemoved={onFileRemoved}
-        disabled={disabled}
+      <FileUploadZone
+        onFilesAdded={handleFilesAdded}
+        disabled={disabled || file !== null}
+        translationPrefix="documentDialog"
       />
-      <p className="mt-3 text-sm text-muted-foreground">
-        {t("documentDialog.dropzoneHelp")}
-      </p>
+
+      <div className="mt-[25px] flex min-h-0 flex-1 flex-col">
+        <FileList
+          files={files}
+          completedCount={files.length}
+          onRemove={handleRemove}
+          onRetry={() => {}}
+          hideCounter
+        />
+      </div>
     </div>
   );
 }

@@ -6,8 +6,8 @@ import {
   mockExtractData,
   mockFetchOperationDetails,
   mockFetchDocumentDetails,
-} from "./mocks";
-import type { OperationsListFilters } from "./schemas";
+} from "@/api/operations/mocks";
+import type { OperationsListFilters } from "@/api/operations/schemas";
 
 // Query keys factory
 export const operationsKeys = {

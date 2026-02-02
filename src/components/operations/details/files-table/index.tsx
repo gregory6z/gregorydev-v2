@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import {
   useReactTable,
@@ -32,10 +31,7 @@ export function FilesTable({
   const { t } = useTranslation("operations");
   const formatDate = useFormatDate();
 
-  const columns = useMemo(
-    () => createFilesColumns(t, formatDate, onUploadNewVersion),
-    [t, formatDate, onUploadNewVersion],
-  );
+  const columns = createFilesColumns(t, formatDate, onUploadNewVersion);
 
   const table = useReactTable({
     data: files,

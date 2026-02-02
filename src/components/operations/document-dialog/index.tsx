@@ -1,4 +1,4 @@
-import { useState, useEffect, lazy, Suspense } from "react";
+import { useState, lazy, Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import { useQueryClient } from "@tanstack/react-query";
 import {
@@ -17,8 +17,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { StepBadge } from "@/components/operations/creation-sheet/step-badge";
 import { SheetFooter } from "@/components/operations/creation-sheet/sheet-footer";
+import { StatusBadge } from "@/components/operations/status-badge";
 import { UploadModeContent } from "./upload-mode/upload-mode-content";
 import { ValidationModeContent } from "./validation-mode/validation-mode-content";
 import { useDocumentDetails, operationsKeys } from "@/api/operations/queries";
@@ -70,10 +70,21 @@ export function DocumentDialog({
     setUploadedFile(null);
   };
 
-  const handleNext = () => {
-    if (uploadedFile) {
-      setStep(2);
-    }
+  const handleAddFileAndAnalyze = () => {
+    if (!uploadedFile) return;
+
+    addFileMutation.mutate(
+      { operationId, file: uploadedFile },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: operationsKeys.detail(operationId),
+          });
+          // After successful upload, go to step 2 for analysis
+          setStep(2);
+        },
+      },
+    );
   };
 
   // ──────────────────────────────────────────────
@@ -92,14 +103,15 @@ export function DocumentDialog({
   const [selectedVersionId, setSelectedVersionId] = useState<string | null>(
     null,
   );
+  const [lastDocumentId, setLastDocumentId] = useState<string | null>(null);
   const uploadNewVersionMutation = useUploadNewFileVersion();
 
-  // Set initial version when document details load
-  useEffect(() => {
-    if (documentDetails && !selectedVersionId) {
-      setSelectedVersionId(documentDetails.currentVersionId);
-    }
-  }, [documentDetails, selectedVersionId]);
+  // Derive selected version: use user selection or default to current version
+  // Reset selection when document changes (rerender-derived-state-no-effect)
+  if (documentDetails && lastDocumentId !== documentDetails.id) {
+    setLastDocumentId(documentDetails.id);
+    setSelectedVersionId(documentDetails.currentVersionId);
+  }
 
   const handleVersionSelect = (versionId: string) => {
     setSelectedVersionId(versionId);
@@ -118,33 +130,12 @@ export function DocumentDialog({
     );
   };
 
-  const handleBack = () => {
-    setStep(1);
-    setSelectedVersionId(null);
-  };
-
-  const handleAddFile = () => {
-    if (!uploadedFile) return;
-
-    addFileMutation.mutate(
-      { operationId, file: uploadedFile },
-      {
-        onSuccess: () => {
-          queryClient.invalidateQueries({
-            queryKey: operationsKeys.detail(operationId),
-          });
-          handleConfirmClose();
-        },
-      },
-    );
-  };
-
   // ──────────────────────────────────────────────
   // Shared Handlers
   // ──────────────────────────────────────────────
 
   const handleClose = () => {
-    if (hasData) {
+    if (hasData && step === 1) {
       setShowCancelConfirm(true);
     } else {
       handleConfirmClose();
@@ -179,10 +170,10 @@ export function DocumentDialog({
         <>
           <div
             className="fixed inset-0 z-30 bg-black/40"
-            style={{ right: "calc(450px + 450px)" }}
+            style={{ right: "calc(600px + 700px)" }}
             onClick={handleClose}
           />
-          <div className="fixed inset-y-0 right-[450px] z-40 w-[450px]">
+          <div className="fixed inset-y-0 right-[640px] z-40 w-[700px]">
             <Suspense
               fallback={
                 <div className="flex h-full items-center justify-center bg-background">
@@ -210,16 +201,33 @@ export function DocumentDialog({
       >
         <SheetContent
           side="right"
-          className="flex w-[450px] flex-col gap-0 bg-white p-6"
+          className="flex w-[640px] flex-col gap-0 bg-white p-6"
           hideOverlay={step === 2}
         >
-          <SheetHeader className="flex-row items-center justify-between space-y-0 p-0">
-            <div className="flex items-center gap-3">
+          <SheetHeader className="flex-col space-y-0 p-0">
+            {step === 1 ? (
               <SheetTitle className="font-display text-[42px] font-normal leading-[140%]">
                 {t("documentDialog.title")}
               </SheetTitle>
-              <StepBadge current={step} total={2} />
-            </div>
+            ) : (
+              <>
+                <div className="flex items-center gap-3">
+                  <SheetTitle className="font-display text-[42px] font-normal leading-[140%] text-[#053334]">
+                    {documentDetails?.name ?? ""}
+                  </SheetTitle>
+                  {documentDetails && (
+                    <>
+                      <StatusBadge status={documentDetails.conformityStatus} />
+                      <span className="text-sm text-muted-foreground">
+                        {t("documentDialog.submittedTimes", {
+                          count: documentDetails.submissionCount,
+                        })}
+                      </span>
+                    </>
+                  )}
+                </div>
+              </>
+            )}
           </SheetHeader>
 
           {step === 1 && (
@@ -231,34 +239,25 @@ export function DocumentDialog({
               />
               <SheetFooter
                 cancelLabel={t("documentDialog.cancel")}
-                confirmLabel={t("documentDialog.next")}
+                confirmLabel={t("documentDialog.addFile")}
+                loadingLabel={t("documentDialog.adding")}
                 onCancel={handleClose}
-                onConfirm={handleNext}
+                onConfirm={handleAddFileAndAnalyze}
                 isConfirmDisabled={!isStep1Valid}
+                isLoading={addFileMutation.isPending}
               />
             </>
           )}
 
           {step === 2 && (
-            <>
-              <ValidationModeContent
-                isLoading={isLoadingDetails}
-                documentDetails={documentDetails ?? null}
-                selectedVersionId={selectedVersionId ?? ""}
-                onVersionSelect={handleVersionSelect}
-                onNewVersion={handleNewVersion}
-                isUploadingNewVersion={uploadNewVersionMutation.isPending}
-              />
-              <SheetFooter
-                cancelLabel={t("documentDialog.back")}
-                confirmLabel={t("documentDialog.addFile")}
-                loadingLabel={t("documentDialog.adding")}
-                onCancel={handleBack}
-                onConfirm={handleAddFile}
-                isConfirmDisabled={false}
-                isLoading={addFileMutation.isPending}
-              />
-            </>
+            <ValidationModeContent
+              isLoading={isLoadingDetails}
+              documentDetails={documentDetails ?? null}
+              selectedVersionId={selectedVersionId ?? ""}
+              onVersionSelect={handleVersionSelect}
+              onNewVersion={handleNewVersion}
+              isUploadingNewVersion={uploadNewVersionMutation.isPending}
+            />
           )}
         </SheetContent>
       </Sheet>
