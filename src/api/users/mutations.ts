@@ -1,7 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { api, unwrapResponse, type ApiResponse } from "@/api/client";
 import { cleanPhone } from "@/helpers/formatters";
-import { toSnakeCaseKeys } from "@/helpers/transformers";
 import type {
   RegisterFormData,
   RegisterResponse,
@@ -28,11 +27,11 @@ export const useLookupSiret = () => {
 export const useRegister = () => {
   return useMutation({
     mutationFn: async (data: RegisterFormData) => {
-      const payload = toSnakeCaseKeys({
+      const payload = {
         ...data,
         companyPhoneNumber: cleanPhone(data.companyPhoneNumber),
         userPhoneNumber: cleanPhone(data.userPhoneNumber),
-      });
+      };
       const response = await api
         .post("users/register", { json: payload })
         .json<ApiResponse<RegisterResponse>>();
@@ -65,10 +64,10 @@ export const useResetPassword = () => {
       token: string;
       data: ResetPasswordFormData;
     }) => {
-      const payload = toSnakeCaseKeys({
+      const payload = {
         renewPasswordToken: token,
         ...data,
-      });
+      };
       const response = await api
         .post("users/reset-password", { json: payload })
         .json<ApiResponse<void>>();
