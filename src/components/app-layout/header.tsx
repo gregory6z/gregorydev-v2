@@ -21,9 +21,9 @@ export function Header() {
   const { data: user } = useUserMe();
 
   const initials = user
-    ? `${user.first_name[0]}${user.last_name[0]}`.toUpperCase()
+    ? `${user.firstName[0]}${user.lastName[0]}`.toUpperCase()
     : "";
-  const displayName = user ? `${user.first_name[0]}. ${user.last_name}` : "";
+  const displayName = user ? `${user.firstName[0]}. ${user.lastName}` : "";
 
   return (
     <header className="h-16 bg-white border-b border-table-border">
