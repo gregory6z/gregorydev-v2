@@ -27,16 +27,16 @@ Each component calls its own hooks. React Query handles caching. Don't fetch in 
 
 ## Error Handling
 
-Errors are based on `status_code`, never on `message`.
+Errors are based on `statusCode`, never on `message`.
 
 ### Error Propagation Flow
 
 ```
-API response { success: false, status_code: 401 }
+API response { success: false, statusCode: 401 }
         │
         ▼
 unwrapResponse() (client.ts)
-  → throw new Error(String(status_code))   // Error("401")
+  → throw new Error(String(statusCode))   // Error("401")
         │
         ▼
 React Query catches the error
@@ -52,10 +52,23 @@ i18n resolves the key (auth.json)
   → "errors.401" → "Identifiants incorrects"
 ```
 
+### Using useFormState for Error Display
+
+When using `useFormContext` with `trigger()` for validation, errors won't display unless you subscribe to formState changes. Use `useFormState` to ensure re-renders:
+
+```tsx
+// ❌ Won't re-render after trigger()
+const { formState: { errors } } = useFormContext();
+
+// ✅ Subscribes to formState changes
+const { control } = useFormContext();
+const { errors } = useFormState({ control });
+```
+
 ### Rules
 
 - All mutations use `unwrapResponse()` from `client.ts` to standardize error handling
-- `unwrapResponse()` checks `response.success` — returns `data` on success, throws `Error(status_code)` on failure
+- `unwrapResponse()` checks `response.success` — returns `data` on success, throws `Error(statusCode)` on failure
 - Components catch errors and translate via i18n using the status code
 - Translation keys are HTTP status codes: `"401"`, `"403"`, `"404"`, `"409"`, `"500"`, `"unknown"`
 - The `message` field from the API is **never** displayed to the user — it exists only for logs/debug
@@ -66,9 +79,31 @@ Configured in `client.ts`:
 - Uses `env.VITE_API_URL` (Zod-validated) as prefix
 - Timeout: 30s
 - Retry: 0 (React Query handles retries)
-- Auto-injects JWT from localStorage via beforeRequest hook
-- All responses follow `ApiResponse<T>` envelope: `{ success, data, message, status_code }`
+- `throwHttpErrors: false` — errors are handled via `unwrapResponse()`
+- All responses follow `ApiResponse<T>` envelope: `{ success, data, message, statusCode }`
 - Exports `unwrapResponse<T>()` — the single entry point for unwrapping API responses in mutations
+
+### Request Hooks (beforeRequest)
+
+1. **addAuthHeader** — Auto-injects JWT from cookies (`js-cookie`) as `Authorization: Bearer <token>`
+2. **transformRequestBody** — Converts request body keys from camelCase to snake_case
+
+### Response Hooks (afterResponse)
+
+1. **transformResponseBody** — Converts response body keys from snake_case to camelCase
+
+### Case Transformation
+
+The API uses snake_case, the front-end uses camelCase. Transformation is automatic:
+
+```
+Front-end (camelCase)  →  API (snake_case)  →  Front-end (camelCase)
+{ userName: "John" }   →  { user_name: "John" }  →  { userName: "John" }
+```
+
+Helpers are in `@/helpers/transformers.ts`:
+- `toSnakeCaseKeys()` — for requests
+- `toCamelCaseKeys()` — for responses
 
 ## Schemas & Types
 
