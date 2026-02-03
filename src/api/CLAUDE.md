@@ -119,6 +119,22 @@ Use `as const` objects for enums, with a derived type for type-safety:
 - Derive a union type with `(typeof Obj)[keyof typeof Obj]`
 - Use the object for runtime values, the type for compile-time checking
 
+### Shared Fields
+
+Extract common Zod fields (email, phone, password) as constants at the top of the schema file and reuse them across multiple schemas.
+
+### Refine Helpers
+
+Extract refine logic (e.g., password confirmation) as reusable generic functions that can wrap multiple schemas.
+
+### Nullable Fields
+
+API responses with AI-extracted data may have nullable fields. Use explicit `| null` for these fields, not optional (`?`).
+
+### Void Responses
+
+Use `ApiResponse<void>` for mutations that don't return data (e.g., reset password, delete, send email).
+
 ### Zod 4
 
 - Import from `zod/v4` (never `zod`)
