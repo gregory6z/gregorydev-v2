@@ -6,24 +6,18 @@ import type { LoginFormData, LoginResponse } from "@/api/auth/schemas";
 
 export const useLogin = () => {
   return useMutation({
-    mutationFn: async (data: LoginFormData) => {
-      const response = await api
-        .post("users/authentication", { json: data })
-        .json<ApiResponse<LoginResponse>>();
-      return unwrapResponse(response);
-    },
+    mutationFn: (data: LoginFormData) =>
+      unwrapResponse(
+        api
+          .post("users/authentication", { json: data })
+          .json<ApiResponse<LoginResponse>>(),
+      ),
   });
 };
 
 // ── Refresh Token ────────────────────────────────────────────────────────────
 
-/**
- * Refresh token function - appelée hors composants React
- * Utilisée par: interceptors, timers, token refresh automatique
- */
-export const refreshTokenFn = async (): Promise<LoginResponse> => {
-  const response = await api
-    .post("users/refresh-token")
-    .json<ApiResponse<LoginResponse>>();
-  return unwrapResponse(response);
-};
+export const refreshTokenFn = () =>
+  unwrapResponse(
+    api.post("users/refresh-token").json<ApiResponse<LoginResponse>>(),
+  );

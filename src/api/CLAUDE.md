@@ -8,7 +8,7 @@ This folder contains everything related to API communication: HTTP client, React
 
 ```
 api/
-├── client.ts           # ky instance + ApiResponse interface
+├── client.ts           # ky instance + unwrapResponse
 ├── CLAUDE.md           # This file
 └── {feature}/
     ├── queries.ts      # useQuery hooks
@@ -35,8 +35,10 @@ Errors are based on `statusCode`, never on `message`.
 API response { success: false, statusCode: 401 }
         │
         ▼
-unwrapResponse() (client.ts)
-  → throw new Error(String(statusCode))   // Error("401")
+unwrapResponse() receives the Promise
+  → catches network errors → Error("network_error")
+  → catches timeout errors → Error("timeout_error")
+  → checks success: false  → Error(statusCode)
         │
         ▼
 React Query catches the error
@@ -45,12 +47,23 @@ React Query catches the error
         │
         ▼
 Component reads mutation.error.message
-  → t(`errors.${mutation.error.message}`)  // t("errors.401")
+  → t(`errors.${mutation.error.message}`)
         │
         ▼
 i18n resolves the key (auth.json)
   → "errors.401" → "Identifiants incorrects"
+  → "errors.network_error" → "Impossible de contacter le serveur..."
 ```
+
+### Network Error Handling
+
+`unwrapResponse()` handles network errors automatically:
+
+| Error Type | Converted To | i18n Key |
+|------------|--------------|----------|
+| `TypeError: Failed to fetch` | `Error("network_error")` | `errors.network_error` |
+| `TimeoutError` (ky) | `Error("timeout_error")` | `errors.timeout_error` |
+| API `success: false` | `Error(statusCode)` | `errors.{statusCode}` |
 
 ### Using useFormState for Error Display
 
@@ -67,11 +80,11 @@ const { errors } = useFormState({ control });
 
 ### Rules
 
-- All mutations use `unwrapResponse()` from `client.ts` to standardize error handling
-- `unwrapResponse()` checks `response.success` — returns `data` on success, throws `Error(statusCode)` on failure
-- Components catch errors and translate via i18n using the status code
-- Translation keys are HTTP status codes: `"401"`, `"403"`, `"404"`, `"409"`, `"500"`, `"unknown"`
-- The `message` field from the API is **never** displayed to the user — it exists only for logs/debug
+- All mutations/queries use `unwrapResponse()` from `client.ts`
+- `unwrapResponse()` receives a Promise, handles network errors, and unwraps the response
+- Components catch errors and translate via i18n using the error code
+- Translation keys: `"401"`, `"403"`, `"404"`, `"409"`, `"500"`, `"network_error"`, `"timeout_error"`, `"unknown"`
+- The `message` field from the API is **never** displayed to the user
 
 ## HTTP Client (ky)
 
@@ -81,11 +94,38 @@ Configured in `client.ts`:
 - Retry: 0 (React Query handles retries)
 - `throwHttpErrors: false` — errors are handled via `unwrapResponse()`
 - All responses follow `ApiResponse<T>` envelope: `{ success, data, message, statusCode }`
-- Exports `unwrapResponse<T>()` — the single entry point for unwrapping API responses in mutations
+
+### unwrapResponse()
+
+The single entry point for all API calls. Receives a Promise and handles everything:
+
+```typescript
+// Signature
+async function unwrapResponse<T>(request: Promise<ApiResponse<T>>): Promise<T>
+
+// Usage in mutations
+mutationFn: (data) => unwrapResponse(
+  api.post("endpoint", { json: data }).json<ApiResponse<Response>>()
+)
+
+// Usage in queries
+queryFn: () => unwrapResponse(
+  api.get("endpoint").json<ApiResponse<Response>>()
+)
+```
+
+**Important:** Pass the Promise directly, don't await it:
+```typescript
+// ✅ Correct
+unwrapResponse(api.get("endpoint").json())
+
+// ❌ Wrong - defeats network error handling
+unwrapResponse(await api.get("endpoint").json())
+```
 
 ### Request Hooks (beforeRequest)
 
-1. **addAuthHeader** — Auto-injects JWT from cookies (`js-cookie`) as `Authorization: Bearer <token>`
+1. **addAuthHeader** — Auto-injects JWT from cookies as `Authorization: Bearer <token>`
 2. **transformRequestBody** — Converts request body keys from camelCase to snake_case
 
 ### Response Hooks (afterResponse)
@@ -204,6 +244,7 @@ For components with filters (tables, paginated lists):
 ## Best Practices
 
 ### DO
+- Pass Promise directly to `unwrapResponse()` (don't await)
 - Include all dependencies in queryKey
 - Use query key factories
 - Use `isPending` for loading states
@@ -215,3 +256,4 @@ For components with filters (tables, paginated lists):
 - Pass API data via props from parent to child
 - Use Zod for types that don't need validation
 - Display `message` from API responses to the user
+- Await before passing to `unwrapResponse()`

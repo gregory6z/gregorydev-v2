@@ -11,28 +11,27 @@ import type { CreateOperationPayload } from "@/api/operations/schemas";
 
 export const useDeleteOperations = () => {
   return useMutation({
-    mutationFn: async (ids: string[]) =>
-      unwrapResponse(await mockDeleteOperations(ids)),
+    mutationFn: (ids: string[]) => unwrapResponse(mockDeleteOperations(ids)),
   });
 };
 
 export const useCreateOperation = () => {
   return useMutation({
-    mutationFn: async (payload: CreateOperationPayload) =>
-      unwrapResponse(await mockCreateOperation(payload)),
+    mutationFn: (payload: CreateOperationPayload) =>
+      unwrapResponse(mockCreateOperation(payload)),
   });
 };
 
 export const useRunGlobalAnalysis = () => {
   return useMutation({
-    mutationFn: async (operationId: string) =>
-      unwrapResponse(await mockRunGlobalAnalysis(operationId)),
+    mutationFn: (operationId: string) =>
+      unwrapResponse(mockRunGlobalAnalysis(operationId)),
   });
 };
 
 export const useUploadNewFileVersion = () => {
   return useMutation({
-    mutationFn: async ({
+    mutationFn: ({
       operationId,
       fileId,
       file,
@@ -40,19 +39,13 @@ export const useUploadNewFileVersion = () => {
       operationId: string;
       fileId: string;
       file: File;
-    }) =>
-      unwrapResponse(await mockUploadNewFileVersion(operationId, fileId, file)),
+    }) => unwrapResponse(mockUploadNewFileVersion(operationId, fileId, file)),
   });
 };
 
 export const useAddFileToOperation = () => {
   return useMutation({
-    mutationFn: async ({
-      operationId,
-      file,
-    }: {
-      operationId: string;
-      file: File;
-    }) => unwrapResponse(await mockAddFileToOperation(operationId, file)),
+    mutationFn: ({ operationId, file }: { operationId: string; file: File }) =>
+      unwrapResponse(mockAddFileToOperation(operationId, file)),
   });
 };

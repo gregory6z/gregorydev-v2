@@ -1,4 +1,8 @@
-import ky, { type BeforeRequestHook, type AfterResponseHook } from "ky";
+import ky, {
+  type BeforeRequestHook,
+  type AfterResponseHook,
+  isTimeoutError,
+} from "ky";
 import Cookies from "js-cookie";
 import { env } from "@/env";
 import { JWT_TOKEN_NAME } from "@/helpers/jwt";
@@ -13,21 +17,41 @@ export interface ApiResponse<T = unknown> {
   statusCode: number;
 }
 
-// ── Response Helper ──────────────────────────────────────────────────────────
+// ── Error Handling ───────────────────────────────────────────────────────────
+
+const ERROR_CODES = {
+  NETWORK: "network_error",
+  TIMEOUT: "timeout_error",
+} as const;
+
+const isNetworkError = (error: unknown): boolean =>
+  error instanceof TypeError && error.message.includes("fetch");
 
 /**
- * Unwraps the standard API response envelope.
- * Returns `data` on success, throws `Error(statusCode)` on failure.
- * The thrown statusCode is used as an i18n key in components.
+ * Unwraps the API response envelope.
+ * Handles network errors and converts them to i18n-compatible codes.
  */
-export const unwrapResponse = <T>(response: ApiResponse<T>): T => {
+export async function unwrapResponse<T>(
+  request: Promise<ApiResponse<T>>,
+): Promise<T> {
+  let response: ApiResponse<T>;
+
+  try {
+    response = await request;
+  } catch (error) {
+    if (isNetworkError(error)) throw new Error(ERROR_CODES.NETWORK);
+    if (isTimeoutError(error)) throw new Error(ERROR_CODES.TIMEOUT);
+    throw error;
+  }
+
   if (!response.success) {
     throw new Error(String(response.statusCode));
   }
-  return response.data;
-};
 
-// ── Request Hooks ────────────────────────────────────────────────────────────
+  return response.data;
+}
+
+// ── Hooks ────────────────────────────────────────────────────────────────────
 
 const addAuthHeader: BeforeRequestHook = (request) => {
   const token = Cookies.get(JWT_TOKEN_NAME);
@@ -38,38 +62,28 @@ const addAuthHeader: BeforeRequestHook = (request) => {
 
 const transformRequestBody: BeforeRequestHook = async (request) => {
   const contentType = request.headers.get("content-type");
-  const isJson = contentType?.includes("application/json");
-  if (!isJson) return;
+  if (!contentType?.includes("application/json")) return;
 
   const body = await request.clone().text();
   if (!body) return;
 
-  const transformed = toSnakeCaseKeys(JSON.parse(body));
-  return new Request(request, { body: JSON.stringify(transformed) });
+  return new Request(request, {
+    body: JSON.stringify(toSnakeCaseKeys(JSON.parse(body))),
+  });
 };
 
-// ── Response Hooks ───────────────────────────────────────────────────────────
-
-const transformResponseBody: AfterResponseHook = async (
-  _request,
-  _options,
-  response,
-) => {
+const transformResponseBody: AfterResponseHook = async (_, __, response) => {
   const contentType = response.headers.get("content-type");
-  const isJson = contentType?.includes("application/json");
-  if (!isJson) return;
+  if (!contentType?.includes("application/json")) return;
 
   try {
     const body = await response.json();
-    const transformed = toCamelCaseKeys(body);
-
-    return new Response(JSON.stringify(transformed), {
+    return new Response(JSON.stringify(toCamelCaseKeys(body)), {
       status: response.status,
       statusText: response.statusText,
       headers: response.headers,
     });
   } catch {
-    // Return original response if JSON parsing fails
     return;
   }
 };

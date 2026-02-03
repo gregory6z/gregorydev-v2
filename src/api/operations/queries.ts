@@ -27,9 +27,9 @@ export const operationsKeys = {
 export const useOperationsCounts = () => {
   return useQuery({
     queryKey: operationsKeys.counts(),
-    queryFn: async () => unwrapResponse(await mockFetchOperationsCounts()),
-    staleTime: 1000 * 60 * 5, // 5 minutes
-    gcTime: 1000 * 60 * 10, // 10 minutes
+    queryFn: () => unwrapResponse(mockFetchOperationsCounts()),
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     refetchOnReconnect: false,
@@ -39,9 +39,9 @@ export const useOperationsCounts = () => {
 export const useOperations = (filters: OperationsListFilters) => {
   return useQuery({
     queryKey: operationsKeys.list(filters),
-    queryFn: async () => unwrapResponse(await mockFetchOperations(filters)),
-    staleTime: 1000 * 30, // 30 seconds
-    gcTime: 1000 * 60 * 2, // 2 minutes
+    queryFn: () => unwrapResponse(mockFetchOperations(filters)),
+    staleTime: 1000 * 30,
+    gcTime: 1000 * 60 * 2,
     placeholderData: keepPreviousData,
     refetchOnMount: true,
     refetchOnWindowFocus: false,
@@ -52,7 +52,7 @@ export const useOperations = (filters: OperationsListFilters) => {
 export const useExtractedData = (enabled: boolean) => {
   return useQuery({
     queryKey: operationsKeys.extractedData(),
-    queryFn: async () => unwrapResponse(await mockExtractData()),
+    queryFn: () => unwrapResponse(mockExtractData()),
     enabled,
     staleTime: Infinity,
     gcTime: 0,
@@ -65,10 +65,10 @@ export const useExtractedData = (enabled: boolean) => {
 export const useOperationDetails = (id: string) => {
   return useQuery({
     queryKey: operationsKeys.detail(id),
-    queryFn: async () => unwrapResponse(await mockFetchOperationDetails(id)),
+    queryFn: () => unwrapResponse(mockFetchOperationDetails(id)),
     enabled: !!id,
-    staleTime: 1000 * 60, // 1 minute
-    gcTime: 1000 * 60 * 5, // 5 minutes
+    staleTime: 1000 * 60,
+    gcTime: 1000 * 60 * 5,
   });
 };
 
@@ -79,10 +79,10 @@ export const useDocumentDetails = (
 ) => {
   return useQuery({
     queryKey: operationsKeys.document(operationId, documentId),
-    queryFn: async () =>
-      unwrapResponse(await mockFetchDocumentDetails(operationId, documentId)),
+    queryFn: () =>
+      unwrapResponse(mockFetchDocumentDetails(operationId, documentId)),
     enabled: enabled && !!operationId && !!documentId,
-    staleTime: 1000 * 60, // 1 minute
-    gcTime: 1000 * 60 * 5, // 5 minutes
+    staleTime: 1000 * 60,
+    gcTime: 1000 * 60 * 5,
   });
 };

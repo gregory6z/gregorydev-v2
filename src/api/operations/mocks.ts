@@ -25,7 +25,7 @@ const wrapResponse = <T>(data: T): ApiResponse<T> => ({
   success: true,
   data,
   message: "OK",
-  status_code: 200,
+  statusCode: 200,
 });
 
 const MOCK_DELAY = 500;

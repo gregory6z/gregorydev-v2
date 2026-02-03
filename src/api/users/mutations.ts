@@ -13,12 +13,12 @@ import type {
 
 export const useLookupSiret = () => {
   return useMutation({
-    mutationFn: async (siret: string) => {
-      const response = await api
-        .get(`companies/information?siret=${siret}`)
-        .json<ApiResponse<SiretLookupResponse>>();
-      return unwrapResponse(response);
-    },
+    mutationFn: (siret: string) =>
+      unwrapResponse(
+        api
+          .get(`companies/information?siret=${siret}`)
+          .json<ApiResponse<SiretLookupResponse>>(),
+      ),
   });
 };
 
@@ -26,16 +26,17 @@ export const useLookupSiret = () => {
 
 export const useRegister = () => {
   return useMutation({
-    mutationFn: async (data: RegisterFormData) => {
+    mutationFn: (data: RegisterFormData) => {
       const payload = {
         ...data,
         companyPhoneNumber: cleanPhone(data.companyPhoneNumber),
         userPhoneNumber: cleanPhone(data.userPhoneNumber),
       };
-      const response = await api
-        .post("users/register", { json: payload })
-        .json<ApiResponse<RegisterResponse>>();
-      return unwrapResponse(response);
+      return unwrapResponse(
+        api
+          .post("users/register", { json: payload })
+          .json<ApiResponse<RegisterResponse>>(),
+      );
     },
   });
 };
@@ -44,12 +45,12 @@ export const useRegister = () => {
 
 export const useForgotPassword = () => {
   return useMutation({
-    mutationFn: async (data: ForgotPasswordFormData) => {
-      const response = await api
-        .post("users/renew-password", { json: data })
-        .json<ApiResponse<void>>();
-      return unwrapResponse(response);
-    },
+    mutationFn: (data: ForgotPasswordFormData) =>
+      unwrapResponse(
+        api
+          .post("users/renew-password", { json: data })
+          .json<ApiResponse<void>>(),
+      ),
   });
 };
 
@@ -57,21 +58,19 @@ export const useForgotPassword = () => {
 
 export const useResetPassword = () => {
   return useMutation({
-    mutationFn: async ({
+    mutationFn: ({
       token,
       data,
     }: {
       token: string;
       data: ResetPasswordFormData;
     }) => {
-      const payload = {
-        renewPasswordToken: token,
-        ...data,
-      };
-      const response = await api
-        .post("users/reset-password", { json: payload })
-        .json<ApiResponse<void>>();
-      return unwrapResponse(response);
+      const payload = { renewPasswordToken: token, ...data };
+      return unwrapResponse(
+        api
+          .post("users/reset-password", { json: payload })
+          .json<ApiResponse<void>>(),
+      );
     },
   });
 };

@@ -20,7 +20,8 @@ export const RegisterForm = () => {
   const [step, setStep] = useState<Step>(1);
 
   const methods = useForm<RegisterFormData>({
-    resolver: zodResolver(registerSchema),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    resolver: zodResolver(registerSchema as any),
     defaultValues: {
       companySiret: "",
       companyName: "",

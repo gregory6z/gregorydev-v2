@@ -14,14 +14,10 @@ export const usersKeys = {
 export const useUserMe = () => {
   return useQuery({
     queryKey: usersKeys.me(),
-    queryFn: async () => {
-      const response = await api
-        .get("users/me")
-        .json<ApiResponse<UserMeResponse>>();
-      return unwrapResponse(response);
-    },
-    staleTime: Infinity, // Data stays fresh until manual invalidation
-    gcTime: Infinity, // Cache persists while app is open
+    queryFn: () =>
+      unwrapResponse(api.get("users/me").json<ApiResponse<UserMeResponse>>()),
+    staleTime: Infinity,
+    gcTime: Infinity,
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
   });
