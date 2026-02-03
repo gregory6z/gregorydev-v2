@@ -7,13 +7,13 @@ const BADGE_COLORS: Record<string, string> = {
 };
 
 export const EnvironmentBadge = () => {
-  if (env.VITE_ENV === "prod") return null;
+  if (env.VITE_NODE_ENV === "prod") return null;
 
   return (
     <span
-      className={`rounded-full px-3 py-1 font-mono text-xs font-semibold text-white ${BADGE_COLORS[env.VITE_ENV]}`}
+      className={`rounded-full px-3 py-1 font-mono text-xs font-semibold text-white ${BADGE_COLORS[env.VITE_NODE_ENV]}`}
     >
-      {env.VITE_ENV.toUpperCase()}
+      {env.VITE_NODE_ENV.toUpperCase()}
     </span>
   );
 };
