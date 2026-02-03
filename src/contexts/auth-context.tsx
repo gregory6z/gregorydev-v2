@@ -62,9 +62,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       timerRef.current = window.setTimeout(async () => {
         try {
           const response = await refreshTokenFn();
-          Cookies.set(JWT_TOKEN_NAME, response.access_token);
-          setToken(response.access_token);
-          scheduleRefresh(response.access_token);
+          Cookies.set(JWT_TOKEN_NAME, response.accessToken);
+          setToken(response.accessToken);
+          scheduleRefresh(response.accessToken);
         } catch {
           clearTimer();
           Cookies.remove(JWT_TOKEN_NAME);
