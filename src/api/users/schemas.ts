@@ -1,11 +1,37 @@
 import { z } from "zod/v4";
 import { FRENCH_PHONE_REGEX, isValidLuhn } from "@/helpers/validators";
 
-/** French phone field — validation only, no transform */
+// ── Shared Fields ────────────────────────────────────────────────────────────
+
 const phoneField = z
   .string()
   .min(1, "validation.phoneRequired")
   .regex(FRENCH_PHONE_REGEX, "validation.phoneInvalid");
+
+const emailField = z.email("validation.emailInvalid");
+
+const passwordField = z
+  .string()
+  .min(8, "validation.passwordMinLength")
+  .regex(/[A-Z]/, "validation.passwordUppercase")
+  .regex(/[a-z]/, "validation.passwordLowercase")
+  .regex(/\d/, "validation.passwordDigit")
+  .regex(/[^A-Za-z0-9]/, "validation.passwordSpecial");
+
+const passwordConfirmationField = z
+  .string()
+  .min(1, "validation.confirmPasswordRequired");
+
+/** Refine helper for password confirmation */
+const withPasswordConfirmation = <
+  T extends { userPassword: string; userPasswordConfirmation: string },
+>(
+  schema: z.ZodType<T>,
+) =>
+  schema.refine((data) => data.userPassword === data.userPasswordConfirmation, {
+    message: "validation.passwordsMismatch",
+    path: ["userPasswordConfirmation"],
+  });
 
 // ── Register Step 1: SIRET ───────────────────────────────────────────────────
 
@@ -20,10 +46,11 @@ export const siretSchema = z.object({
 export type SiretFormData = z.infer<typeof siretSchema>;
 
 export type SiretLookupResponse = {
-  siret: string;
-  name: string;
-  address: string;
-  postal_code: string;
+  companyName: string;
+  streetNumber: string;
+  streetType: string;
+  streetName: string;
+  postalCode: string;
   city: string;
 };
 
@@ -41,40 +68,26 @@ export type CompanyFormData = z.infer<typeof companySchema>;
 
 // ── Register Step 3: User ────────────────────────────────────────────────────
 
-export const userSchema = z
-  .object({
-    userLastName: z.string().min(1, "validation.lastNameRequired"),
-    userFirstName: z.string().min(1, "validation.firstNameRequired"),
-    userEmail: z.email("validation.emailInvalid"),
-    userPhoneNumber: phoneField,
-    userPassword: z
-      .string()
-      .min(8, "validation.passwordMinLength")
-      .regex(/[A-Z]/, "validation.passwordUppercase")
-      .regex(/[a-z]/, "validation.passwordLowercase")
-      .regex(/\d/, "validation.passwordDigit")
-      .regex(/[^A-Za-z0-9]/, "validation.passwordSpecial"),
-    userPasswordConfirmation: z
-      .string()
-      .min(1, "validation.confirmPasswordRequired"),
-  })
-  .refine((data) => data.userPassword === data.userPasswordConfirmation, {
-    message: "validation.passwordsMismatch",
-    path: ["userPasswordConfirmation"],
-  });
+const userFieldsSchema = z.object({
+  userLastName: z.string().min(1, "validation.lastNameRequired"),
+  userFirstName: z.string().min(1, "validation.firstNameRequired"),
+  userEmail: emailField,
+  userPhoneNumber: phoneField,
+  userPassword: passwordField,
+  userPasswordConfirmation: passwordConfirmationField,
+});
+
+export const userSchema = withPasswordConfirmation(userFieldsSchema);
 
 export type UserFormData = z.infer<typeof userSchema>;
 
 // ── Register Full Form ───────────────────────────────────────────────────────
 
-export const registerSchema = siretSchema.merge(companySchema).merge(
+export const registerSchema = withPasswordConfirmation(
   z.object({
-    userLastName: z.string().min(1),
-    userFirstName: z.string().min(1),
-    userEmail: z.email(),
-    userPhoneNumber: z.string().min(1),
-    userPassword: z.string().min(8),
-    userPasswordConfirmation: z.string().min(1),
+    ...siretSchema.shape,
+    ...companySchema.shape,
+    ...userFieldsSchema.shape,
   }),
 );
 
@@ -87,7 +100,7 @@ export type RegisterResponse = {
 // ── Forgot Password ──────────────────────────────────────────────────────────
 
 export const forgotPasswordSchema = z.object({
-  email: z.email("validation.emailInvalid"),
+  email: emailField,
 });
 
 export type ForgotPasswordFormData = z.infer<typeof forgotPasswordSchema>;
@@ -96,14 +109,8 @@ export type ForgotPasswordFormData = z.infer<typeof forgotPasswordSchema>;
 
 export const resetPasswordSchema = z
   .object({
-    password: z
-      .string()
-      .min(12, "validation.passwordMinLength")
-      .regex(/[A-Z]/, "validation.passwordUppercase")
-      .regex(/[^A-Za-z0-9]/, "validation.passwordSpecial"),
-    passwordConfirmation: z
-      .string()
-      .min(1, "validation.confirmPasswordRequired"),
+    password: passwordField,
+    passwordConfirmation: passwordConfirmationField,
   })
   .refine((data) => data.password === data.passwordConfirmation, {
     message: "validation.passwordsMismatch",
@@ -117,19 +124,19 @@ export type ResetPasswordFormData = z.infer<typeof resetPasswordSchema>;
 export type UserGroup = {
   id: number;
   code: "PRODUCER" | "PRINCIPAL" | "SUPERADMIN";
-  name: string;
+  title: string;
 };
 
 export type UserProfile = {
   id: number;
-  id_company: number;
+  idCompany: number;
 };
 
 export type UserMeResponse = {
   id: number;
-  first_name: string;
-  last_name: string;
+  firstName: string;
+  lastName: string;
   email: string;
-  user_group: UserGroup;
-  user_profile: UserProfile;
+  userGroup: UserGroup;
+  userProfile: UserProfile;
 };
