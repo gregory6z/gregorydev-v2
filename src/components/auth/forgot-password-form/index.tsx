@@ -6,8 +6,8 @@ import { useNavigate } from "react-router-dom";
 import {
   forgotPasswordSchema,
   type ForgotPasswordFormData,
-} from "@/api/auth/schemas";
-import { useForgotPassword } from "@/api/auth/mutations";
+} from "@/api/users/schemas";
+import { useForgotPassword } from "@/api/users/mutations";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";

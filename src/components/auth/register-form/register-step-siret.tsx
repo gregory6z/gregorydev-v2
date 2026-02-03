@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { useLookupSiret } from "@/api/auth/mutations";
+import { useLookupSiret } from "@/api/users/mutations";
 import { formatSiret } from "@/helpers/formatters";
-import type { RegisterFormData, SiretLookupResponse } from "@/api/auth/schemas";
+import type {
+  RegisterFormData,
+  SiretLookupResponse,
+} from "@/api/users/schemas";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -24,21 +27,21 @@ export const RegisterStepSiret = ({ onNext }: RegisterStepSiretProps) => {
   } = useFormContext<RegisterFormData>();
 
   const [display, setDisplay] = useState(() =>
-    formatSiret(getValues("siret") ?? ""),
+    formatSiret(getValues("companySiret") ?? ""),
   );
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const digits = e.target.value.replace(/\D/g, "").slice(0, 14);
     const formatted = formatSiret(digits);
     setDisplay(formatted);
-    setValue("siret", digits, { shouldValidate: false });
+    setValue("companySiret", digits, { shouldValidate: false });
   };
 
   const handleNext = async () => {
-    const valid = await trigger("siret");
+    const valid = await trigger("companySiret");
     if (!valid) return;
 
-    lookupSiret.mutate(getValues("siret"), {
+    lookupSiret.mutate(getValues("companySiret"), {
       onSuccess: (data) => onNext(data),
     });
   };
@@ -51,13 +54,13 @@ export const RegisterStepSiret = ({ onNext }: RegisterStepSiretProps) => {
           variant="auth"
           placeholder={t("register.step1.siretPlaceholder")}
           inputMode="numeric"
-          aria-invalid={!!errors.siret}
+          aria-invalid={!!errors.companySiret}
           value={display}
           onChange={handleChange}
         />
-        {errors.siret && (
+        {errors.companySiret && (
           <p className="text-base text-primary">
-            {t(errors.siret.message as string)}
+            {t(errors.companySiret.message as string)}
           </p>
         )}
       </div>

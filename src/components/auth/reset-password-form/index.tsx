@@ -5,8 +5,8 @@ import { useSearchParams } from "react-router-dom";
 import {
   resetPasswordSchema,
   type ResetPasswordFormData,
-} from "@/api/auth/schemas";
-import { useResetPassword } from "@/api/auth/mutations";
+} from "@/api/users/schemas";
+import { useResetPassword } from "@/api/users/mutations";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { PasswordInput } from "@/components/ui/password-input";
@@ -30,10 +30,7 @@ export const ResetPasswordForm = ({ onSuccess }: ResetPasswordFormProps) => {
   });
 
   const onSubmit = (data: ResetPasswordFormData) => {
-    mutation.mutate(
-      { token, data },
-      { onSuccess: () => onSuccess() },
-    );
+    mutation.mutate({ token, data }, { onSuccess: () => onSuccess() });
   };
 
   return (
@@ -69,12 +66,12 @@ export const ResetPasswordForm = ({ onSuccess }: ResetPasswordFormProps) => {
             <PasswordInput
               variant="auth"
               placeholder={t("resetPassword.confirmPasswordPlaceholder")}
-              {...register("confirmPassword")}
-              aria-invalid={!!errors.confirmPassword}
+              {...register("passwordConfirmation")}
+              aria-invalid={!!errors.passwordConfirmation}
             />
-            {errors.confirmPassword && (
+            {errors.passwordConfirmation && (
               <p className="text-base text-primary">
-                {t(errors.confirmPassword.message!)}
+                {t(errors.passwordConfirmation.message!)}
               </p>
             )}
           </div>

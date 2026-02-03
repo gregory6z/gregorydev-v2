@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { formatPhone } from "@/helpers/formatters";
-import type { RegisterFormData } from "@/api/auth/schemas";
+import type { RegisterFormData } from "@/api/users/schemas";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -27,7 +27,7 @@ export const RegisterStepCompany = ({
   } = useFormContext<RegisterFormData>();
 
   const [phoneDisplay, setPhoneDisplay] = useState(() =>
-    formatPhone(getValues("phone") ?? ""),
+    formatPhone(getValues("companyPhoneNumber") ?? ""),
   );
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,23 +48,23 @@ export const RegisterStepCompany = ({
         const rawValue = `+33${phoneDigits}`;
         const formatted = formatPhone(rawValue);
         setPhoneDisplay(formatted);
-        setValue("phone", rawValue, { shouldValidate: false });
+        setValue("companyPhoneNumber", rawValue, { shouldValidate: false });
       } else if (digitsAfterPrefix.length <= 2) {
         // User is still typing +3 or +33
         setPhoneDisplay(input);
-        setValue("phone", input, { shouldValidate: false });
+        setValue("companyPhoneNumber", input, { shouldValidate: false });
       }
     } else {
       // National format: 10 digits
       const digits = input.replace(/\D/g, "").slice(0, 10);
       const formatted = formatPhone(digits);
       setPhoneDisplay(formatted);
-      setValue("phone", digits, { shouldValidate: false });
+      setValue("companyPhoneNumber", digits, { shouldValidate: false });
     }
   };
 
   const handleNext = async () => {
-    const valid = await trigger("phone");
+    const valid = await trigger("companyPhoneNumber");
     if (!valid) return;
     onNext();
   };
@@ -88,8 +88,30 @@ export const RegisterStepCompany = ({
             variant="auth"
             readOnly
             className="opacity-60"
-            {...register("address")}
+            {...register("companyAddress")}
           />
+        </div>
+
+        <div className="flex gap-3.5">
+          <div className="flex w-1/3 flex-col gap-1.5">
+            <Label variant="auth">{t("register.step2.postalCode")}</Label>
+            <Input
+              variant="auth"
+              readOnly
+              className="opacity-60"
+              {...register("companyPostalCode")}
+            />
+          </div>
+
+          <div className="flex flex-1 flex-col gap-1.5">
+            <Label variant="auth">{t("register.step2.city")}</Label>
+            <Input
+              variant="auth"
+              readOnly
+              className="opacity-60"
+              {...register("companyCity")}
+            />
+          </div>
         </div>
 
         <div className="flex flex-col gap-1.5">
@@ -98,13 +120,13 @@ export const RegisterStepCompany = ({
             variant="auth"
             placeholder={t("register.step2.phonePlaceholder")}
             type="tel"
-            aria-invalid={!!errors.phone}
+            aria-invalid={!!errors.companyPhoneNumber}
             value={phoneDisplay}
             onChange={handlePhoneChange}
           />
-          {errors.phone && (
+          {errors.companyPhoneNumber && (
             <p className="text-base text-primary">
-              {t(errors.phone.message as string)}
+              {t(errors.companyPhoneNumber.message as string)}
             </p>
           )}
         </div>

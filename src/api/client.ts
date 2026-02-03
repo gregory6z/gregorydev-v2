@@ -32,6 +32,7 @@ export const api = ky.create({
   prefixUrl: env.VITE_API_URL,
   timeout: 30_000,
   retry: 0, // React Query handles retries
+  throwHttpErrors: false, // Handle errors manually via unwrapResponse
   hooks: {
     beforeRequest: [
       (request) => {

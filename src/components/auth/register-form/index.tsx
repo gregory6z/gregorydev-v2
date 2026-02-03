@@ -5,7 +5,7 @@ import {
   registerSchema,
   type RegisterFormData,
   type SiretLookupResponse,
-} from "@/api/auth/schemas";
+} from "@/api/users/schemas";
 import { RegisterStepper } from "./register-stepper";
 import { RegisterStepSiret } from "./register-step-siret";
 import { RegisterStepCompany } from "./register-step-company";
@@ -20,22 +20,26 @@ export const RegisterForm = () => {
   const methods = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
-      siret: "",
+      companySiret: "",
       companyName: "",
-      address: "",
-      phone: "",
-      lastName: "",
-      firstName: "",
-      email: "",
-      userPhone: "",
-      password: "",
-      confirmPassword: "",
+      companyAddress: "",
+      companyPostalCode: "",
+      companyCity: "",
+      companyPhoneNumber: "",
+      userLastName: "",
+      userFirstName: "",
+      userEmail: "",
+      userPhoneNumber: "",
+      userPassword: "",
+      userPasswordConfirmation: "",
     },
   });
 
   const handleNextStep1 = (data: SiretLookupResponse) => {
-    methods.setValue("companyName", data.companyName);
-    methods.setValue("address", data.address);
+    methods.setValue("companyName", data.name);
+    methods.setValue("companyAddress", data.address);
+    methods.setValue("companyPostalCode", data.postal_code);
+    methods.setValue("companyCity", data.city);
     setStep(2);
   };
 

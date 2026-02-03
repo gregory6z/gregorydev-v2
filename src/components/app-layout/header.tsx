@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { ChevronDown } from "lucide-react";
 
 import { useAuth } from "@/contexts/auth-context";
+import { useUserMe } from "@/api/users/queries";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
@@ -14,19 +15,15 @@ import {
 
 import logo from "@/assets/energer-logo.svg";
 
-// TODO: Replace with useUser hook when available
-const useMockUser = () => ({
-  firstName: "Antoine",
-  lastName: "Dupont",
-});
-
 export function Header() {
   const { t } = useTranslation("common");
   const { logout } = useAuth();
-  const user = useMockUser();
+  const { data: user } = useUserMe();
 
-  const initials = `${user.firstName[0]}${user.lastName[0]}`.toUpperCase();
-  const displayName = `${user.firstName[0]}. ${user.lastName}`;
+  const initials = user
+    ? `${user.first_name[0]}${user.last_name[0]}`.toUpperCase()
+    : "";
+  const displayName = user ? `${user.first_name[0]}. ${user.last_name}` : "";
 
   return (
     <header className="h-16 bg-white border-b border-table-border">
