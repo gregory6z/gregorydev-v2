@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, useFormState } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useRegister } from "@/api/users/mutations";
 import { formatPhone } from "@/helpers/formatters";
@@ -21,13 +21,11 @@ export const RegisterStepUser = ({
   const { t } = useTranslation("auth");
   const registerMutation = useRegister();
 
-  const {
-    register,
-    setValue,
-    trigger,
-    getValues,
-    formState: { errors },
-  } = useFormContext<RegisterFormData>();
+  const { register, setValue, trigger, getValues, control } =
+    useFormContext<RegisterFormData>();
+
+  // useFormState subscribes to formState changes and triggers re-renders
+  const { errors } = useFormState({ control });
 
   const [phoneDisplay, setPhoneDisplay] = useState(() =>
     formatPhone(getValues("userPhoneNumber") ?? ""),
@@ -75,11 +73,10 @@ export const RegisterStepUser = ({
       "userPassword",
       "userPasswordConfirmation",
     ]);
+
     if (!valid) return;
 
     const values = getValues();
-
-    if (values.userPassword !== values.userPasswordConfirmation) return;
 
     registerMutation.mutate(values, {
       onSuccess: () => onComplete(),
