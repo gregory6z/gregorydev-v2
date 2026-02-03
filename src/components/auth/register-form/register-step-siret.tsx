@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, useFormState } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useLookupSiret } from "@/api/users/mutations";
 import { formatSiret } from "@/helpers/formatters";
@@ -19,12 +19,10 @@ export const RegisterStepSiret = ({ onNext }: RegisterStepSiretProps) => {
   const { t } = useTranslation("auth");
   const lookupSiret = useLookupSiret();
 
-  const {
-    setValue,
-    trigger,
-    getValues,
-    formState: { errors },
-  } = useFormContext<RegisterFormData>();
+  const { setValue, trigger, getValues, control } =
+    useFormContext<RegisterFormData>();
+
+  const { errors } = useFormState({ control });
 
   const [display, setDisplay] = useState(() =>
     formatSiret(getValues("companySiret") ?? ""),

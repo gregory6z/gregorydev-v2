@@ -7,7 +7,10 @@ import {
   DataTableBody,
 } from "@/components/ui/data-table";
 import type { VerificationStep } from "@/api/operations/schemas";
-import { createVerificationColumns, type VerificationRow } from "./columns";
+import {
+  createVerificationColumns,
+  type VerificationRow,
+} from "@/components/operations/details/global-coherence/verification-table/columns";
 
 type VerificationTableProps = {
   steps: VerificationStep[];

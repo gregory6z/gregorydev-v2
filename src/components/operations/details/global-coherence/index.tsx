@@ -2,10 +2,10 @@ import { useTranslation } from "react-i18next";
 import { Download, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { GlobalCoherenceHeader } from "./global-coherence-header";
-import { GlobalCoherenceSummary } from "./global-coherence-summary";
-import { VerificationTable } from "./verification-table";
-import { IssuesTable } from "./issues-table";
+import { GlobalCoherenceHeader } from "@/components/operations/details/global-coherence/global-coherence-header";
+import { GlobalCoherenceSummary } from "@/components/operations/details/global-coherence/global-coherence-summary";
+import { IssuesTable } from "@/components/operations/details/global-coherence/issues-table";
+import { VerificationTable } from "@/components/operations/details/global-coherence/verification-table";
 import type { GlobalCoherenceAnalysis } from "@/api/operations/schemas";
 
 type GlobalCoherenceSectionProps = {

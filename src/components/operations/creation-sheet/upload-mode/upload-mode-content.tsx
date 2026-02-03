@@ -2,8 +2,8 @@ import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { FileUploadZone } from "./file-upload-zone";
-import { FileList } from "./file-list";
+import { FileList } from "@/components/operations/creation-sheet/upload-mode/file-list";
+import { FileUploadZone } from "@/components/operations/creation-sheet/upload-mode/file-upload-zone";
 import type {
   CreateOperationStep1Data,
   UploadingFile,

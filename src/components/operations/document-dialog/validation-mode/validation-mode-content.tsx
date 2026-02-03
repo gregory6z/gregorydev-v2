@@ -1,9 +1,9 @@
 import { useTranslation } from "react-i18next";
 import { Loader2 } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { ValidationModeInfo } from "./validation-mode-info";
-import { AnalysisTable } from "./analysis-table";
-import { ValidationModeFooter } from "./validation-mode-footer";
+import { ValidationModeInfo } from "@/components/operations/document-dialog/validation-mode/validation-mode-info";
+import { AnalysisTable } from "@/components/operations/document-dialog/validation-mode/analysis-table";
+import { ValidationModeFooter } from "@/components/operations/document-dialog/validation-mode/validation-mode-footer";
 import type { DocumentDetails } from "@/api/operations/schemas";
 
 type ValidationModeContentProps = {

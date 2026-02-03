@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { Loader2 } from "lucide-react";
-import { ValidationField } from "./validation-field";
-import { SignatureSelect } from "./signature-select";
+import { SignatureSelect } from "@/components/operations/creation-sheet/validation-mode/signature-select";
+import { ValidationField } from "@/components/operations/creation-sheet/validation-mode/validation-field";
 import type {
   ExtractedData,
   SignatureStatusType,

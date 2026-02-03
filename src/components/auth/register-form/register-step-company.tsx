@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, useFormState } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { formatPhone } from "@/helpers/formatters";
 import type { RegisterFormData } from "@/api/users/schemas";
@@ -18,13 +18,10 @@ export const RegisterStepCompany = ({
 }: RegisterStepCompanyProps) => {
   const { t } = useTranslation("auth");
 
-  const {
-    register,
-    setValue,
-    trigger,
-    getValues,
-    formState: { errors },
-  } = useFormContext<RegisterFormData>();
+  const { register, setValue, trigger, getValues, control } =
+    useFormContext<RegisterFormData>();
+
+  const { errors } = useFormState({ control });
 
   const [phoneDisplay, setPhoneDisplay] = useState(() =>
     formatPhone(getValues("companyPhoneNumber") ?? ""),

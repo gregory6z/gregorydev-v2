@@ -7,7 +7,7 @@ import {
   DataTableBody,
 } from "@/components/ui/data-table";
 import type { NonConformity } from "@/api/operations/schemas";
-import { createIssuesColumns } from "./columns";
+import { createIssuesColumns } from "@/components/operations/details/global-coherence/issues-table/columns";
 
 type IssuesTableProps = {
   issues: NonConformity[];

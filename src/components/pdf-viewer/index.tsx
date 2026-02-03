@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Document, pdfjs } from "react-pdf";
-import { PdfToolbar } from "./toolbar";
-import { LazyPage } from "./lazy-page";
+import { LazyPage } from "@/components/pdf-viewer/lazy-page";
+import { PdfToolbar } from "@/components/pdf-viewer/toolbar";
 import { cn } from "@/lib/utils";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";

@@ -38,11 +38,11 @@ import {
 } from "@/components/ui/data-table";
 import { DataTablePagination } from "@/components/ui/data-table-pagination";
 import { DataTableSearch } from "@/components/ui/data-table-search";
-import { DeleteConfirmationDialog } from "./operations-table/delete-dialog";
-import { OperationsHeader } from "./header";
-import { OperationsTabs } from "./tabs";
-import { createColumns } from "./operations-table/columns";
-import { OperationCreationSheet } from "./creation-sheet";
+import { OperationCreationSheet } from "@/components/operations/creation-sheet";
+import { OperationsHeader } from "@/components/operations/header";
+import { createColumns } from "@/components/operations/operations-table/columns";
+import { DeleteConfirmationDialog } from "@/components/operations/operations-table/delete-dialog";
+import { OperationsTabs } from "@/components/operations/tabs";
 
 export const OperationsTable = () => {
   const { t } = useTranslation("operations");

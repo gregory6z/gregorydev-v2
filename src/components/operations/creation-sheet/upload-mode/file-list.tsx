@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { FileItem } from "./file-item";
+import { FileItem } from "@/components/operations/creation-sheet/upload-mode/file-item";
 import type { UploadingFile } from "@/api/operations/schemas";
 
 type FileListProps = {

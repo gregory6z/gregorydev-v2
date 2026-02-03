@@ -19,8 +19,8 @@ import {
 } from "@/components/ui/alert-dialog";
 import { SheetFooter } from "@/components/operations/creation-sheet/sheet-footer";
 import { StatusBadge } from "@/components/operations/status-badge";
-import { UploadModeContent } from "./upload-mode/upload-mode-content";
-import { ValidationModeContent } from "./validation-mode/validation-mode-content";
+import { UploadModeContent } from "@/components/operations/document-dialog/upload-mode/upload-mode-content";
+import { ValidationModeContent } from "@/components/operations/document-dialog/validation-mode/validation-mode-content";
 import { useDocumentDetails, operationsKeys } from "@/api/operations/queries";
 import {
   useAddFileToOperation,
