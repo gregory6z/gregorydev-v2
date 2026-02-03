@@ -1,16 +1,18 @@
 import { useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { zodResolver } from "@hookform/resolvers/zod/v4";
+
 import {
   registerSchema,
   type RegisterFormData,
   type SiretLookupResponse,
 } from "@/api/users/schemas";
-import { RegisterStepper } from "./register-stepper";
-import { RegisterStepSiret } from "./register-step-siret";
-import { RegisterStepCompany } from "./register-step-company";
-import { RegisterStepUser } from "./register-step-user";
-import { RegisterConfirmation } from "./register-confirmation";
+
+import { RegisterConfirmation } from "@/components/auth/register-form/register-confirmation";
+import { RegisterStepCompany } from "@/components/auth/register-form/register-step-company";
+import { RegisterStepSiret } from "@/components/auth/register-form/register-step-siret";
+import { RegisterStepUser } from "@/components/auth/register-form/register-step-user";
+import { RegisterStepper } from "@/components/auth/register-form/register-stepper";
 
 type Step = 1 | 2 | 3 | "done";
 
@@ -36,9 +38,12 @@ export const RegisterForm = () => {
   });
 
   const handleNextStep1 = (data: SiretLookupResponse) => {
-    methods.setValue("companyName", data.name);
-    methods.setValue("companyAddress", data.address);
-    methods.setValue("companyPostalCode", data.postal_code);
+    const address = [data.streetNumber, data.streetType, data.streetName]
+      .filter(Boolean)
+      .join(" ");
+    methods.setValue("companyName", data.companyName);
+    methods.setValue("companyAddress", address);
+    methods.setValue("companyPostalCode", data.postalCode);
     methods.setValue("companyCity", data.city);
     setStep(2);
   };

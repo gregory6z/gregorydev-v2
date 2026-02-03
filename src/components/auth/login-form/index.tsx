@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { zodResolver } from "@hookform/resolvers/zod/v4";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
 import { loginSchema, type LoginFormData } from "@/api/auth/schemas";
@@ -27,7 +27,7 @@ export const LoginForm = () => {
   const onSubmit = (data: LoginFormData) => {
     loginMutation.mutate(data, {
       onSuccess: (response) => {
-        auth.login(response.access_token);
+        auth.login(response.accessToken);
         navigate("/operations");
       },
     });

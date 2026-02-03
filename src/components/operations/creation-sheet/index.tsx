@@ -1,6 +1,6 @@
 import { useState, useEffect, lazy, Suspense } from "react";
 import { useForm, FormProvider } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { zodResolver } from "@hookform/resolvers/zod/v4";
 import { useTranslation } from "react-i18next";
 import { useQueryClient } from "@tanstack/react-query";
 import {
@@ -19,10 +19,10 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { StepBadge } from "./step-badge";
-import { UploadModeContent } from "./upload-mode/upload-mode-content";
-import { ValidationModeContent } from "./validation-mode/validation-mode-content";
-import { SheetFooter } from "./sheet-footer";
+import { SheetFooter } from "@/components/operations/creation-sheet/sheet-footer";
+import { StepBadge } from "@/components/operations/creation-sheet/step-badge";
+import { UploadModeContent } from "@/components/operations/creation-sheet/upload-mode/upload-mode-content";
+import { ValidationModeContent } from "@/components/operations/creation-sheet/validation-mode/validation-mode-content";
 
 import { useFileUpload } from "@/hooks/use-file-upload";
 import { useExtractedData, operationsKeys } from "@/api/operations/queries";
