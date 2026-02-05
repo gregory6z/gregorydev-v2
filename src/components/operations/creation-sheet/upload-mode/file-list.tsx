@@ -8,6 +8,8 @@ type FileListProps = {
   completedCount: number;
   onRemove: (id: string) => void;
   onRetry: (id: string) => void;
+  /** Hide the counter badge (useful for single file mode) */
+  hideCounter?: boolean;
 };
 
 export function FileList({
@@ -15,6 +17,7 @@ export function FileList({
   completedCount,
   onRemove,
   onRetry,
+  hideCounter = false,
 }: FileListProps) {
   const { t } = useTranslation("operations");
 
@@ -28,9 +31,11 @@ export function FileList({
         <span className="font-display text-lg font-semibold leading-[140%] text-foreground">
           {t("creation.uploadHeader")}
         </span>
-        <span className="inline-flex items-center rounded-md bg-[#E6F7F4] px-2 py-0.5 text-xs font-medium text-primary">
-          {completedCount}/{files.length}
-        </span>
+        {!hideCounter && (
+          <span className="inline-flex items-center rounded-md bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
+            {completedCount}/{files.length}
+          </span>
+        )}
       </div>
 
       <ScrollArea className="flex-1 border-t border-table-border">

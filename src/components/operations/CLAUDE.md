@@ -7,16 +7,24 @@ operations/
 ├── index.tsx           # Main component (OperationsTable)
 ├── header.tsx          # Page header with title + create button
 ├── tabs.tsx            # Conformity filter tabs with counts
+├── status-badge.tsx    # Unified badge for all status types (Operation, Conformity, File)
 ├── creation-sheet/     # Operation creation modal (see creation-sheet/CLAUDE.md)
 │   ├── index.tsx       # Main orchestrator
 │   ├── step-badge.tsx  # Shared step indicator
 │   ├── step-1/         # Step 1 components (name + file upload)
 │   └── step-2/         # Step 2 components (validation form)
-└── operations-table/   # Table-specific components
-    ├── columns.tsx     # TanStack Table column definitions
-    ├── status-badge.tsx
-    ├── conformity-badge.tsx
-    └── delete-dialog.tsx
+├── operations-table/   # Table-specific components
+│   ├── columns.tsx     # TanStack Table column definitions
+│   └── delete-dialog.tsx
+└── details/            # Operation details page components
+    ├── details-header.tsx
+    ├── info-block.tsx
+    ├── info-field.tsx
+    ├── keyword-badge.tsx
+    └── files-table/    # Files table in details page
+        ├── index.tsx
+        ├── columns.tsx
+        └── truncated-text.tsx
 ```
 
 ## Architecture

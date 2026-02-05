@@ -130,15 +130,17 @@ Queries are cached and identified by `queryKey`. Mutations are not cached - they
 
 ### Separation of Concerns
 
-**In `mutations.ts` (cache logic):**
-- `onSettled`: cache invalidation with `queryClient.invalidateQueries`
-- All data and cache related logic
+**In `mutations.ts`:**
+- Only `mutationFn` with `unwrapResponse()`
+- No `useQueryClient()` or cache logic
+- Keep mutations simple and focused on the API call
 
-**In component (UI logic):**
+**In component:**
+- `onSettled`: cache invalidation with `queryClient.invalidateQueries`
 - `onSuccess`: navigation, close dialog, reset form, change step
 - `onError`: show error toast, user feedback
 
-This separation ensures mutations handle cache consistently, and components only handle what happens next in the UI.
+This separation ensures mutations are simple and reusable, while components control cache invalidation and UI logic.
 
 ## setFilters Pattern
 

@@ -2,11 +2,16 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
-function Table({ className, ...props }: React.ComponentProps<"table">) {
+type TableProps = React.ComponentProps<"table"> & {
+  /** When true, disables horizontal scroll and allows text to wrap */
+  wrapText?: boolean;
+};
+
+function Table({ className, wrapText, ...props }: TableProps) {
   return (
     <div
       data-slot="table-container"
-      className="relative w-full overflow-x-auto"
+      className={cn("relative w-full", !wrapText && "overflow-x-auto")}
     >
       <table
         data-slot="table"
@@ -75,12 +80,18 @@ function TableHead({ className, ...props }: React.ComponentProps<"th">) {
   );
 }
 
-function TableCell({ className, ...props }: React.ComponentProps<"td">) {
+type TableCellProps = React.ComponentProps<"td"> & {
+  /** When true, allows text to wrap instead of using whitespace-nowrap */
+  wrapText?: boolean;
+};
+
+function TableCell({ className, wrapText, ...props }: TableCellProps) {
   return (
     <td
       data-slot="table-cell"
       className={cn(
-        "h-[46px] px-2 align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0",
+        "h-[46px] px-2 align-middle [&:has([role=checkbox])]:pr-0",
+        !wrapText && "whitespace-nowrap",
         className,
       )}
       {...props}

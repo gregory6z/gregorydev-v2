@@ -1,8 +1,10 @@
 "use no memo";
 
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Trash2 } from "lucide-react";
+import { useQueryClient } from "@tanstack/react-query";
 import {
   getCoreRowModel,
   getSortedRowModel,
@@ -14,7 +16,11 @@ import {
 import { cn } from "@/lib/utils";
 import { useDebouncedValue } from "@/hooks/use-debounced-value";
 import { useFormatDate } from "@/hooks/use-format-date";
-import { useOperations, useOperationsCounts } from "@/api/operations/queries";
+import {
+  useOperations,
+  useOperationsCounts,
+  operationsKeys,
+} from "@/api/operations/queries";
 import { useDeleteOperations } from "@/api/operations/mutations";
 import type {
   OperationsListFilters,
@@ -42,6 +48,8 @@ export const OperationsTable = () => {
   const { t } = useTranslation("operations");
   const { t: tDashboard } = useTranslation("dashboard");
   const formatDate = useFormatDate();
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   // Filters state
   const [filters, setFilters] = useState<OperationsListFilters>({
@@ -70,8 +78,16 @@ export const OperationsTable = () => {
 
   const deleteMutation = useDeleteOperations();
 
+  // Handlers
+  const handleRowClick = (operation: Operation) => {
+    navigate(`/operations/${operation.id}`);
+  };
+
   // Columns - React Compiler handles memoization
-  const columns = createColumns({ t, formatDate });
+  const columns = createColumns({
+    t,
+    formatDate,
+  });
 
   // Table instance
   const table = useReactTable<Operation>({
@@ -110,7 +126,9 @@ export const OperationsTable = () => {
 
   const handleDelete = () => {
     deleteMutation.mutate(selectedIds, {
-      onSuccess: () => {
+      onSettled: () => {
+        queryClient.invalidateQueries({ queryKey: operationsKeys.counts() });
+        queryClient.invalidateQueries({ queryKey: operationsKeys.lists() });
         setRowSelection({});
         setDeleteDialogOpen(false);
       },
@@ -156,7 +174,11 @@ export const OperationsTable = () => {
         >
           <DataTableContent>
             <DataTableHeader />
-            <DataTableBody emptyMessage={t("table.empty")} />
+            <DataTableBody
+              emptyMessage={t("table.empty")}
+              onRowClick={handleRowClick}
+              excludeClickColumns={["select"]}
+            />
           </DataTableContent>
         </DataTable>
       )}

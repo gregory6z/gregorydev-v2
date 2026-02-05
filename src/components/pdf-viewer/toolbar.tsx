@@ -27,7 +27,7 @@ export function PdfToolbar({
   return (
     <div
       data-slot="pdf-toolbar"
-      className="flex items-center justify-between px-4 py-3 bg-[#ECEBE8]"
+      className="flex items-center justify-between px-4 py-3 bg-background"
     >
       {/* Left side - Page count and zoom */}
       <div className="flex items-center gap-4">

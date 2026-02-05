@@ -1,0 +1,24 @@
+services:
+  energer-portal:
+    build:
+      args:
+        node_env: ${VITE_NODE_ENV}
+        port: ${NODE_DOCKER_PORT}
+        env_file: .env
+      context: ./
+      dockerfile: Dockerfile
+    image: ${DOCKER_IMAGE_NAME}
+    container_name: ${DOCKER_IMAGE_NAME}
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    env_file: ./.env
+    ports:
+      - ${NODE_LOCAL_PORT}:${NODE_DOCKER_PORT}
+    networks:
+      - energer-network
+
+networks:
+  energer-network:
+    external: true
+    name: energer-network

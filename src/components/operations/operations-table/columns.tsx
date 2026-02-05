@@ -3,8 +3,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "@/components/ui/checkbox";
 import { DataTableSortableHeader } from "@/components/ui/data-table";
 import type { Operation } from "@/api/operations/schemas";
-import { StatusBadge } from "./status-badge";
-import { ConformityBadge } from "./conformity-badge";
+import { StatusBadge } from "@/components/operations/status-badge";
 
 type ColumnConfig = {
   t: (key: string) => string;
@@ -94,9 +93,7 @@ export const createColumns = ({
     header: ({ column }) => (
       <DataTableSortableHeader column={column} title={t("table.conformity")} />
     ),
-    cell: ({ row }) => (
-      <ConformityBadge conformity={row.getValue("conformity")} />
-    ),
+    cell: ({ row }) => <StatusBadge status={row.getValue("conformity")} />,
     size: 140,
   },
 ];

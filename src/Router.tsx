@@ -6,7 +6,8 @@ import { LoginPage } from "@/pages/login-page";
 import { RegisterPage } from "@/pages/register-page";
 import { ForgotPasswordPage } from "@/pages/forgot-password-page";
 import { ResetPasswordPage } from "@/pages/reset-password-page";
-import { DashboardPage } from "@/pages/dashboard-page";
+import { OperationsPage } from "@/pages/operations-page";
+import { OperationDetailsPage } from "@/pages/operation-details-page";
 
 export const router = createBrowserRouter([
   {
@@ -34,7 +35,10 @@ export const router = createBrowserRouter([
     children: [
       {
         element: <AppLayout />,
-        children: [{ path: "/dashboard", element: <DashboardPage /> }],
+        children: [
+          { path: "/operations", element: <OperationsPage /> },
+          { path: "/operations/:id", element: <OperationDetailsPage /> },
+        ],
       },
     ],
   },

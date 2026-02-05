@@ -9,11 +9,14 @@ import { ACCEPTED_FILE_TYPES } from "@/api/operations/schemas";
 type FileUploadZoneProps = {
   onFilesAdded: (files: File[]) => void;
   disabled?: boolean;
+  /** Custom translation key prefix (default: "creation") */
+  translationPrefix?: "creation" | "documentDialog";
 };
 
 export function FileUploadZone({
   onFilesAdded,
   disabled,
+  translationPrefix = "creation",
 }: FileUploadZoneProps) {
   const { t } = useTranslation("operations");
   const [isDragActive, setIsDragActive] = useState(false);
@@ -50,7 +53,7 @@ export function FileUploadZone({
 
         <DocumentStackIcon className="mb-4 text-primary" />
         <p className="text-center font-display text-base font-medium leading-5 text-foreground">
-          {t("creation.dropzoneText")}
+          {t(`${translationPrefix}.dropzoneText`)}
           <br />
           <span
             role="button"
@@ -59,13 +62,13 @@ export function FileUploadZone({
             onKeyDown={(e) => e.key === "Enter" && open()}
             className="cursor-pointer text-primary"
           >
-            {t("creation.dropzoneLink")}
+            {t(`${translationPrefix}.dropzoneLink`)}
           </span>
         </p>
       </div>
 
       <p className="text-sm font-normal leading-[140%] text-muted-foreground">
-        {t("creation.dropzoneHelp")}
+        {t(`${translationPrefix}.dropzoneHelp`)}
       </p>
     </div>
   );

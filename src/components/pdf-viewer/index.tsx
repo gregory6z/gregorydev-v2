@@ -92,7 +92,7 @@ export function PdfViewer({ file, className }: PdfViewerProps) {
   return (
     <div
       className={cn(
-        "flex flex-col rounded-lg overflow-hidden bg-[#ECEBE8]",
+        "flex flex-col rounded-lg overflow-hidden bg-background",
         className,
       )}
     >
@@ -107,7 +107,7 @@ export function PdfViewer({ file, className }: PdfViewerProps) {
         canZoomOut={zoom > 0.5}
       />
 
-      <div className="flex-1 overflow-auto p-4 flex flex-col items-center gap-4 bg-[#ECEBE8]">
+      <div className="flex-1 overflow-auto p-4 flex flex-col items-center gap-4 bg-background">
         <Document
           file={fileSource}
           onLoadSuccess={onDocumentLoadSuccess}

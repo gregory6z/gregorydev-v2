@@ -1,4 +1,35 @@
 {
+  "coherenceStatus": {
+    "conform": "Conforme",
+    "conformShort": "C.",
+    "nonConform": "Non conforme",
+    "nonConformShort": "N.C.",
+    "notApplicable": "Non applicable",
+    "notApplicableShort": "N.A."
+  },
+  "globalCoherence": {
+    "title": "Cohérence globale",
+    "launchAnalysis": "Analyse cohérence globale",
+    "relaunchAnalysis": "Relancer l'analyse",
+    "analyzing": "Analyse en cours...",
+    "download": "Télécharger",
+    "downloadFull": "Télécharger la cohérence globale",
+    "downloadMock": "Fonctionnalité de téléchargement non disponible (mock)",
+    "summaryTitle": "Synthèse",
+    "verificationStepsTitle": "Étapes de vérification",
+    "nonConformitiesTitle": "Synthèse des non conformités et modifications à apporter",
+    "noNonConformities": "Aucune non-conformité détectée",
+    "table": {
+      "step": "Étape",
+      "verification": "Vérification",
+      "status": "Statut",
+      "comment": "Commentaire"
+    },
+    "nonConformitiesTable": {
+      "issue": "Non conformité",
+      "correction": "Modifications à apporter"
+    }
+  },
   "create": "Créer une opération",
   "table": {
     "reference": "Intitulé",
@@ -13,12 +44,19 @@
   },
   "status": {
     "inProgress": "En cours",
-    "done": "Terminé"
+    "inProgressShort": "E.C.",
+    "done": "Terminé",
+    "doneShort": "T.",
+    "analyzing": "Analyse en cours",
+    "analyzingShort": "A."
   },
   "conformity": {
     "conform": "Conforme",
+    "conformShort": "C.",
     "nonConform": "Non conforme",
-    "notAnalyzed": "Non analysé"
+    "nonConformShort": "N.C.",
+    "notAnalyzed": "Non analysé",
+    "notAnalyzedShort": "N.A."
   },
   "selected_one": "{{count}} opération sélectionnée",
   "selected_other": "{{count}} opérations sélectionnées",
@@ -77,5 +115,83 @@
   "validation": {
     "operationNameRequired": "Le nom de l'opération est requis",
     "operationNameTooLong": "Le nom ne peut pas dépasser 100 caractères"
+  },
+  "documentDialog": {
+    "title": "Nouveau fichier",
+    "dropzoneText": "Glisser déposer ou",
+    "dropzoneLink": "sélectionner le fichier",
+    "dropzoneHelp": "Déposez ici le fichier PDF du document à ajouter à l'opération.",
+    "removeFile": "Supprimer le fichier",
+    "cancel": "Annuler",
+    "back": "Retour",
+    "next": "Suivant",
+    "addFile": "Ajouter le fichier",
+    "adding": "Ajout en cours...",
+    "finish": "Terminer",
+    "analyzing": "Analyse du document en cours...",
+    "submittedTimes_one": "Déposé {{count}} fois",
+    "submittedTimes_other": "Déposé {{count}} fois",
+    "lastSubmission": "Pièce soumise {{count}} fois - Dernière soumission : {{date}}",
+    "beneficiary": "Bénéficiaire",
+    "engagement": "Engagement {{date}}",
+    "prime": "Prime {{amount}} €",
+    "professional": "Professionnel",
+    "analysis": "Analyse",
+    "analysisTable": {
+      "verification": "Vérification",
+      "status": "Statut",
+      "comment": "Commentaire"
+    },
+    "noVerifications": "Aucune vérification disponible",
+    "verificationSteps": "Étapes de vérification",
+    "newVersion": "Nouvelle version",
+    "uploadingVersion": "Upload en cours...",
+    "cancelConfirmTitle": "Abandonner l'ajout ?",
+    "cancelConfirmMessage": "Le fichier sélectionné sera perdu.",
+    "cancelConfirmNo": "Continuer",
+    "cancelConfirmYes": "Abandonner"
+  },
+  "details": {
+    "unknownBeneficiary": "Bénéficiaire inconnu",
+    "notAnalyzed": "Non analysé",
+    "creationDate": "Date de création",
+    "engagementDate": "Date d'engagement",
+    "fostCode": "FOST CEE concernée",
+    "keywords": "Mots clés",
+    "summary": "Synthèse de l'opération",
+    "mentionsOperation": "Mentions opération",
+    "amountTTC": "Montant TTC",
+    "primeCEE": "Prime CEE",
+    "quoteSignatureDate": "Signature devis",
+    "workAddress": "Adresse des travaux",
+    "beneficiary": "Bénéficiaire",
+    "beneficiaryName": "Nom",
+    "beneficiaryAddress": "Adresse",
+    "beneficiaryEmail": "Email",
+    "beneficiaryPhone": "Téléphone",
+    "professionalRGE": "Professionnel RGE",
+    "siret": "Siret",
+    "professionalAddress": "Adresse",
+    "obligee": "Obligé/Délégataire",
+    "files": {
+      "title": "Fichiers",
+      "addFile": "Ajouter un fichier",
+      "name": "Intitulé",
+      "summary": "Synthèse",
+      "date": "Date",
+      "status": "Statut",
+      "newVersion": "Nouvelle version",
+      "uploadNewVersion": "Télécharger une nouvelle version"
+    },
+    "fileStatus": {
+      "conform": "Conforme",
+      "nonConform": "Non conforme",
+      "analyzing": "Analyse en cours"
+    },
+    "analysisButton": "Analyse cohérence globale",
+    "analysisStarted": "Analyse lancée avec succès",
+    "analysisError": "Erreur lors du lancement de l'analyse",
+    "loadError": "Erreur lors du chargement de l'opération",
+    "backToList": "Retour à la liste"
   }
 }

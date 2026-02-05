@@ -167,3 +167,173 @@ export type CreatedOperation = {
   status: string;
   createdAt: string;
 };
+
+// ──────────────────────────────────────────────
+// Coherence Status (for global coherence verifications)
+// ──────────────────────────────────────────────
+
+export const CoherenceStatus = {
+  CONFORM: "conform",
+  NON_CONFORM: "non_conform",
+  NOT_APPLICABLE: "not_applicable",
+} as const;
+
+export type CoherenceStatusType =
+  (typeof CoherenceStatus)[keyof typeof CoherenceStatus];
+
+// ──────────────────────────────────────────────
+// Global Coherence Types
+// ──────────────────────────────────────────────
+
+export type SubVerification = {
+  id: string;
+  name: string;
+  status: CoherenceStatusType;
+  comment: string;
+};
+
+export type VerificationStep = {
+  id: string;
+  name: string;
+  subVerifications: SubVerification[];
+};
+
+export type NonConformity = {
+  id: string;
+  issue: string;
+  correction: string;
+};
+
+export type GlobalCoherenceAnalysis = {
+  analyzedAt: string;
+  globalStatus: "conform" | "non_conform";
+  summary: string;
+  verificationSteps: VerificationStep[];
+  nonConformities: NonConformity[];
+};
+
+// ──────────────────────────────────────────────
+// Operation Details
+// ──────────────────────────────────────────────
+
+export const FileStatus = {
+  CONFORM: "conform",
+  NON_CONFORM: "non_conform",
+  ANALYZING: "analyzing",
+} as const;
+
+export type FileStatusType = (typeof FileStatus)[keyof typeof FileStatus];
+
+export const AnalysisStatus = {
+  NOT_ANALYZED: "not_analyzed",
+  ANALYZED: "analyzed",
+} as const;
+
+export type AnalysisStatusType =
+  (typeof AnalysisStatus)[keyof typeof AnalysisStatus];
+
+// Fichier dans la liste des détails
+export type OperationFile = {
+  id: string;
+  name: string;
+  summary: string;
+  date: string;
+  status: FileStatusType;
+};
+
+// Bénéficiaire (tous les champs peuvent être null - extraits par IA)
+export type Beneficiary = {
+  name: string | null;
+  address: string | null;
+  email: string | null;
+  phone: string | null;
+};
+
+// Professionnel RGE (tous les champs peuvent être null - extraits par IA)
+export type ProfessionalRGE = {
+  siret: string | null;
+  address: string | null;
+};
+
+// Détails complets de l'opération
+export type OperationDetails = {
+  // Champs obligatoires (générés par le système)
+  id: string;
+  reference: string;
+  conformity: ConformityStatusType;
+  analysisStatus: AnalysisStatusType;
+  files: OperationFile[];
+
+  // Champs extraits par IA (peuvent être null)
+  creationDate: string | null;
+  engagementDate: string | null;
+  fostCode: string | null;
+  keywords: string[] | null;
+  summary: string | null;
+
+  // Mentions opération
+  amountTTC: number | null;
+  primeCEE: number | null;
+  quoteSignatureDate: string | null;
+  workAddress: string | null;
+
+  // Entités liées
+  beneficiary: Beneficiary | null;
+  professionalRGE: ProfessionalRGE | null;
+  obligee: string | null;
+
+  // Global coherence analysis (null if not yet analyzed)
+  globalCoherence: GlobalCoherenceAnalysis | null;
+};
+
+// ──────────────────────────────────────────────
+// Document Details (for Document Dialog Step 2)
+// ──────────────────────────────────────────────
+
+// Version d'un document
+export type DocumentVersion = {
+  id: string;
+  versionNumber: 1 | 2 | 3;
+  uploadedAt: string;
+  fileUrl: string;
+};
+
+// Vérification d'analyse (réutilise CoherenceStatusType)
+export type DocumentVerification = {
+  id: string;
+  name: string;
+  status: CoherenceStatusType;
+  comment: string;
+};
+
+// Informations extraites du bénéficiaire (document)
+export type DocumentBeneficiary = {
+  name: string;
+  address: string;
+  engagementDate: string;
+  ficheCEE: string;
+  ficheCEEDescription: string;
+  prime: number;
+};
+
+// Informations extraites du professionnel (document)
+export type DocumentProfessional = {
+  name: string;
+  address: string;
+};
+
+// Détails complets d'un document
+export type DocumentDetails = {
+  id: string;
+  name: string;
+  conformityStatus: FileStatusType;
+  submissionCount: number;
+  lastSubmissionAt: string;
+  versions: DocumentVersion[];
+  currentVersionId: string;
+  beneficiary: DocumentBeneficiary;
+  professional: DocumentProfessional;
+  qrCodeUrl: string | null;
+  verifications: DocumentVerification[];
+  verificationSteps: VerificationStep[];
+};

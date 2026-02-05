@@ -66,10 +66,20 @@ function DataTable<TData>({
 interface DataTableContentProps {
   children: React.ReactNode;
   className?: string;
+  /** When true, disables horizontal scroll and allows text to wrap */
+  wrapText?: boolean;
 }
 
-function DataTableContent({ children, className }: DataTableContentProps) {
-  return <Table className={className}>{children}</Table>;
+function DataTableContent({
+  children,
+  className,
+  wrapText,
+}: DataTableContentProps) {
+  return (
+    <Table className={className} wrapText={wrapText}>
+      {children}
+    </Table>
+  );
 }
 
 /* -----------------------------------------------------------------------------
@@ -87,16 +97,19 @@ function DataTableHeader({ className }: DataTableHeaderProps) {
     <TableHeader className={className}>
       {table.getHeaderGroups().map((headerGroup) => (
         <TableRow key={headerGroup.id}>
-          {headerGroup.headers.map((header) => (
-            <TableHead
-              key={header.id}
-              style={{ width: header.column.getSize() }}
-            >
-              {header.isPlaceholder
-                ? null
-                : render(header.column.columnDef.header, header.getContext())}
-            </TableHead>
-          ))}
+          {headerGroup.headers.map((header) => {
+            const meta = header.column.columnDef.meta as
+              | { width?: string }
+              | undefined;
+            const width = meta?.width ?? header.column.columnDef.size;
+            return (
+              <TableHead key={header.id} style={{ width }}>
+                {header.isPlaceholder
+                  ? null
+                  : render(header.column.columnDef.header, header.getContext())}
+              </TableHead>
+            );
+          })}
         </TableRow>
       ))}
     </TableHeader>
@@ -107,27 +120,71 @@ function DataTableHeader({ className }: DataTableHeaderProps) {
  * DataTableBody
  * -------------------------------------------------------------------------- */
 
-interface DataTableBodyProps {
+interface DataTableBodyProps<TData> {
   className?: string;
   emptyMessage?: string;
+  onRowClick?: (row: TData) => void;
+  /** Column IDs that should NOT trigger row click (e.g., "select" for checkboxes) */
+  excludeClickColumns?: string[];
+  /** Custom row height (e.g., "100px") */
+  rowHeight?: string;
+  /** When true, allows text to wrap in cells */
+  wrapText?: boolean;
 }
 
-function DataTableBody({
+function DataTableBody<TData>({
   className,
   emptyMessage = "No results.",
-}: DataTableBodyProps) {
-  const { table } = useDataTable();
+  onRowClick,
+  excludeClickColumns = [],
+  rowHeight,
+  wrapText,
+}: DataTableBodyProps<TData>) {
+  const { table } = useDataTable<TData>();
+
+  const handleCellClick = (
+    row: TData,
+    columnId: string,
+    e: React.MouseEvent,
+  ) => {
+    if (!onRowClick) return;
+    if (excludeClickColumns.includes(columnId)) return;
+    // Don't trigger if clicking on interactive elements
+    const target = e.target as HTMLElement;
+    if (target.closest("button, a, input, [role='checkbox']")) return;
+    onRowClick(row);
+  };
 
   return (
     <TableBody className={className}>
       {table.getRowModel().rows?.length ? (
         table.getRowModel().rows.map((row) => (
-          <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
-            {row.getVisibleCells().map((cell) => (
-              <TableCell key={cell.id} style={{ width: cell.column.getSize() }}>
-                {render(cell.column.columnDef.cell, cell.getContext())}
-              </TableCell>
-            ))}
+          <TableRow
+            key={row.id}
+            data-state={row.getIsSelected() && "selected"}
+            className={onRowClick ? "cursor-pointer" : undefined}
+          >
+            {row.getVisibleCells().map((cell) => {
+              const meta = cell.column.columnDef.meta as
+                | { width?: string }
+                | undefined;
+              const width = meta?.width ?? cell.column.columnDef.size;
+              return (
+                <TableCell
+                  key={cell.id}
+                  style={{
+                    width,
+                    height: rowHeight,
+                  }}
+                  wrapText={wrapText}
+                  onClick={(e) =>
+                    handleCellClick(row.original, cell.column.id, e)
+                  }
+                >
+                  {render(cell.column.columnDef.cell, cell.getContext())}
+                </TableCell>
+              );
+            })}
           </TableRow>
         ))
       ) : (
