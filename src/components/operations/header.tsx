@@ -8,8 +8,7 @@ type OperationsHeaderProps = {
 };
 
 export function OperationsHeader({ onCreateClick }: OperationsHeaderProps) {
-  const { t } = useTranslation("dashboard");
-  const { t: tOp } = useTranslation("operations");
+  const { t } = useTranslation("operations");
 
   return (
     <div className="flex items-center justify-between">
@@ -18,7 +17,7 @@ export function OperationsHeader({ onCreateClick }: OperationsHeaderProps) {
       </h1>
       <Button variant="primary-dark" onClick={onCreateClick}>
         <PlusIcon className="size-2.5" />
-        {tOp("create")}
+        {t("create")}
       </Button>
     </div>
   );

@@ -7,7 +7,6 @@ import { Trash2 } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 import {
   getCoreRowModel,
-  getSortedRowModel,
   useReactTable,
   type RowSelectionState,
   type SortingState,
@@ -16,17 +15,14 @@ import {
 import { cn } from "@/lib/utils";
 import { useDebouncedValue } from "@/hooks/use-debounced-value";
 import { useFormatDate } from "@/hooks/use-format-date";
-import {
-  useOperations,
-  useOperationsCounts,
-  operationsKeys,
-} from "@/api/operations/queries";
+import { useOperations, operationsKeys } from "@/api/operations/queries";
 import { useDeleteOperations } from "@/api/operations/mutations";
 import type {
   OperationsListFilters,
   ConformityFilter,
+  SortableField,
   Operation,
-} from "@/api/operations/schemas";
+} from "@/api/operations/schemas/list";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -46,7 +42,7 @@ import { OperationsTabs } from "@/components/operations/tabs";
 
 export const OperationsTable = () => {
   const { t } = useTranslation("operations");
-  const { t: tDashboard } = useTranslation("dashboard");
+
   const formatDate = useFormatDate();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -70,13 +66,21 @@ export const OperationsTable = () => {
   const debouncedSearch = useDebouncedValue(filters.search, 300);
 
   // Queries
-  const { data: counts, isLoading: isCountsLoading } = useOperationsCounts();
-  const { data, isLoading, isPlaceholderData } = useOperations({
+  const { data, isLoading, isPlaceholderData, isError } = useOperations({
     ...filters,
     search: debouncedSearch,
   });
 
   const deleteMutation = useDeleteOperations();
+
+  // Extract counts from response
+  const counts = data?.meta.counts;
+  const tabCounts = {
+    all: counts?.all ?? 0,
+    conform: counts?.conforme ?? 0,
+    nonConform: counts?.nonConforme ?? 0,
+    nonAnalysed: counts?.nonAnalysed ?? 0,
+  };
 
   // Handlers
   const handleRowClick = (operation: Operation) => {
@@ -97,12 +101,33 @@ export const OperationsTable = () => {
       sorting,
       rowSelection,
     },
-    onSortingChange: setSorting,
+    onSortingChange: (updater) => {
+      const newSorting =
+        typeof updater === "function" ? updater(sorting) : updater;
+      setSorting(newSorting);
+
+      if (newSorting.length > 0) {
+        const { id, desc } = newSorting[0];
+        setFilters((filters) => ({
+          ...filters,
+          sortBy: id as SortableField,
+          sortOrder: desc ? "desc" : "asc",
+          page: 1,
+        }));
+      } else {
+        setFilters((filters) => ({
+          ...filters,
+          sortBy: null,
+          sortOrder: "asc",
+          page: 1,
+        }));
+      }
+    },
     onRowSelectionChange: setRowSelection,
     getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getRowId: (row) => row.id,
+    getRowId: (row) => String(row.id),
     enableRowSelection: true,
+    manualSorting: true,
   });
 
   // Derived state
@@ -125,9 +150,8 @@ export const OperationsTable = () => {
   };
 
   const handleDelete = () => {
-    deleteMutation.mutate(selectedIds, {
+    deleteMutation.mutate(selectedIds.map(Number), {
       onSettled: () => {
-        queryClient.invalidateQueries({ queryKey: operationsKeys.counts() });
         queryClient.invalidateQueries({ queryKey: operationsKeys.lists() });
         setRowSelection({});
         setDeleteDialogOpen(false);
@@ -143,8 +167,8 @@ export const OperationsTable = () => {
         <OperationsTabs
           activeTab={filters.conformity}
           onTabChange={handleTabChange}
-          counts={counts ?? { all: 0, conform: 0, nonConform: 0 }}
-          isLoading={isCountsLoading}
+          counts={tabCounts}
+          isLoading={isLoading}
         />
         <div className="flex items-center gap-4">
           {selectedIds.length > 0 && (
@@ -160,13 +184,17 @@ export const OperationsTable = () => {
           <DataTableSearch
             value={filters.search}
             onChange={handleSearchChange}
-            placeholder={tDashboard("searchPlaceholder")}
+            placeholder={t("searchPlaceholder")}
           />
         </div>
       </div>
 
       {isLoading ? (
         <DataTableLoading colSpan={columns.length} />
+      ) : isError ? (
+        <div className="py-10 text-center text-sm text-gray-disabled">
+          {t("table.error")}
+        </div>
       ) : (
         <DataTable
           table={table}
@@ -186,7 +214,7 @@ export const OperationsTable = () => {
       <DataTablePagination
         filters={filters}
         setFilters={setFilters}
-        totalPages={data?.pagination.totalPages ?? 1}
+        totalPages={data?.meta.totalPages ?? 1}
         perPageLabel={t("perPage")}
       />
 

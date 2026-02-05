@@ -3,8 +3,12 @@ import type React from "react";
 import { useTranslation } from "react-i18next";
 
 import { cn } from "@/lib/utils";
-import type { ConformityFilter } from "@/api/operations/schemas";
-import { CheckCircleIcon, XCircleIcon } from "@/components/icons";
+import type { ConformityFilter } from "@/api/operations/schemas/list";
+import {
+  CheckCircleIcon,
+  XCircleIcon,
+  SquareRoundedIcon,
+} from "@/components/icons";
 
 type OperationsTabsProps = {
   activeTab: ConformityFilter;
@@ -13,6 +17,7 @@ type OperationsTabsProps = {
     all: number;
     conform: number;
     nonConform: number;
+    nonAnalysed: number;
   };
   isLoading?: boolean;
 };
@@ -23,7 +28,7 @@ export function OperationsTabs({
   counts,
   isLoading,
 }: OperationsTabsProps) {
-  const { t } = useTranslation("dashboard");
+  const { t } = useTranslation("operations");
 
   const tabs: {
     value: ConformityFilter;
@@ -43,6 +48,12 @@ export function OperationsTabs({
       label: t("tabs.nonConform"),
       count: counts.nonConform,
       icon: XCircleIcon,
+    },
+    {
+      value: "non_analysed",
+      label: t("tabs.nonAnalysed"),
+      count: counts.nonAnalysed,
+      icon: SquareRoundedIcon,
     },
   ];
 
