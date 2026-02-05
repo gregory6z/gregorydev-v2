@@ -1,19 +1,4 @@
-# CLAUDE.md
-
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
-
-## Development Workflow
-
-1. **Analysis Phase**: First, think about the problem and read the codebase to understand the current implementation
-2. **Planning**: Create a clear task breakdown that can be tracked using TodoWrite
-3. **Validation**: Before starting work, validate the approach with user if changes are significant
-4. **Implementation**: Work on tasks systematically, marking them as completed as progress is made
-5. **Simplicity**: Each change should impact the code minimally. Everything comes down to simplicity
-6. **Review**: Provide a comprehensive summary of changes made
-
-## Project Overview
-
-Energer is a React TypeScript application built with Vite for managing energy operations (CEE - Certificats d'Economies d'Energie). Platform for energy professionals to manage their operations, with SIRET-based company registration.
+# energer-portal
 
 ## Development Commands
 
@@ -25,7 +10,7 @@ npm run typecheck  # TypeScript compiler check
 npm run preview    # Preview production build
 ```
 
-## Architecture Overview
+## Architecture
 
 ```
 src/
@@ -41,6 +26,9 @@ src/
 │   ├── i18n.ts             # i18next configuration
 │   └── locales/fr/         # French translations per feature
 ├── contexts/               # React contexts
+├── helpers/
+│   ├── validators.ts       # Regex, Luhn, validation functions
+│   └── formatters.ts       # Sanitizers (cleanPhone), display formatters (formatSiret, formatPhone)
 ├── lib/
 │   ├── react-query/        # QueryClient config
 │   └── utils.ts            # Utility functions (cn, etc.)
@@ -51,102 +39,24 @@ src/
 
 ## Detailed Documentation
 
-- **API Layer**: `src/api/CLAUDE.md` - Queries, mutations, schemas, ky, TanStack Query
-- **Internationalization**: `src/i18n/CLAUDE.md` - i18next, namespaces, lazy loading
+- **API Layer**: `src/api/CLAUDE.md`
+- **Internationalization**: `src/i18n/CLAUDE.md`
 
-## Key Architecture Decisions
+## Conventions
 
-### 1. API Layer
-> See `src/api/CLAUDE.md` for detailed documentation
-
-- NO `services/` folder - use ky directly in queries/mutations
-- NO `types/` folder - types in `schemas.ts` or co-located
-- Use hooks directly in child components (not props from parent)
-
-### 2. Internationalization
-> See `src/i18n/CLAUDE.md` for detailed documentation
-
-- Divided by feature with lazy loading
-- Each feature has its own namespace
-- No shared `common` namespace
-
-### 3. Arrow Functions
+### Arrow Functions
 All components and functions use **arrow functions**. No `function` declarations.
 
-```typescript
-// ✓
-export const LoginForm = () => { ... }
-export const useLogin = () => { ... }
-
-// ✗
-export function LoginForm() { ... }
-export function useLogin() { ... }
-```
-
-### 4. Naming Convention
-All folders in the project use **kebab-case**. No exceptions.
-
-### 5. File Structure
-
-**Pages** are flat files directly in `pages/`, named in **kebab-case** :
-
-```
-pages/
-├── login-page.tsx
-├── forgot-password-page.tsx
-├── register-siret-page.tsx
-└── dashboard-page.tsx
-```
-
-**Components** live in feature folders with an `index.tsx` :
-
-```
-components/
-├── layout/
-│   ├── public-layout/
-│   │   └── index.tsx
-│   └── private-layout/
-│       └── index.tsx
-├── auth/
-│   ├── login-form/
-│   │   └── index.tsx
-│   └── password-input/
-│       └── index.tsx
-└── ui/                 # shadcn/ui components (flat)
-```
-
-Types are co-located with components when specific, in `schemas.ts` when shared:
-
-```typescript
-// components/auth/login-form/index.tsx
-type LoginFormProps = {
-  onSuccess: () => void
-}
-
-export const LoginForm = ({ onSuccess }: LoginFormProps) => {
-  // ...
-}
-```
-
-## Configuration
+### Naming
+- All folders: **kebab-case**
+- Pages: flat files in `pages/`, named `{name}-page.tsx`
+- Components: feature folders with `index.tsx`
+- Types: co-located with components when specific, in `schemas.ts` when shared
 
 ### Environment Variables
-
-Environment variables are validated at startup with Zod in `src/env.ts`. If a variable is missing or invalid, the app crashes immediately with a clear message.
-
-```typescript
-import { env } from "@/env";
-env.VITE_API_URL // ✓ typed and validated
-import.meta.env.VITE_API_URL // ✗ never use directly
-```
-
-To add a new variable:
-1. Add it to `.env` and `.env.example`
-2. Add it to the schema in `src/env.ts`
-3. Use it via `env.MY_VARIABLE`
-
-Current variables:
-- `VITE_API_URL`: Backend API URL
+- Validated at startup with Zod in `src/env.ts`
+- Always access via `env.VITE_API_URL`, never `import.meta.env` directly
+- To add a new variable: add to `.env`, `.env.example`, and `src/env.ts`
 
 ### Key Dependencies
 - **UI**: shadcn/ui, Tailwind CSS v4, Lucide icons
@@ -167,31 +77,43 @@ Current variables:
 /operations         - Operations list (protected)
 ```
 
-## Development Guidelines
+## Development Workflow
+
+1. **Analysis**: Read the codebase to understand current implementation
+2. **Planning**: Create a clear task breakdown
+3. **Validation**: Validate approach with user if changes are significant
+4. **Implementation**: Work systematically, keep changes minimal
+5. **Simplicity**: Each change should impact the code minimally
+
+## Best Practices
 
 ### DO
 - Use API hooks directly in child components
 - Co-locate types with their code
 - Keep translations split by feature
 - Follow existing patterns
+- Run lint and typecheck before committing
 
 ### DO NOT
-- Create `services/` folder - use ky in queries/mutations
-- Create `types/` folder - put in schemas or co-locate
-- Create `common` i18n namespace - split by feature
+- Create `services/` or `types/` folders
+- Create `common` i18n namespace
 - Pass API data via props from parent to child
+- Use `function` declarations
+- Use Zod `transform` in schemas used with React Hook Form (zodResolver validates but does not apply transforms to form state)
 
-### Import Patterns
+## Zod + React Hook Form
+
+Zod schemas must remain **pure validation** — no `.transform()`. React Hook Form's `zodResolver` uses Zod for validation only; transforms are not applied to the form state.
+
+**Data transformation** (e.g., stripping spaces from phone numbers) must happen in the **mutation layer** (`mutations.ts`) before sending to the API.
+
 ```typescript
-import { Button } from '@/components/ui/button';
-import { useLogin } from '@/api/auth/mutations';
-import { loginSchema } from '@/api/auth/schemas';
-import { useCurrentUser } from '@/api/auth/queries';
+// schemas.ts — validation only
+phone: z.string()
+  .min(1, "validation.phoneRequired")
+  .regex(/^(?:(?:\+33|0033)\s?|0)[1-9](?:[\s.-]?\d{2}){4}$/, "validation.phoneInvalid"),
+
+// mutations.ts — transform before sending
+const cleanPhone = (v: string) => v.replace(/[\s.-]/g, "");
+const payload = { ...data, phone: cleanPhone(data.phone) };
 ```
-
-## Important Notes
-
-- Always run lint and typecheck before committing
-- API calls go through `api/` folder using ky + React Query
-- Form validation uses Zod schemas
-- Types live with their related code
