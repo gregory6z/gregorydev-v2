@@ -1,0 +1,40 @@
+{
+  "create": "Créer une opération",
+  "table": {
+    "reference": "Intitulé",
+    "filesCount": "Fichiers",
+    "delegataire": "Délégataire / Obligé",
+    "engagementDate": "Date d'engagement",
+    "fost": "FOST",
+    "status": "Statut",
+    "conformity": "Conformité",
+    "noResults": "Aucune opération trouvée",
+    "empty": "Aucune opération"
+  },
+  "status": {
+    "inProgress": "En cours",
+    "done": "Terminé"
+  },
+  "conformity": {
+    "conform": "Conforme",
+    "nonConform": "Non conforme",
+    "notAnalyzed": "Non analysé"
+  },
+  "selected_one": "{{count}} opération sélectionnée",
+  "selected_other": "{{count}} opérations sélectionnées",
+  "delete": "Supprimer",
+  "deleteDialog": {
+    "title_one": "Supprimer l'opération",
+    "title_other": "Supprimer les opérations",
+    "message_one": "Vous êtes sur le point de supprimer {{count}} opération.",
+    "message_other": "Vous êtes sur le point de supprimer {{count}} opérations.",
+    "instruction": "Tapez supprimer pour confirmer.",
+    "cancel": "Annuler",
+    "confirm": "Supprimer"
+  },
+  "deleteSuccess_one": "{{count}} opération supprimée",
+  "deleteSuccess_other": "{{count}} opérations supprimées",
+  "errors": {
+    "deleteError": "Erreur lors de la suppression"
+  }
+}

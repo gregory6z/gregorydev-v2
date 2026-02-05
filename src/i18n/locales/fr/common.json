@@ -1,0 +1,10 @@
+{
+  "header": {
+    "myAccount": "Mon compte",
+    "logout": "Déconnexion"
+  },
+  "errors": {
+    "generic": "Une erreur est survenue. Veuillez réessayer.",
+    "unknown": "Une erreur inattendue est survenue"
+  }
+}
