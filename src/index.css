@@ -71,6 +71,10 @@
     --color-conformity-error-bg: #fce8eb;
     --color-conformity-pending: #b9b9b9;
     --color-conformity-pending-bg: #eceae7;
+
+    /* Disabled state colors */
+    --color-disabled-bg: #dedcd4;
+    --color-disabled-text: #b9b9b9;
 }
 
 :root {

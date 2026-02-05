@@ -23,6 +23,7 @@
   "selected_one": "{{count}} opération sélectionnée",
   "selected_other": "{{count}} opérations sélectionnées",
   "delete": "Supprimer",
+  "perPage": "par page",
   "deleteDialog": {
     "title_one": "Supprimer l'opération",
     "title_other": "Supprimer les opérations",
@@ -35,6 +36,46 @@
   "deleteSuccess_one": "{{count}} opération supprimée",
   "deleteSuccess_other": "{{count}} opérations supprimées",
   "errors": {
-    "deleteError": "Erreur lors de la suppression"
+    "deleteError": "Erreur lors de la suppression",
+    "invalidFileType": "Format de fichier non supporté. Formats acceptés : PDF, Excel",
+    "fileTooLarge": "Le fichier est trop volumineux (max 10 Mo)",
+    "uploadFailed": "Échec de l'upload. Veuillez réessayer."
+  },
+  "creation": {
+    "title": "Nouvelle opération",
+    "nameLabel": "Nom de l'opération",
+    "namePlaceholder": "Ex: OP6548764651321",
+    "dropzoneText": "Glisser déposer ou",
+    "dropzoneLink": "sélectionner les fichiers",
+    "dropzoneHelp": "Déposez ici un PDF par document de l'opération (ex: 1 PDF pour le devis, 1 PDF pour la facture, etc...). Parmi vos documents, vous devez obligatoirement ajouter un DEVIS.",
+    "uploadHeader": "Téléchargement",
+    "cancelUpload": "Annuler l'upload",
+    "removeFile": "Supprimer le fichier",
+    "retryUpload": "Réessayer l'upload",
+    "cancel": "Annuler",
+    "next": "Suivant",
+    "cancelConfirmTitle": "Abandonner la création ?",
+    "cancelConfirmMessage": "Vous avez des données non sauvegardées. Êtes-vous sûr de vouloir abandonner ?",
+    "cancelConfirmNo": "Continuer",
+    "cancelConfirmYes": "Abandonner",
+    "step2": {
+      "subtitle": "Valider les données manuscrites du devis",
+      "loading": "Extraction des données en cours...",
+      "fostLabel": "FOST",
+      "lieuLabel": "Lieu",
+      "dateEngagementLabel": "Date d'engagement",
+      "signatureLabel": "Signature",
+      "signaturePlaceholder": "Sélectionner",
+      "signaturePresent": "Présente",
+      "signatureAbsent": "Absente",
+      "create": "Créer l'opération",
+      "creating": "Création en cours...",
+      "successMessage": "Opération {{reference}} créée avec succès",
+      "errorMessage": "Une erreur est survenue lors de la création"
+    }
+  },
+  "validation": {
+    "operationNameRequired": "Le nom de l'opération est requis",
+    "operationNameTooLong": "Le nom ne peut pas dépasser 100 caractères"
   }
 }

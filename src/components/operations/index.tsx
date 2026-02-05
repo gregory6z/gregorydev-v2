@@ -1,4 +1,6 @@
-import { useState, useMemo } from "react";
+"use no memo";
+
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Trash2 } from "lucide-react";
 import {
@@ -30,10 +32,11 @@ import {
 } from "@/components/ui/data-table";
 import { DataTablePagination } from "@/components/ui/data-table-pagination";
 import { DataTableSearch } from "@/components/ui/data-table-search";
-import { DeleteConfirmationDialog } from "@/components/operations/delete-dialog";
-import { OperationsHeader } from "@/components/operations/header";
-import { OperationsTabs } from "@/components/operations/tabs";
-import { createColumns } from "@/components/operations/columns";
+import { DeleteConfirmationDialog } from "./operations-table/delete-dialog";
+import { OperationsHeader } from "./header";
+import { OperationsTabs } from "./tabs";
+import { createColumns } from "./operations-table/columns";
+import { OperationCreationSheet } from "./creation-sheet";
 
 export const OperationsTable = () => {
   const { t } = useTranslation("operations");
@@ -54,6 +57,7 @@ export const OperationsTable = () => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [creationSheetOpen, setCreationSheetOpen] = useState(false);
 
   const debouncedSearch = useDebouncedValue(filters.search, 300);
 
@@ -66,11 +70,8 @@ export const OperationsTable = () => {
 
   const deleteMutation = useDeleteOperations();
 
-  // Columns
-  const columns = useMemo(
-    () => createColumns({ t, formatDate }),
-    [t, formatDate],
-  );
+  // Columns - React Compiler handles memoization
+  const columns = createColumns({ t, formatDate });
 
   // Table instance
   const table = useReactTable<Operation>({
@@ -104,7 +105,7 @@ export const OperationsTable = () => {
   };
 
   const handleCreateClick = () => {
-    // TODO: Navigate to create operation page (Phase 4)
+    setCreationSheetOpen(true);
   };
 
   const handleDelete = () => {
@@ -132,9 +133,9 @@ export const OperationsTable = () => {
             <Button
               variant="ghost"
               onClick={() => setDeleteDialogOpen(true)}
-              className="h-9 gap-2 font-display text-base font-medium leading-5 text-foreground"
+              className="h-9 gap-2 font-display text-base font-medium text-foreground"
             >
-              <Trash2 className="h-4 w-4" />
+              <Trash2 className="size-4" />
               {t("delete")}
             </Button>
           )}
@@ -173,6 +174,11 @@ export const OperationsTable = () => {
         count={selectedIds.length}
         onConfirm={handleDelete}
         isLoading={deleteMutation.isPending}
+      />
+
+      <OperationCreationSheet
+        open={creationSheetOpen}
+        onOpenChange={setCreationSheetOpen}
       />
     </>
   );

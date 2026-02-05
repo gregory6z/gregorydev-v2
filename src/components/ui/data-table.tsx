@@ -1,5 +1,7 @@
+"use no memo";
+
 import * as React from "react";
-import type { Table as TanStackTable, flexRender } from "@tanstack/react-table";
+import type { Table as TanStackTable } from "@tanstack/react-table";
 import { flexRender as render } from "@tanstack/react-table";
 
 import { cn } from "@/lib/utils";
@@ -20,9 +22,8 @@ type DataTableContextValue<TData> = {
   table: TanStackTable<TData>;
 };
 
-const DataTableContext = React.createContext<DataTableContextValue<unknown>>(
-  null!,
-);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const DataTableContext = React.createContext<DataTableContextValue<any>>(null!);
 
 function useDataTable<TData>() {
   const context = React.useContext(
