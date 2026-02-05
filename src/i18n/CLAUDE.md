@@ -13,7 +13,6 @@ i18n/
 └── locales/
     └── fr/             # French translations (default)
         ├── auth.json
-        ├── dashboard.json
         ├── operations.json
         └── ...
 ```

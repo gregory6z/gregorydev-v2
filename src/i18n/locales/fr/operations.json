@@ -1,5 +1,13 @@
 {
-  "coherenceStatus": {
+  "title": "Opérations",
+  "tabs": {
+    "all": "Toutes les opérations",
+    "conform": "Conforme",
+    "nonConform": "Non conforme",
+    "nonAnalysed": "Non Analysé"
+  },
+  "searchPlaceholder": "Rechercher une opération",
+  "conformityStatus": {
     "conform": "Conforme",
     "conformShort": "C.",
     "nonConform": "Non conforme",
@@ -7,7 +15,7 @@
     "notApplicable": "Non applicable",
     "notApplicableShort": "N.A."
   },
-  "globalCoherence": {
+  "globalConformity": {
     "title": "Cohérence globale",
     "launchAnalysis": "Analyse cohérence globale",
     "relaunchAnalysis": "Relancer l'analyse",
@@ -40,7 +48,8 @@
     "status": "Statut",
     "conformity": "Conformité",
     "noResults": "Aucune opération trouvée",
-    "empty": "Aucune opération"
+    "empty": "Aucune opération",
+    "error": "Une erreur est survenue lors du chargement des opérations."
   },
   "status": {
     "inProgress": "En cours",
@@ -48,7 +57,9 @@
     "done": "Terminé",
     "doneShort": "T.",
     "analyzing": "Analyse en cours",
-    "analyzingShort": "A."
+    "analyzingShort": "A.",
+    "analysisError": "Erreur d'analyse",
+    "analysisErrorShort": "Err."
   },
   "conformity": {
     "conform": "Conforme",
