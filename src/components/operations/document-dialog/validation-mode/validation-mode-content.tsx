@@ -4,7 +4,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { ValidationModeInfo } from "@/components/operations/document-dialog/validation-mode/validation-mode-info";
 import { AnalysisTable } from "@/components/operations/document-dialog/validation-mode/analysis-table";
 import { ValidationModeFooter } from "@/components/operations/document-dialog/validation-mode/validation-mode-footer";
-import type { DocumentDetails } from "@/api/operations/schemas";
+import type { DocumentDetails } from "@/api/operations/schemas/document";
 
 type ValidationModeContentProps = {
   isLoading: boolean;

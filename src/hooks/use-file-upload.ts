@@ -6,7 +6,7 @@ import {
   FileUploadStatus,
   type UploadingFile,
   type FileUploadStatusType,
-} from "@/api/operations/schemas";
+} from "@/api/operations/schemas/creation";
 
 type UseFileUploadReturn = {
   files: UploadingFile[];

@@ -33,7 +33,7 @@ import {
   type SignatureStatusType,
   FileUploadStatus,
   SignatureStatus,
-} from "@/api/operations/schemas";
+} from "@/api/operations/schemas/creation";
 
 const PdfViewer = lazy(() =>
   import("@/components/pdf-viewer").then((m) => ({ default: m.PdfViewer })),
@@ -154,7 +154,6 @@ export function OperationCreationSheet({
       },
       {
         onSettled: () => {
-          queryClient.invalidateQueries({ queryKey: operationsKeys.counts() });
           queryClient.invalidateQueries({ queryKey: operationsKeys.lists() });
           handleConfirmClose();
         },

@@ -3,8 +3,10 @@ import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { X, Trash2, RotateCcw } from "lucide-react";
 import { cn } from "@/lib/utils";
-import type { UploadingFile } from "@/api/operations/schemas";
-import { FileUploadStatus } from "@/api/operations/schemas";
+import {
+  FileUploadStatus,
+  type UploadingFile,
+} from "@/api/operations/schemas/creation";
 
 type FileItemProps = {
   file: UploadingFile;

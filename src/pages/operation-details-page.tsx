@@ -11,7 +11,7 @@ import { InfoBlock } from "@/components/operations/details/info-block";
 import { InfoField } from "@/components/operations/details/info-field";
 import { KeywordBadge } from "@/components/operations/details/keyword-badge";
 import { FilesTable } from "@/components/operations/details/files-table";
-import { GlobalCoherenceSection } from "@/components/operations/details/global-coherence";
+import { GlobalConformitySection } from "@/components/operations/details/global-conformity";
 import { DocumentDialog } from "@/components/operations/document-dialog";
 import { useOperationDetails, operationsKeys } from "@/api/operations/queries";
 import { useRunGlobalAnalysis } from "@/api/operations/mutations";
@@ -208,10 +208,10 @@ export function OperationDetailsPage() {
         operationId={id!}
       />
 
-      {/* Global Coherence Section */}
+      {/* Global Conformity Section */}
       <div className="mt-8">
-        <GlobalCoherenceSection
-          globalCoherence={data.globalCoherence}
+        <GlobalConformitySection
+          globalConformity={data.globalConformity}
           isAnalyzing={analysisMutation.isPending}
           onAnalyze={handleAnalysis}
         />

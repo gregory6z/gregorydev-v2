@@ -1,24 +1,17 @@
 import type { ApiResponse } from "@/api/client";
+import type { Status } from "@/api/operations/schemas/common";
+import { CONFORMITY_STATUS_CODES } from "@/api/operations/schemas/common";
 import type {
-  Operation,
-  OperationsCounts,
-  OperationsListResponse,
-  OperationsListFilters,
   ExtractedData,
   CreatedOperation,
   CreateOperationPayload,
+} from "@/api/operations/schemas/creation";
+import type { GlobalConformityAnalysis } from "@/api/operations/schemas/conformity";
+import type {
   OperationDetails,
   OperationFile,
-  GlobalCoherenceAnalysis,
-  DocumentDetails,
-} from "@/api/operations/schemas";
-import {
-  OperationStatus,
-  ConformityStatus,
-  FileStatus,
-  AnalysisStatus,
-  CoherenceStatus,
-} from "@/api/operations/schemas";
+} from "@/api/operations/schemas/details";
+import type { DocumentDetails } from "@/api/operations/schemas/document";
 
 // Helper to wrap data in ApiResponse envelope
 const wrapResponse = <T>(data: T): ApiResponse<T> => ({
@@ -30,132 +23,47 @@ const wrapResponse = <T>(data: T): ApiResponse<T> => ({
 
 const MOCK_DELAY = 500;
 
-const generateMockOperations = (count: number): Operation[] => {
-  const delegataires = ["Total", "Engie", "EDF", "Eni"];
-  const fosts = ["BAR-EN-101", "BAR-TH-171", "RES-EC-104", "BAR-EN-102"];
+// ──────────────────────────────────────────────
+// Status helpers (pour creer des objets Status dans les mocks)
+// ──────────────────────────────────────────────
 
-  return Array.from({ length: count }, (_, i) => ({
-    id: `op-${i + 1}`,
-    reference: `OP${String(
-      Math.floor(10000000000 + Math.random() * 90000000000),
-    ).slice(0, 11)}`,
-    filesCount: Math.floor(Math.random() * 15) + 1,
-    delegataire: delegataires[Math.floor(Math.random() * delegataires.length)],
-    engagementDate: new Date(
-      2025,
-      Math.floor(Math.random() * 12),
-      Math.floor(Math.random() * 28) + 1,
-    ).toISOString(),
-    fost: fosts[Math.floor(Math.random() * fosts.length)],
-    status:
-      Math.random() > 0.4 ? OperationStatus.IN_PROGRESS : OperationStatus.DONE,
-    conformity:
-      Math.random() > 0.6
-        ? ConformityStatus.CONFORM
-        : Math.random() > 0.3
-          ? ConformityStatus.NON_CONFORM
-          : ConformityStatus.NOT_ANALYZED,
-  }));
-};
+const status = (id: number, code: string, title: string): Status => ({
+  id,
+  code,
+  title,
+});
 
-let mockOperationsCache: Operation[] | null = null;
+// Conformity statuses (alignes sur les codes backend ConformityStatusCode)
+const CONFORMITY_NON_ANALYSED = status(
+  1,
+  CONFORMITY_STATUS_CODES.NON_ANALYSED,
+  "Not analysed",
+);
+const CONFORMITY_ANALYSIS_IN_PROGRESS = status(
+  2,
+  CONFORMITY_STATUS_CODES.ANALYSIS_IN_PROGRESS,
+  "Analysis in progress",
+);
+const CONFORMITY_CONFORME = status(
+  3,
+  CONFORMITY_STATUS_CODES.CONFORME,
+  "Compliant",
+);
+const CONFORMITY_NON_CONFORME = status(
+  4,
+  CONFORMITY_STATUS_CODES.NON_CONFORME,
+  "Non compliant",
+);
 
-const getMockOperations = (): Operation[] => {
-  if (!mockOperationsCache) {
-    mockOperationsCache = generateMockOperations(926);
-  }
-  return mockOperationsCache;
-};
-
-export const mockFetchOperationsCounts = (): Promise<
-  ApiResponse<OperationsCounts>
-> =>
-  new Promise((resolve) => {
-    setTimeout(() => {
-      const allOps = getMockOperations();
-
-      resolve(
-        wrapResponse({
-          all: allOps.length,
-          conform: allOps.filter(
-            (op) => op.conformity === ConformityStatus.CONFORM,
-          ).length,
-          nonConform: allOps.filter(
-            (op) => op.conformity === ConformityStatus.NON_CONFORM,
-          ).length,
-        }),
-      );
-    }, MOCK_DELAY);
-  });
-
-export const mockFetchOperations = (
-  filters: OperationsListFilters,
-): Promise<ApiResponse<OperationsListResponse>> =>
-  new Promise((resolve) => {
-    setTimeout(() => {
-      let operations = getMockOperations();
-
-      // Filter by conformity
-      if (filters.conformity === "conform") {
-        operations = operations.filter(
-          (op) => op.conformity === ConformityStatus.CONFORM,
-        );
-      } else if (filters.conformity === "non_conform") {
-        operations = operations.filter(
-          (op) => op.conformity === ConformityStatus.NON_CONFORM,
-        );
-      }
-
-      // Filter by search (reference + delegataire)
-      if (filters.search) {
-        const searchLower = filters.search.toLowerCase();
-        operations = operations.filter(
-          (op) =>
-            op.reference.toLowerCase().includes(searchLower) ||
-            op.delegataire.toLowerCase().includes(searchLower),
-        );
-      }
-
-      // Sort
-      if (filters.sortBy) {
-        operations = [...operations].sort((a, b) => {
-          const aVal = a[filters.sortBy!];
-          const bVal = b[filters.sortBy!];
-          const comparison = aVal < bVal ? -1 : aVal > bVal ? 1 : 0;
-          return filters.sortOrder === "asc" ? comparison : -comparison;
-        });
-      }
-
-      // Pagination
-      const total = operations.length;
-      const totalPages = Math.ceil(total / filters.perPage);
-      const start = (filters.page - 1) * filters.perPage;
-      const paginatedData = operations.slice(start, start + filters.perPage);
-
-      resolve(
-        wrapResponse({
-          data: paginatedData,
-          pagination: {
-            page: filters.page,
-            perPage: filters.perPage,
-            total,
-            totalPages,
-          },
-        }),
-      );
-    }, MOCK_DELAY);
-  });
+// ──────────────────────────────────────────────
+// MOCK: Delete Operations
+// ──────────────────────────────────────────────
 
 export const mockDeleteOperations = (
-  ids: string[],
+  _ids: number[],
 ): Promise<ApiResponse<void>> =>
   new Promise((resolve) => {
     setTimeout(() => {
-      if (mockOperationsCache) {
-        mockOperationsCache = mockOperationsCache.filter(
-          (op) => !ids.includes(op.id),
-        );
-      }
       resolve(wrapResponse(undefined));
     }, MOCK_DELAY);
   });
@@ -239,30 +147,12 @@ export const mockCreateOperation = (
 ): Promise<ApiResponse<CreatedOperation>> =>
   new Promise((resolve) => {
     setTimeout(() => {
-      const reference = `OP${String(
-        Math.floor(10000000000 + Math.random() * 90000000000),
-      ).slice(0, 11)}`;
-      const newId = `op-${Date.now()}`;
-
-      // Add to cache so it appears in the list
-      if (mockOperationsCache) {
-        const newOperation: Operation = {
-          id: newId,
-          reference,
-          filesCount: payload.fileIds.length,
-          delegataire: "Total", // Default delegataire for new operations
-          engagementDate: new Date().toISOString(),
-          fost: payload.fost,
-          status: OperationStatus.IN_PROGRESS,
-          conformity: ConformityStatus.NOT_ANALYZED,
-        };
-        mockOperationsCache.unshift(newOperation);
-      }
-
       resolve(
         wrapResponse({
-          id: newId,
-          reference,
+          id: `op-${Date.now()}`,
+          reference: `OP${String(
+            Math.floor(10000000000 + Math.random() * 90000000000),
+          ).slice(0, 11)}`,
           name: payload.name,
           fost: payload.fost,
           lieu: payload.lieu,
@@ -276,12 +166,12 @@ export const mockCreateOperation = (
   });
 
 // ──────────────────────────────────────────────
-// MOCK: Global Coherence Analysis
+// MOCK: Global Conformity Analysis
 // ──────────────────────────────────────────────
 
-const mockGlobalCoherenceAnalysisData: GlobalCoherenceAnalysis = {
+const mockGlobalConformityAnalysisData: GlobalConformityAnalysis = {
   analyzedAt: "2025-01-15T14:30:00Z",
-  globalStatus: "non_conform",
+  globalStatus: CONFORMITY_NON_CONFORME,
   summary:
     "Travaux d'isolation thermique par l'extérieur avec polystyrène 140 mm. Isolation thermique par l'extérieur en 140 mm d'épaisseur, avec 2 couches d'enduit hydraulique (plaque en polystyrène collé et chevillé, armé d'un treillis, polystyrène SINIAT unimat façade: résistance thermique = 3.70",
   verificationSteps: [
@@ -292,7 +182,7 @@ const mockGlobalCoherenceAnalysisData: GlobalCoherenceAnalysis = {
         {
           id: "sub-1-1",
           name: "-",
-          status: CoherenceStatus.CONFORM,
+          status: CONFORMITY_CONFORME,
           comment: "Documents constitutifs obligatoires présents.",
         },
       ],
@@ -304,21 +194,21 @@ const mockGlobalCoherenceAnalysisData: GlobalCoherenceAnalysis = {
         {
           id: "sub-2-1",
           name: "Identité Bénéficiaire identique (Devis/Facture/AH)",
-          status: CoherenceStatus.NON_CONFORM,
+          status: CONFORMITY_NON_CONFORME,
           comment:
             'Devis: "ASSOCIATION ESPERANCE BANLIEUES - COURS LA PASSERELLE" ; Facture: "ASSOCIATION ESPERANCE BANLIEUES" ; AH Partie B : vide.',
         },
         {
           id: "sub-2-2",
           name: "Adresse Chantier identique (Devis/Facture/AH)",
-          status: CoherenceStatus.CONFORM,
+          status: CONFORMITY_CONFORME,
           comment:
             "Adresse chantier identique 212 rue des Martyrs de la Libération, 69310 Pierre-Bénite (graphies équivalentes).",
         },
         {
           id: "sub-2-3",
           name: "Identité Entreprise (SIREN/SIRET) identique",
-          status: CoherenceStatus.NON_CONFORM,
+          status: CONFORMITY_NON_CONFORME,
           comment:
             "Devis/Facture : WIN ENERGIE (SIREN 539810135). AH Partie C : GAZPROM MARKETING & TRADING FRANCE (SIREN 491388914).",
         },
@@ -331,14 +221,14 @@ const mockGlobalCoherenceAnalysisData: GlobalCoherenceAnalysis = {
         {
           id: "sub-3-1",
           name: "Périmètre technique (hydro-économe) conforme BAT-EQ-133",
-          status: CoherenceStatus.CONFORM,
+          status: CONFORMITY_CONFORME,
           comment:
             "Aérateurs auto-régulés / systèmes hydro-économes mentionnés sur toutes pièces.",
         },
         {
           id: "sub-3-2",
           name: "Nombre d'équipements (Facture vs AH)",
-          status: CoherenceStatus.CONFORM,
+          status: CONFORMITY_CONFORME,
           comment: "Facture: 10 aérateurs (implicite) ; AH: 10.",
         },
       ],
@@ -350,26 +240,26 @@ const mockGlobalCoherenceAnalysisData: GlobalCoherenceAnalysis = {
         {
           id: "sub-4-1",
           name: "Antériorité devis vs début travaux",
-          status: CoherenceStatus.NOT_APPLICABLE,
+          status: CONFORMITY_NON_ANALYSED,
           comment: "Aucune date de début travaux renseignée.",
         },
         {
           id: "sub-4-2",
           name: "Facture postérieure à fin travaux",
-          status: CoherenceStatus.NOT_APPLICABLE,
+          status: CONFORMITY_NON_ANALYSED,
           comment: "Aucune date de fin travaux renseignée.",
         },
         {
           id: "sub-4-3",
           name: "Signature AH postérieure/égale à facture",
-          status: CoherenceStatus.NON_CONFORM,
+          status: CONFORMITY_NON_CONFORME,
           comment:
             "Date signature bénéficiaire AH absente ; facture datée 2022-05-19.",
         },
         {
           id: "sub-4-4",
           name: "Antériorité visite technique",
-          status: CoherenceStatus.NOT_APPLICABLE,
+          status: CONFORMITY_NON_ANALYSED,
           comment: "Aucune date de début travaux renseignée.",
         },
       ],
@@ -424,18 +314,18 @@ const mockGlobalCoherenceAnalysisData: GlobalCoherenceAnalysis = {
   ],
 };
 
-// State to simulate persistence of global coherence analysis
-let hasAnalyzedGlobalCoherence = false;
+// State to simulate persistence of global conformity analysis
+let hasAnalyzedGlobalConformity = false;
 
 // ──────────────────────────────────────────────
 // MOCK: Operation Details
 // ──────────────────────────────────────────────
 
-const mockOperationDetailsData: Omit<OperationDetails, "globalCoherence"> = {
+const mockOperationDetailsData: Omit<OperationDetails, "globalConformity"> = {
   id: "op-001",
   reference: "OP6548764651321",
-  conformity: ConformityStatus.NOT_ANALYZED,
-  analysisStatus: AnalysisStatus.NOT_ANALYZED,
+  conformity: CONFORMITY_NON_ANALYSED,
+  analysisStatus: CONFORMITY_NON_ANALYSED,
 
   creationDate: "2025-09-05",
   engagementDate: "2026-03-10",
@@ -470,7 +360,7 @@ const mockOperationDetailsData: Omit<OperationDetails, "globalCoherence"> = {
       summary:
         "Attestation sur l'honneur pour une opération CEE d'isolation de combles/toiture, référence OP156200. Engagement le 2024-03-27, travaux le 2025-01-08, facture FACT0801255305. Surface 175 m2, résistance thermique R=7, épaisseur 350 mm. Site aux Pennes-Mirabeau. Bénéficiaire Laurent Garcia.",
       date: "2025-06-12",
-      status: FileStatus.NON_CONFORM,
+      status: CONFORMITY_NON_CONFORME,
     },
     {
       id: "file-2",
@@ -478,7 +368,7 @@ const mockOperationDetailsData: Omit<OperationDetails, "globalCoherence"> = {
       summary:
         "Attestation sur l'honneur pour une opération CEE d'isolation de combles/toiture, référence OP156200. Engagement le 2024-03-27, travaux le 2025-01-08, facture FACT0801255305. Surface 175 m2, résistance thermique R=7, épaisseur 350 mm. Site aux Pennes-Mirabeau. Bénéficiaire Laurent Garcia.",
       date: "2025-09-05",
-      status: FileStatus.NON_CONFORM,
+      status: CONFORMITY_NON_CONFORME,
     },
     {
       id: "file-3",
@@ -486,7 +376,7 @@ const mockOperationDetailsData: Omit<OperationDetails, "globalCoherence"> = {
       summary:
         "Attestation sur l'honneur pour une opération CEE d'isolation de combles/toiture, référence OP156200. Engagement le 2024-03-27, travaux le 2025-01-08, facture FACT0801255305. Surface 175 m2, résistance thermique R=7, épaisseur 350 mm. Site aux Pennes-Mirabeau. Bénéficiaire Laurent Garcia.",
       date: "2025-12-11",
-      status: FileStatus.CONFORM,
+      status: CONFORMITY_CONFORME,
     },
     {
       id: "file-4",
@@ -494,7 +384,7 @@ const mockOperationDetailsData: Omit<OperationDetails, "globalCoherence"> = {
       summary:
         "Attestation sur l'honneur pour une opération CEE d'isolation de combles/toiture, référence OP156200. Engagement le 2024-03-27, travaux le 2025-01-08, facture FACT0801255305. Surface 175 m2, résistance thermique R=7, épaisseur 350 mm. Site aux Pennes-Mirabeau. Bénéficiaire Laurent Garcia.",
       date: "2025-10-28",
-      status: FileStatus.ANALYZING,
+      status: CONFORMITY_ANALYSIS_IN_PROGRESS,
     },
     {
       id: "file-5",
@@ -502,7 +392,7 @@ const mockOperationDetailsData: Omit<OperationDetails, "globalCoherence"> = {
       summary:
         "Devis CEVOHA du 2024-03-27 pour soufflage de ouate en combles perdus, avec protections électriques et rehausse de trappe. Montant HT 4025.00, TVA 221.38, TTC 4246.38. Ecoprime Picoty déduite 1137.50, net à payer 3108.88. Offre valable jusqu'au 2024-04-26.",
       date: "2026-01-01",
-      status: FileStatus.CONFORM,
+      status: CONFORMITY_CONFORME,
     },
     {
       id: "file-6",
@@ -510,7 +400,7 @@ const mockOperationDetailsData: Omit<OperationDetails, "globalCoherence"> = {
       summary:
         "Devis CEVOHA du 2024-03-27 pour soufflage de ouate en combles perdus, avec protections électriques et rehausse de trappe. Montant HT 4025.00, TVA 221.38, TTC 4246.38. Ecoprime Picoty déduite 1137.50, net à payer 3108.88. Offre valable jusqu'au 2024-04-26.",
       date: "2026-02-15",
-      status: FileStatus.NON_CONFORM,
+      status: CONFORMITY_NON_CONFORME,
     },
     {
       id: "file-7",
@@ -518,7 +408,7 @@ const mockOperationDetailsData: Omit<OperationDetails, "globalCoherence"> = {
       summary:
         "Engagement de Picoty SAS à verser une prime CEE pour des travaux d'isolation de combles/toitures, avec montants conditionnés aux ressources. Bénéficiaire identifié, adresse des travaux, surface, fiche CEE BAR-EN-101, date de proposition 2024-12-20.",
       date: "2026-03-20",
-      status: FileStatus.CONFORM,
+      status: CONFORMITY_CONFORME,
     },
   ],
 };
@@ -531,8 +421,8 @@ export const mockFetchOperationDetails = (
       resolve(
         wrapResponse({
           ...mockOperationDetailsData,
-          globalCoherence: hasAnalyzedGlobalCoherence
-            ? mockGlobalCoherenceAnalysisData
+          globalConformity: hasAnalyzedGlobalConformity
+            ? mockGlobalConformityAnalysisData
             : null,
         }),
       );
@@ -548,7 +438,7 @@ export const mockRunGlobalAnalysis = (
 ): Promise<ApiResponse<void>> =>
   new Promise((resolve) => {
     setTimeout(() => {
-      hasAnalyzedGlobalCoherence = true;
+      hasAnalyzedGlobalConformity = true;
       resolve(wrapResponse(undefined));
     }, MOCK_DELAY * 3); // Simulate longer analysis (1.5s)
   });
@@ -584,7 +474,7 @@ export const mockAddFileToOperation = (
           name: "Nouveau fichier",
           summary: "En attente d'analyse...",
           date: new Date().toISOString().split("T")[0],
-          status: FileStatus.ANALYZING,
+          status: CONFORMITY_ANALYSIS_IN_PROGRESS,
         }),
       );
     }, MOCK_DELAY);
@@ -597,7 +487,7 @@ export const mockAddFileToOperation = (
 const mockDocumentDetailsData: DocumentDetails = {
   id: "doc-1",
   name: "Devis 67865",
-  conformityStatus: FileStatus.NON_CONFORM,
+  conformityStatus: CONFORMITY_NON_CONFORME,
   submissionCount: 3,
   lastSubmissionAt: "2026-02-15T15:54:00Z",
   versions: [
@@ -639,40 +529,40 @@ const mockDocumentDetailsData: DocumentDetails = {
     {
       id: "v1",
       name: "Mentions entreprise (Raison sociale, SIRET, adresse, coordonnées)",
-      status: CoherenceStatus.NON_CONFORM,
+      status: CONFORMITY_NON_CONFORME,
       comment:
         "SIRET introuvable. SIREN présent (539810135) sans SIRET. Réf. BAT-EQ-133 vA64.6, §2.1.1",
     },
     {
       id: "v2",
       name: "Mentions bénéficiaire (Raison sociale + adresse CP/Ville)",
-      status: CoherenceStatus.CONFORM,
+      status: CONFORMITY_CONFORME,
       comment: "Raison sociale et adresse complètes présentes. Réf. §2.1.2.1-2",
     },
     {
       id: "v3",
       name: "Adresse des travaux bâtiment tertiaire",
-      status: CoherenceStatus.CONFORM,
+      status: CONFORMITY_CONFORME,
       comment:
         "Adresse chantier renseignée et cohérente avec bénéficiaire tertiaire. Réf. §2.1.2.2",
     },
     {
       id: "v4",
       name: "Mention explicite de la fiche BAT-EQ-133",
-      status: CoherenceStatus.CONFORM,
+      status: CONFORMITY_CONFORME,
       comment: "Aérateurs auto-régulés précisés. Réf. §2.1.3.2",
     },
     {
       id: "v5",
       name: "Type d'équipements",
-      status: CoherenceStatus.CONFORM,
+      status: CONFORMITY_CONFORME,
       comment:
         "Aérateurs auto-régulés / systèmes hydro-économes mentionnés sur toutes pièces.",
     },
     {
       id: "v6",
       name: "Marque et référence complète",
-      status: CoherenceStatus.NON_CONFORM,
+      status: CONFORMITY_NON_CONFORME,
       comment:
         'Marque citée (ECOPERL) mais référence complète absente/incomplète ("AIR 57" générique). Réf. §2.1.4.1',
     },
@@ -685,7 +575,7 @@ const mockDocumentDetailsData: DocumentDetails = {
         {
           id: "sub-1-1",
           name: "-",
-          status: CoherenceStatus.CONFORM,
+          status: CONFORMITY_CONFORME,
           comment: "Documents constitutifs obligatoires présents.",
         },
       ],
@@ -697,21 +587,21 @@ const mockDocumentDetailsData: DocumentDetails = {
         {
           id: "sub-2-1",
           name: "Identité Bénéficiaire identique (Devis/Facture/AH)",
-          status: CoherenceStatus.NON_CONFORM,
+          status: CONFORMITY_NON_CONFORME,
           comment:
             'Devis: "ASSOCIATION ESPERANCE BANLIEUES - COURS LA PASSERELLE" ; Facture: "ASSOCIATION ESPERANCE BANLIEUES" ; AH Partie B : vide.',
         },
         {
           id: "sub-2-2",
           name: "Adresse Chantier identique (Devis/Facture/AH)",
-          status: CoherenceStatus.CONFORM,
+          status: CONFORMITY_CONFORME,
           comment:
             "Adresse chantier identique 212 rue des Martyrs de la Libération, 69310 Pierre-Bénite (graphies équivalentes).",
         },
         {
           id: "sub-2-3",
           name: "Identité Entreprise (SIREN/SIRET) identique",
-          status: CoherenceStatus.NON_CONFORM,
+          status: CONFORMITY_NON_CONFORME,
           comment:
             "Devis/Facture : WIN ENERGIE (SIREN 539810135). AH Partie C : GAZPROM MARKETING & TRADING FRANCE (SIREN 491388914).",
         },
@@ -724,14 +614,14 @@ const mockDocumentDetailsData: DocumentDetails = {
         {
           id: "sub-3-1",
           name: "Périmètre technique (hydro-économe) conforme BAT-EQ-133",
-          status: CoherenceStatus.CONFORM,
+          status: CONFORMITY_CONFORME,
           comment:
             "Aérateurs auto-régulés / systèmes hydro-économes mentionnés sur toutes pièces.",
         },
         {
           id: "sub-3-2",
           name: "Nombre d'équipements (Facture vs AH)",
-          status: CoherenceStatus.CONFORM,
+          status: CONFORMITY_CONFORME,
           comment: "Facture: 10 aérateurs (implicite) ; AH: 10.",
         },
       ],
@@ -743,26 +633,26 @@ const mockDocumentDetailsData: DocumentDetails = {
         {
           id: "sub-4-1",
           name: "Antériorité devis vs début travaux",
-          status: CoherenceStatus.NOT_APPLICABLE,
+          status: CONFORMITY_NON_ANALYSED,
           comment: "Aucune date de début travaux renseignée.",
         },
         {
           id: "sub-4-2",
           name: "Facture postérieure à fin travaux",
-          status: CoherenceStatus.NOT_APPLICABLE,
+          status: CONFORMITY_NON_ANALYSED,
           comment: "Aucune date de fin travaux renseignée.",
         },
         {
           id: "sub-4-3",
           name: "Signature AH postérieure/égale à facture",
-          status: CoherenceStatus.NON_CONFORM,
+          status: CONFORMITY_NON_CONFORME,
           comment:
             "Date signature bénéficiaire AH absente ; facture datée 2022-05-19.",
         },
         {
           id: "sub-4-4",
           name: "Antériorité visite technique",
-          status: CoherenceStatus.NOT_APPLICABLE,
+          status: CONFORMITY_NON_ANALYSED,
           comment: "Aucune date de début travaux renseignée.",
         },
       ],

@@ -7,11 +7,11 @@ import {
   mockUploadNewFileVersion,
   mockAddFileToOperation,
 } from "@/api/operations/mocks";
-import type { CreateOperationPayload } from "@/api/operations/schemas";
+import type { CreateOperationPayload } from "@/api/operations/schemas/creation";
 
 export const useDeleteOperations = () => {
   return useMutation({
-    mutationFn: (ids: string[]) => unwrapResponse(mockDeleteOperations(ids)),
+    mutationFn: (ids: number[]) => unwrapResponse(mockDeleteOperations(ids)),
   });
 };
 

@@ -2,7 +2,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 
 import { Checkbox } from "@/components/ui/checkbox";
 import { DataTableSortableHeader } from "@/components/ui/data-table";
-import type { Operation } from "@/api/operations/schemas";
+import type { Operation } from "@/api/operations/schemas/list";
 import { StatusBadge } from "@/components/operations/status-badge";
 
 type ColumnConfig = {
@@ -34,16 +34,14 @@ export const createColumns = ({
     size: 40,
   },
   {
-    accessorKey: "reference",
+    id: "title",
+    accessorKey: "title",
     header: ({ column }) => (
       <DataTableSortableHeader column={column} title={t("table.reference")} />
     ),
     cell: ({ row }) => (
-      <span
-        className="block truncate max-w-[250px]"
-        title={row.getValue("reference")}
-      >
-        {row.getValue("reference")}
+      <span className="block truncate max-w-[250px]" title={row.original.title}>
+        {row.original.title}
       </span>
     ),
     size: 250,
@@ -53,47 +51,63 @@ export const createColumns = ({
     header: ({ column }) => (
       <DataTableSortableHeader column={column} title={t("table.filesCount")} />
     ),
+    enableSorting: false,
     size: 100,
   },
   {
-    accessorKey: "delegataire",
+    id: "delegataire",
+    accessorFn: (row) => row.delegataire?.name ?? "-",
     header: ({ column }) => (
       <DataTableSortableHeader column={column} title={t("table.delegataire")} />
     ),
     size: 180,
   },
   {
-    accessorKey: "engagementDate",
+    id: "ceeEngagedAt",
+    accessorKey: "ceeEngagedAt",
     header: ({ column }) => (
       <DataTableSortableHeader
         column={column}
         title={t("table.engagementDate")}
       />
     ),
-    cell: ({ row }) => formatDate(row.getValue("engagementDate")),
+    cell: ({ row }) => {
+      const date = row.original.ceeEngagedAt;
+      return date ? formatDate(date) : "-";
+    },
     size: 160,
   },
   {
-    accessorKey: "fost",
+    id: "fost",
+    accessorFn: (row) => row.fost?.title ?? "-",
     header: ({ column }) => (
       <DataTableSortableHeader column={column} title={t("table.fost")} />
     ),
     size: 140,
   },
   {
-    accessorKey: "status",
+    id: "lifeCycleStatus",
+    accessorKey: "lifeCycleStatus",
     header: ({ column }) => (
       <DataTableSortableHeader column={column} title={t("table.status")} />
     ),
-    cell: ({ row }) => <StatusBadge status={row.getValue("status")} />,
+    cell: ({ row }) => (
+      <StatusBadge code={row.original.lifeCycleStatus.code} type="lifeCycle" />
+    ),
     size: 120,
   },
   {
-    accessorKey: "conformity",
+    id: "conformityStatus",
+    accessorKey: "conformityStatus",
     header: ({ column }) => (
       <DataTableSortableHeader column={column} title={t("table.conformity")} />
     ),
-    cell: ({ row }) => <StatusBadge status={row.getValue("conformity")} />,
+    cell: ({ row }) => (
+      <StatusBadge
+        code={row.original.conformityStatus?.code ?? null}
+        type="conformity"
+      />
+    ),
     size: 140,
   },
 ];

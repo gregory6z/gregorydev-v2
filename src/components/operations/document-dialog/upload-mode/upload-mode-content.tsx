@@ -1,6 +1,9 @@
 import { FileUploadZone } from "@/components/operations/creation-sheet/upload-mode/file-upload-zone";
 import { FileList } from "@/components/operations/creation-sheet/upload-mode/file-list";
-import { FileUploadStatus, type UploadingFile } from "@/api/operations/schemas";
+import {
+  FileUploadStatus,
+  type UploadingFile,
+} from "@/api/operations/schemas/creation";
 
 type UploadModeContentProps = {
   file: File | null;

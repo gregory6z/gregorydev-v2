@@ -7,7 +7,7 @@ import { FileUploadZone } from "@/components/operations/creation-sheet/upload-mo
 import type {
   CreateOperationStep1Data,
   UploadingFile,
-} from "@/api/operations/schemas";
+} from "@/api/operations/schemas/creation";
 
 type UploadModeContentProps = {
   files: UploadingFile[];

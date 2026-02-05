@@ -6,8 +6,8 @@ import {
   DataTableHeader,
   DataTableBody,
 } from "@/components/ui/data-table";
-import type { NonConformity } from "@/api/operations/schemas";
-import { createIssuesColumns } from "@/components/operations/details/global-coherence/issues-table/columns";
+import type { NonConformity } from "@/api/operations/schemas/conformity";
+import { createIssuesColumns } from "@/components/operations/details/global-conformity/issues-table/columns";
 
 type IssuesTableProps = {
   issues: NonConformity[];
@@ -28,7 +28,7 @@ export function IssuesTable({ issues }: IssuesTableProps) {
   if (issues.length === 0) {
     return (
       <p className="text-sm text-muted-foreground italic">
-        {t("globalCoherence.noNonConformities")}
+        {t("globalConformity.noNonConformities")}
       </p>
     );
   }

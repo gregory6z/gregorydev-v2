@@ -6,11 +6,11 @@ import {
   DataTableHeader,
   DataTableBody,
 } from "@/components/ui/data-table";
-import type { VerificationStep } from "@/api/operations/schemas";
+import type { VerificationStep } from "@/api/operations/schemas/conformity";
 import {
   createVerificationColumns,
   type VerificationRow,
-} from "@/components/operations/details/global-coherence/verification-table/columns";
+} from "@/components/operations/details/global-conformity/verification-table/columns";
 
 type VerificationTableProps = {
   steps: VerificationStep[];

@@ -217,7 +217,10 @@ export function DocumentDialog({
                   </SheetTitle>
                   {documentDetails && (
                     <>
-                      <StatusBadge status={documentDetails.conformityStatus} />
+                      <StatusBadge
+                        code={documentDetails.conformityStatus.code}
+                        type="conformity"
+                      />
                       <span className="text-sm text-muted-foreground">
                         {t("documentDialog.submittedTimes", {
                           count: documentDetails.submissionCount,

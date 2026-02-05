@@ -1,6 +1,6 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import type { TFunction } from "i18next";
-import type { OperationFile } from "@/api/operations/schemas";
+import type { OperationFile } from "@/api/operations/schemas/details";
 import { DataTableSortableHeader } from "@/components/ui/data-table";
 import {
   Tooltip,
@@ -59,7 +59,9 @@ export const createFilesColumns = (
         title={t("details.files.status")}
       />
     ),
-    cell: ({ row }) => <StatusBadge status={row.getValue("status")} />,
+    cell: ({ row }) => (
+      <StatusBadge code={row.original.status.code} type="conformity" />
+    ),
     size: 160,
   },
   {

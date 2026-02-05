@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
 import { DocumentStackIcon } from "@/components/icons";
 import { env } from "@/env";
-import { ACCEPTED_FILE_TYPES } from "@/api/operations/schemas";
+import { ACCEPTED_FILE_TYPES } from "@/api/operations/schemas/creation";
 
 type FileUploadZoneProps = {
   onFilesAdded: (files: File[]) => void;

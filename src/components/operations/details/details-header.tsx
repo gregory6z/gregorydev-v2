@@ -1,12 +1,12 @@
 import { useTranslation } from "react-i18next";
 import { ArrowLeftIcon } from "@/components/icons";
 import { StatusBadge } from "@/components/operations/status-badge";
-import type { ConformityStatusType } from "@/api/operations/schemas";
+import type { Status } from "@/api/operations/schemas/common";
 
 type DetailsHeaderProps = {
   beneficiaryName: string | null;
   reference: string;
-  conformity: ConformityStatusType;
+  conformity: Status | null;
   onBack: () => void;
 };
 
@@ -36,7 +36,7 @@ export function DetailsHeader({
         {reference}
       </span>
 
-      <StatusBadge status={conformity} />
+      <StatusBadge code={conformity?.code ?? null} type="conformity" />
     </div>
   );
 }

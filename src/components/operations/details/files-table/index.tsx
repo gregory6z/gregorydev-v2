@@ -14,7 +14,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { PlusIcon } from "@/components/icons";
 import { useFormatDate } from "@/hooks/use-format-date";
-import type { OperationFile } from "@/api/operations/schemas";
+import type { OperationFile } from "@/api/operations/schemas/details";
 import { createFilesColumns } from "@/components/operations/details/files-table/columns";
 
 type FilesTableProps = {

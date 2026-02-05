@@ -5,7 +5,7 @@ import { ValidationField } from "@/components/operations/creation-sheet/validati
 import type {
   ExtractedData,
   SignatureStatusType,
-} from "@/api/operations/schemas";
+} from "@/api/operations/schemas/creation";
 
 type ValidationFieldName = "fost" | "lieu" | "dateEngagement";
 

@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { StatusBadge } from "@/components/operations/status-badge";
 import { TruncatedText } from "@/components/operations/details/files-table/truncated-text";
-import type { DocumentVerification } from "@/api/operations/schemas";
+import type { DocumentVerification } from "@/api/operations/schemas/document";
 
 type AnalysisTableProps = {
   verifications: DocumentVerification[];
@@ -38,7 +38,11 @@ export function AnalysisTable({ verifications }: AnalysisTableProps) {
             </div>
             {/* Status badge - fixed width */}
             <div className="w-[70px] shrink-0">
-              <StatusBadge status={verification.status} short />
+              <StatusBadge
+                code={verification.status.code}
+                type="conformity"
+                short
+              />
             </div>
             {/* Comment - takes remaining space */}
             <div className="flex-1">

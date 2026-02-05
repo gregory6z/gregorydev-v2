@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Upload, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import type { DocumentVersion } from "@/api/operations/schemas";
+import type { DocumentVersion } from "@/api/operations/schemas/document";
 
 type ValidationModeFooterProps = {
   versions: DocumentVersion[];

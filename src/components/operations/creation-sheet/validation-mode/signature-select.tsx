@@ -10,7 +10,7 @@ import {
 import {
   SignatureStatus,
   type SignatureStatusType,
-} from "@/api/operations/schemas";
+} from "@/api/operations/schemas/creation";
 
 type SignatureSelectProps = {
   value: SignatureStatusType | null;

@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import type {
   DocumentBeneficiary,
   DocumentProfessional,
-} from "@/api/operations/schemas";
+} from "@/api/operations/schemas/document";
 
 type ValidationModeInfoProps = {
   beneficiary: DocumentBeneficiary;
