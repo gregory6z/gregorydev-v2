@@ -1,7 +1,6 @@
-import { useState } from "react";
 import { useFormContext, useFormState } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { formatPhone } from "@/helpers/formatters";
+import { usePhoneInput } from "@/hooks/use-phone-input";
 import type { RegisterFormData } from "@/api/users/schemas";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -23,42 +22,10 @@ export const RegisterStepCompany = ({
 
   const { errors } = useFormState({ control });
 
-  const [phoneDisplay, setPhoneDisplay] = useState(() =>
-    formatPhone(getValues("companyPhoneNumber") ?? ""),
+  const { phoneDisplay, handlePhoneChange } = usePhoneInput(
+    getValues("companyPhoneNumber") ?? "",
+    (value, options) => setValue("companyPhoneNumber", value, options),
   );
-
-  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const input = e.target.value;
-
-    // Check if user is typing international format (+33)
-    if (
-      input.startsWith("+33") ||
-      input.startsWith("+3") ||
-      input.startsWith("+")
-    ) {
-      // Extract digits after +33
-      const digitsAfterPrefix = input.slice(1).replace(/\D/g, "");
-
-      // Limit to +33 + 9 digits
-      if (digitsAfterPrefix.startsWith("33")) {
-        const phoneDigits = digitsAfterPrefix.slice(2, 11); // max 9 digits after 33
-        const rawValue = `+33${phoneDigits}`;
-        const formatted = formatPhone(rawValue);
-        setPhoneDisplay(formatted);
-        setValue("companyPhoneNumber", rawValue, { shouldValidate: false });
-      } else if (digitsAfterPrefix.length <= 2) {
-        // User is still typing +3 or +33
-        setPhoneDisplay(input);
-        setValue("companyPhoneNumber", input, { shouldValidate: false });
-      }
-    } else {
-      // National format: 10 digits
-      const digits = input.replace(/\D/g, "").slice(0, 10);
-      const formatted = formatPhone(digits);
-      setPhoneDisplay(formatted);
-      setValue("companyPhoneNumber", digits, { shouldValidate: false });
-    }
-  };
 
   const handleNext = async () => {
     const valid = await trigger("companyPhoneNumber");
