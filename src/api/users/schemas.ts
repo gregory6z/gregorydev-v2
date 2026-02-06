@@ -127,9 +127,20 @@ export type UserGroup = {
   title: string;
 };
 
+export type Company = {
+  id: number;
+  name: string;
+  siret: string;
+  address: string;
+  postalCode: string;
+  city: string;
+  phoneNumber: string;
+};
+
 export type UserProfile = {
   id: number;
   idCompany: number;
+  company: Company;
 };
 
 export type UserMeResponse = {
@@ -137,6 +148,48 @@ export type UserMeResponse = {
   firstName: string;
   lastName: string;
   email: string;
+  phoneNumber: string;
   userGroup: UserGroup;
   userProfile: UserProfile;
+};
+
+// ── Account: Update Personal Info ────────────────────────────────────────────
+
+export const updatePersonalInfoSchema = z.object({
+  firstName: z
+    .string()
+    .min(2, "validation.firstNameMinLength")
+    .max(50, "validation.firstNameMaxLength"),
+  lastName: z
+    .string()
+    .min(2, "validation.lastNameMinLength")
+    .max(50, "validation.lastNameMaxLength"),
+  phoneNumber: phoneField,
+});
+
+export type UpdatePersonalInfoFormData = z.infer<
+  typeof updatePersonalInfoSchema
+>;
+
+// ── Account: Change Password ─────────────────────────────────────────────────
+
+export const changePasswordSchema = z
+  .object({
+    currentPassword: z.string().min(1, "validation.currentPasswordRequired"),
+    newPassword: passwordField,
+    newPasswordConfirmation: passwordConfirmationField,
+  })
+  .refine((data) => data.newPassword === data.newPasswordConfirmation, {
+    message: "validation.passwordsMismatch",
+    path: ["newPasswordConfirmation"],
+  });
+
+export type ChangePasswordFormData = z.infer<typeof changePasswordSchema>;
+
+// ── Account: API Response ────────────────────────────────────────────────────
+
+export type UpdateUserMeResponse = {
+  id: number;
+  firstName: string;
+  lastName: string;
 };

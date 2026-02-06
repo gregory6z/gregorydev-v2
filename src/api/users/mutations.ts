@@ -7,6 +7,9 @@ import type {
   ForgotPasswordFormData,
   ResetPasswordFormData,
   SiretLookupResponse,
+  UpdatePersonalInfoFormData,
+  ChangePasswordFormData,
+  UpdateUserMeResponse,
 } from "@/api/users/schemas";
 
 // ── SIRET Lookup ─────────────────────────────────────────────────────────────
@@ -72,5 +75,36 @@ export const useResetPassword = () => {
           .json<ApiResponse<void>>(),
       );
     },
+  });
+};
+
+// ── Update Personal Info ─────────────────────────────────────────────────────
+
+export const useUpdatePersonalInfo = () => {
+  return useMutation({
+    mutationFn: (data: UpdatePersonalInfoFormData) => {
+      const payload = {
+        ...data,
+        phoneNumber: cleanPhone(data.phoneNumber),
+      };
+      return unwrapResponse(
+        api
+          .put("users/me", { json: payload })
+          .json<ApiResponse<UpdateUserMeResponse>>(),
+      );
+    },
+  });
+};
+
+// ── Change Password ──────────────────────────────────────────────────────────
+
+export const useChangePassword = () => {
+  return useMutation({
+    mutationFn: (data: ChangePasswordFormData) =>
+      unwrapResponse(
+        api
+          .put("users/me", { json: data })
+          .json<ApiResponse<UpdateUserMeResponse>>(),
+      ),
   });
 };
