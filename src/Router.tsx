@@ -8,6 +8,7 @@ import { ForgotPasswordPage } from "@/pages/forgot-password-page";
 import { ResetPasswordPage } from "@/pages/reset-password-page";
 import { OperationsPage } from "@/pages/operations-page";
 import { OperationDetailsPage } from "@/pages/operation-details-page";
+import { AccountPage } from "@/pages/account-page";
 
 export const router = createBrowserRouter([
   {
@@ -38,6 +39,7 @@ export const router = createBrowserRouter([
         children: [
           { path: "/operations", element: <OperationsPage /> },
           { path: "/operations/:id", element: <OperationDetailsPage /> },
+          { path: "/account", element: <AccountPage /> },
         ],
       },
     ],

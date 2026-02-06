@@ -52,7 +52,9 @@ export function Header() {
             }
           />
           <DropdownMenuContent align="end">
-            <DropdownMenuItem>{t("header.myAccount")}</DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link to="/account">{t("header.myAccount")}</Link>
+            </DropdownMenuItem>
             <DropdownMenuItem onClick={logout}>
               {t("header.logout")}
             </DropdownMenuItem>
