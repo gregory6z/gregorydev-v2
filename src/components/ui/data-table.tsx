@@ -221,7 +221,16 @@ function DataTableSortableHeader<TData, TValue>({
   return (
     <Button
       variant="ghost"
-      onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      onClick={() => {
+        const currentSort = column.getIsSorted();
+        if (currentSort === false) {
+          column.toggleSorting(true);
+        } else if (currentSort === "desc") {
+          column.toggleSorting(false);
+        } else {
+          column.clearSorting();
+        }
+      }}
       className="-ml-3 h-8"
     >
       {title}
