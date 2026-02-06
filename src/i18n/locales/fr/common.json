@@ -3,6 +3,7 @@
     "myAccount": "Mon compte",
     "logout": "Déconnexion"
   },
+  "saving": "Enregistrement...",
   "errors": {
     "generic": "Une erreur est survenue. Veuillez réessayer.",
     "unknown": "Une erreur inattendue est survenue"

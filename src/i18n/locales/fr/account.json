@@ -1,0 +1,41 @@
+{
+  "title": "MON COMPTE",
+  "personalInfo": "Informations personnelles",
+  "lastName": "Nom",
+  "firstName": "Prénom",
+  "email": "Email",
+  "phone": "N° téléphone",
+  "companyName": "Nom de l'entreprise",
+  "coordinates": "Coordonnées",
+  "editPhoto": "Modifier la photo",
+  "saveChanges": "Enregistrer les modifications",
+  "password": "Mot de passe",
+  "currentPassword": "Mot de passe actuel",
+  "newPassword": "Nouveau mot de passe",
+  "confirmNewPassword": "Confirmer le nouveau mot de passe",
+  "changePassword": "Changer le mot de passe",
+  "validation": {
+    "firstNameMinLength": "Le prénom doit contenir au moins 2 caractères",
+    "firstNameMaxLength": "Le prénom ne doit pas dépasser 50 caractères",
+    "lastNameMinLength": "Le nom doit contenir au moins 2 caractères",
+    "lastNameMaxLength": "Le nom ne doit pas dépasser 50 caractères",
+    "phoneRequired": "Le téléphone est requis",
+    "phoneInvalid": "Format de téléphone invalide",
+    "currentPasswordRequired": "Le mot de passe actuel est requis",
+    "passwordMinLength": "Le mot de passe doit contenir au moins 8 caractères",
+    "passwordUppercase": "Le mot de passe doit contenir au moins une majuscule",
+    "passwordLowercase": "Le mot de passe doit contenir au moins une minuscule",
+    "passwordDigit": "Le mot de passe doit contenir au moins un chiffre",
+    "passwordSpecial": "Le mot de passe doit contenir au moins un caractère spécial",
+    "confirmPasswordRequired": "La confirmation du mot de passe est requise",
+    "passwordsMismatch": "Les mots de passe ne correspondent pas"
+  },
+  "errors": {
+    "400": "Mot de passe actuel incorrect",
+    "401": "Session expirée, veuillez vous reconnecter",
+    "500": "Une erreur est survenue. Veuillez réessayer.",
+    "network_error": "Impossible de contacter le serveur. Vérifiez votre connexion internet.",
+    "timeout_error": "La requête a pris trop de temps. Veuillez réessayer.",
+    "unknown": "Une erreur inattendue est survenue"
+  }
+}
