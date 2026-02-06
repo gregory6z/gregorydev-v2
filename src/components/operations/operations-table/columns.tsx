@@ -8,11 +8,13 @@ import { StatusBadge } from "@/components/operations/status-badge";
 type ColumnConfig = {
   t: (key: string) => string;
   formatDate: (date: string) => string;
+  isPrincipal: boolean;
 };
 
 export const createColumns = ({
   t,
   formatDate,
+  isPrincipal,
 }: ColumnConfig): ColumnDef<Operation>[] => [
   {
     id: "select",
@@ -55,10 +57,14 @@ export const createColumns = ({
     size: 100,
   },
   {
-    id: "delegataire",
-    accessorFn: (row) => row.delegataire?.name ?? "-",
+    id: isPrincipal ? "producer" : "principal",
+    accessorFn: (row) =>
+      (isPrincipal ? row.producer?.name : row.principal?.name) ?? "-",
     header: ({ column }) => (
-      <DataTableSortableHeader column={column} title={t("table.delegataire")} />
+      <DataTableSortableHeader
+        column={column}
+        title={t(isPrincipal ? "table.entreprise" : "table.delegataire")}
+      />
     ),
     size: 180,
   },

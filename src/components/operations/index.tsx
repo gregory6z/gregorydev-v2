@@ -24,6 +24,7 @@ import type {
   Operation,
 } from "@/api/operations/schemas/list";
 
+import { useUserMe } from "@/api/users/queries";
 import { Button } from "@/components/ui/button";
 import {
   DataTable,
@@ -46,6 +47,7 @@ export const OperationsTable = () => {
   const formatDate = useFormatDate();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const { data: user } = useUserMe();
 
   // Filters state
   const [filters, setFilters] = useState<OperationsListFilters>({
@@ -87,10 +89,13 @@ export const OperationsTable = () => {
     navigate(`/operations/${operation.id}`);
   };
 
+  const isPrincipal = user?.userGroup.code === "PRINCIPAL";
+
   // Columns - React Compiler handles memoization
   const columns = createColumns({
     t,
     formatDate,
+    isPrincipal,
   });
 
   // Table instance

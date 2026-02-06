@@ -43,10 +43,11 @@
     "reference": "Intitulé",
     "filesCount": "Fichiers",
     "delegataire": "Délégataire / Obligé",
+    "entreprise": "Entreprise",
     "engagementDate": "Date d'engagement",
     "fost": "FOST",
-    "status": "Statut",
-    "conformity": "Conformité",
+    "status": "Statut opération",
+    "conformity": "Analyse globale",
     "noResults": "Aucune opération trouvée",
     "empty": "Aucune opération",
     "error": "Une erreur est survenue lors du chargement des opérations."

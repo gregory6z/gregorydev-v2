@@ -1,7 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
-import { unwrapResponse } from "@/api/client";
+import { api, unwrapResponse, type ApiResponse } from "@/api/client";
 import {
-  mockDeleteOperations,
   mockCreateOperation,
   mockRunGlobalAnalysis,
   mockUploadNewFileVersion,
@@ -11,7 +10,10 @@ import type { CreateOperationPayload } from "@/api/operations/schemas/creation";
 
 export const useDeleteOperations = () => {
   return useMutation({
-    mutationFn: (ids: number[]) => unwrapResponse(mockDeleteOperations(ids)),
+    mutationFn: (ids: number[]) =>
+      unwrapResponse(
+        api.delete("operations", { json: { ids } }).json<ApiResponse<void>>(),
+      ),
   });
 };
 

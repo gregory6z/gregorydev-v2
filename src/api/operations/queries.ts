@@ -35,7 +35,8 @@ export const operationsKeys = {
 
 const SORT_FIELD_MAP: Record<SortableField, string> = {
   title: "title",
-  delegataire: "principal.name",
+  principal: "principal.name",
+  producer: "producer.name",
   ceeEngagedAt: "cee_engaged_at",
   fost: "ceeFost.title",
   lifeCycleStatus: "lastLifeCycleStatusAssociation.conformityStatus.code",

@@ -4,7 +4,7 @@ import type { Status } from "./common";
 // Operation (list) - aligned with OperationListItemDto in backend
 // ──────────────────────────────────────────────
 
-export type OperationDelegataire = {
+export type OperationCompanySummary = {
   id: number;
   name: string;
 };
@@ -18,7 +18,8 @@ export type Operation = {
   id: number;
   title: string;
   filesCount: number;
-  delegataire: OperationDelegataire | null;
+  principal: OperationCompanySummary | null;
+  producer: OperationCompanySummary | null;
   ceeEngagedAt: string | null;
   fost: OperationFost | null;
   lifeCycleStatus: Status;
@@ -62,7 +63,8 @@ export type ConformityFilter =
 
 export type SortableField =
   | "title"
-  | "delegataire"
+  | "principal"
+  | "producer"
   | "ceeEngagedAt"
   | "fost"
   | "lifeCycleStatus"

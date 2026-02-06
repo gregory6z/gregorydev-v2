@@ -9,7 +9,7 @@ export type Status = {
 };
 
 // ──────────────────────────────────────────────
-// Status Codes (aligned with backend)
+// Status Codes
 // ──────────────────────────────────────────────
 
 // Life cycle status codes (LifeCycleStatusCode in backend)
