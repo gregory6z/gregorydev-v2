@@ -31,29 +31,7 @@ Errors are based on `statusCode`, never on `message`.
 
 ### Error Propagation Flow
 
-```
-API response { success: false, statusCode: 401 }
-        │
-        ▼
-unwrapResponse() receives the Promise
-  → catches network errors → Error("network_error")
-  → catches timeout errors → Error("timeout_error")
-  → checks success: false  → Error(statusCode)
-        │
-        ▼
-React Query catches the error
-  → mutation.error = Error("401")
-  → mutation.isError = true
-        │
-        ▼
-Component reads mutation.error.message
-  → t(`errors.${mutation.error.message}`)
-        │
-        ▼
-i18n resolves the key (auth.json)
-  → "errors.401" → "Identifiants incorrects"
-  → "errors.network_error" → "Impossible de contacter le serveur..."
-```
+API response `{ success: false, statusCode }` → `unwrapResponse()` throws `Error(statusCode)` → React Query catches → component reads `mutation.error.message` → i18n resolves `errors.{code}`
 
 ### Network Error Handling
 
@@ -67,21 +45,12 @@ i18n resolves the key (auth.json)
 
 ### Using useFormState for Error Display
 
-When using `useFormContext` with `trigger()` for validation, errors won't display unless you subscribe to formState changes. Use `useFormState` to ensure re-renders:
-
-```tsx
-// ❌ Won't re-render after trigger()
-const { formState: { errors } } = useFormContext();
-
-// ✅ Subscribes to formState changes
-const { control } = useFormContext();
-const { errors } = useFormState({ control });
-```
+When using `useFormContext` with `trigger()`, use `useFormState({ control })` to subscribe to formState changes — otherwise errors won't re-render.
 
 ### Rules
 
 - All mutations/queries use `unwrapResponse()` from `client.ts`
-- `unwrapResponse()` receives a Promise, handles network errors, and unwraps the response
+- `unwrapResponse()` receives a Promise (don't await before passing), handles network errors, and unwraps the response
 - Components catch errors and translate via i18n using the error code
 - Translation keys: `"401"`, `"403"`, `"404"`, `"409"`, `"500"`, `"network_error"`, `"timeout_error"`, `"unknown"`
 - The `message` field from the API is **never** displayed to the user
@@ -97,31 +66,7 @@ Configured in `client.ts`:
 
 ### unwrapResponse()
 
-The single entry point for all API calls. Receives a Promise and handles everything:
-
-```typescript
-// Signature
-async function unwrapResponse<T>(request: Promise<ApiResponse<T>>): Promise<T>
-
-// Usage in mutations
-mutationFn: (data) => unwrapResponse(
-  api.post("endpoint", { json: data }).json<ApiResponse<Response>>()
-)
-
-// Usage in queries
-queryFn: () => unwrapResponse(
-  api.get("endpoint").json<ApiResponse<Response>>()
-)
-```
-
-**Important:** Pass the Promise directly, don't await it:
-```typescript
-// ✅ Correct
-unwrapResponse(api.get("endpoint").json())
-
-// ❌ Wrong - defeats network error handling
-unwrapResponse(await api.get("endpoint").json())
-```
+Single entry point for all API calls. Receives a Promise and handles everything. **Important:** Pass the Promise directly, don't await it — awaiting defeats network error handling.
 
 ### Request Hooks (beforeRequest)
 
@@ -134,16 +79,7 @@ unwrapResponse(await api.get("endpoint").json())
 
 ### Case Transformation
 
-The API uses snake_case, the front-end uses camelCase. Transformation is automatic:
-
-```
-Front-end (camelCase)  →  API (snake_case)  →  Front-end (camelCase)
-{ userName: "John" }   →  { user_name: "John" }  →  { userName: "John" }
-```
-
-Helpers are in `@/helpers/transformers.ts`:
-- `toSnakeCaseKeys()` — for requests
-- `toCamelCaseKeys()` — for responses
+The API uses snake_case, the front-end uses camelCase. Transformation is automatic via hooks. Helpers in `@/helpers/transformers.ts`: `toSnakeCaseKeys()` and `toCamelCaseKeys()`.
 
 ## Schemas & Types
 
@@ -154,56 +90,43 @@ Helpers are in `@/helpers/transformers.ts`:
 
 ### Const Enums Pattern
 
-Use `as const` objects for enums, with a derived type for type-safety:
-- Define a const object with values
-- Derive a union type with `(typeof Obj)[keyof typeof Obj]`
-- Use the object for runtime values, the type for compile-time checking
+Use `as const` objects for enums, with a derived union type via `(typeof Obj)[keyof typeof Obj]`.
 
 ### Shared Fields
 
-Extract common Zod fields (email, phone, password) as constants at the top of the schema file and reuse them across multiple schemas.
+Extract common Zod fields (email, phone, password) as constants at the top of the schema file and reuse across schemas.
 
 ### Refine Helpers
 
-Extract refine logic (e.g., password confirmation) as reusable generic functions that can wrap multiple schemas.
+Extract refine logic (e.g., password confirmation) as reusable generic functions.
 
 ### Nullable Fields
 
-API responses with AI-extracted data may have nullable fields. Use explicit `| null` for these fields, not optional (`?`).
+API responses with AI-extracted data may have nullable fields. Use explicit `| null`, not optional (`?`).
 
 ### Void Responses
 
-Use `ApiResponse<void>` for mutations that don't return data (e.g., reset password, delete, send email).
+Use `ApiResponse<void>` for mutations that don't return data.
 
 ### Zod 4
 
 - Import from `zod/v4` (never `zod`)
-- French locale configured globally via `z.config(fr())` — handles standard messages automatically
+- French locale configured globally via `z.config(fr())`
 - Custom business messages use i18n keys as strings directly in the schema
 
 ## Queries (useQuery)
 
 ### Query Keys Factory
 
-Each feature exports a `keys` factory in `queries.ts` for consistent cache management:
-- `all`: Base key for the feature
-- `counts()`: For count queries
-- `lists()`: For all list queries
-- `list(filters)`: For a specific filtered list
-
-**Why?**
-- **Granular invalidation**: Invalidate all, just counts, all lists, or a specific filtered list
-- **Consistency**: No typos, all queries use the same format
-- **Hierarchy**: Parent keys invalidate all children
-- **Type-safety**: `as const` ensures correct type inference
+Each feature exports a `keys` factory in `queries.ts` for consistent cache management with keys: `all`, `counts()`, `lists()`, `list(filters)`. Enables granular invalidation, consistency, hierarchy, and type-safety.
 
 ### Query Options
 
 | Option | When to use |
 |--------|-------------|
 | `enabled` | Conditional or dependent queries |
-| `staleTime` | Data that rarely changes (e.g., config, static lists) |
-| `refetchOnWindowFocus` | Disable for data that doesn't change often |
+| `staleTime` | Data that rarely changes |
+| `refetchOnWindowFocus` | Disable for static data |
 | `placeholderData` | Keep old data during loading (pagination) |
 | `refetch` | Force manual refetch (rare, prefer invalidation) |
 
@@ -217,29 +140,17 @@ Each feature exports a `keys` factory in `queries.ts` for consistent cache manag
 
 ### Why Mutations Don't Need a Keys Factory
 
-Queries are cached and identified by `queryKey`. Mutations are not cached - they execute an action and don't store the result. What matters is **invalidating the affected queries** afterward.
+Mutations are not cached — they execute an action. What matters is invalidating the affected queries afterward.
 
 ### Separation of Concerns
 
-**In `mutations.ts`:**
-- Only `mutationFn` with `unwrapResponse()`
-- No `useQueryClient()` or cache logic
-- Keep mutations simple and focused on the API call
+**In `mutations.ts`:** Only `mutationFn` with `unwrapResponse()`. No `useQueryClient()` or cache logic.
 
-**In component:**
-- `onSettled`: cache invalidation with `queryClient.invalidateQueries`
-- `onSuccess`: navigation, close dialog, reset form, change step
-- `onError`: show error toast, user feedback
-
-This separation ensures mutations are simple and reusable, while components control cache invalidation and UI logic.
+**In component:** `onSettled` for cache invalidation, `onSuccess` for navigation/UI, `onError` for error feedback.
 
 ## setFilters Pattern
 
-For components with filters (tables, paginated lists):
-- Parent component defines `filters` state with `useState`
-- Child components (e.g., `DataTablePagination`) receive `filters` and `setFilters` as props
-- Update logic lives in the component that needs it
-- Use explicit names in callbacks: `setFilters((filters) => ...)` not `setFilters((f) => ...)`
+For components with filters (tables, paginated lists): parent defines `filters` state, children receive `filters` and `setFilters` as props. Use explicit names in callbacks: `setFilters((filters) => ...)`.
 
 ## Best Practices
 

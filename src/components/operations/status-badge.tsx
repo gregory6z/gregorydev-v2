@@ -9,7 +9,6 @@ import {
   CheckCircleIcon,
   XCircleIcon,
   SquareRoundedIcon,
-  SquareDashedIcon,
   DotsHorizontalIcon,
   SquareOutlineIcon,
   LoadingIcon,
