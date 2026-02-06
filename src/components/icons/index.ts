@@ -1,4 +1,5 @@
 export { ArrowLeftIcon } from "@/components/icons/arrow-left";
+export { CameraIcon } from "@/components/icons/camera";
 export { ArrowRightIcon } from "@/components/icons/arrow-right";
 export { CheckCircleIcon } from "@/components/icons/check-circle";
 export { ClockIcon } from "@/components/icons/clock";

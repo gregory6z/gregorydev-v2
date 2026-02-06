@@ -10,6 +10,8 @@ const labelVariants = cva(
       variant: {
         default: "text-sm",
         auth: "font-display text-lg font-normal leading-[140%] text-white",
+        account:
+          "font-display text-lg font-normal leading-[140%] text-foreground",
       },
     },
     defaultVariants: {

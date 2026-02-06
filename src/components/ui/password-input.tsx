@@ -11,6 +11,7 @@ const toggleVariants = cva(
       variant: {
         default: "text-muted-foreground hover:text-foreground",
         auth: "text-white/40 hover:text-white/70",
+        account: "text-muted-foreground hover:text-foreground",
       },
     },
     defaultVariants: {
