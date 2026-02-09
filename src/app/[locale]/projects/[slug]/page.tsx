@@ -129,11 +129,10 @@ const techIcons: Record<string, React.ComponentType<{ className?: string }>> = {
 };
 
 // Valid project slugs
-const validSlugs = ["la-bonne-reponse", "les-performeurs", "airwell-iot-router", "va-beauty", "ragboost", "sncf-util-ia"];
+const validSlugs = ["saas-chatbot-hoc", "les-performeurs", "airwell-iot-router", "va-beauty", "ragboost", "sncf-util-ia"];
 
 // Project external links
 const projectLinks: Record<string, string> = {
-  "la-bonne-reponse": "https://www.la-bonne-reponse.pro/",
   "les-performeurs": "https://www.lesperformeurs.fr/",
   "airwell-iot-router": "https://airwell.com/",
   "va-beauty": "https://www.vabeauty.fr/",
@@ -141,7 +140,7 @@ const projectLinks: Record<string, string> = {
 
 // Project hero images
 const projectImages: Record<string, string> = {
-  "la-bonne-reponse": "/images/projects/lbr/main-lbr.png",
+  "saas-chatbot-hoc": "/images/projects/lbr/main-lbr.png",
   "les-performeurs": "/images/projects/les-performeurs/main-les-performeurs.png",
   "airwell-iot-router": "/images/projects/router-iot.svg",
   "ragboost": "/images/projects/ragboost/ragboost-main.png",

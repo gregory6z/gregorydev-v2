@@ -5,7 +5,7 @@ const locales = ["en", "pt", "fr", "es"] as const
 
 // All project slugs
 const projectSlugs = [
-	"la-bonne-reponse",
+	"saas-chatbot-hoc",
 	"les-performeurs",
 	"airwell-iot-router",
 	"va-beauty",

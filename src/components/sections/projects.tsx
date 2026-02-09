@@ -4,7 +4,7 @@ import Image from "next/image";
 
 // Project card images
 const projectImages: Record<string, string> = {
-  "la-bonne-reponse": "/images/projects/lbr/main-lbr.png",
+  "saas-chatbot-hoc": "/images/projects/lbr/main-lbr.png",
   "les-performeurs": "/images/projects/les-performeurs/main-les-performeurs.png",
   "airwell-iot-router": "/images/projects/router-iot.svg",
   "sncf-util-ia": "/images/sncf/sncf-main.png",

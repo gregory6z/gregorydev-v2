@@ -52,16 +52,16 @@
 	},
 	"subProjects": "Projets",
 	"projects": {
-		"la-bonne-reponse": {
-			"title": "La Bonne Réponse",
+		"saas-chatbot-hoc": {
+			"title": "SAAS CHATBOT HOC",
 			"subtitle": "Écosystème IA pour le Secteur de la Construction",
 			"role": "Full Stack Developer | Lead Front End | UI/UX Designer",
 			"period": "Avril 2025 - Présent",
 			"status": "En Production",
-			"client": "La Bonne Réponse (via House of Coding / Amiltone)",
+			"client": "SAAS CHATBOT HOC (via House of Coding / Amiltone)",
 			"overview": {
-				"context": "La Bonne Réponse est une startup française qui révolutionne le secteur de la construction et de la rénovation énergétique grâce à l'IA Générative. Le problème : les professionnels du bâtiment doivent vérifier la conformité avec plus de 300 réglementations techniques françaises (DTU, normes NF, Eurocodes, etc.), un processus manuel chronophage et sujet aux erreurs. La solution : un assistant IA spécifiquement formé sur ces réglementations, répondant instantanément aux questions techniques en citant les sources officielles.",
-				"solution": "L'écosystème se compose de trois composants internes pour que l'équipe La Bonne Réponse gère ses clients : (1) LBR-API - API REST multi-tenant robuste gérant les widgets de chat, l'authentification double (utilisateurs et widgets), les intégrations avec Stripe/AWS/Brevo, et le contrôle qualité automatisé ; (2) IA Factory - Back Office Admin où l'équipe configure les chatbots, génère des widgets personnalisés, gère les bases de connaissances et surveille les conversations ; (3) Portail Utilisateur - où les professionnels du bâtiment accèdent à l'assistant IA avec historique des conversations et gestion des abonnements. Le lien externe redirige vers le site institutionnel de l'entreprise.",
+				"context": "SAAS CHATBOT HOC est une startup française qui révolutionne le secteur de la construction et de la rénovation énergétique grâce à l'IA Générative. Le problème : les professionnels du bâtiment doivent vérifier la conformité avec plus de 300 réglementations techniques françaises (DTU, normes NF, Eurocodes, etc.), un processus manuel chronophage et sujet aux erreurs. La solution : un assistant IA spécifiquement formé sur ces réglementations, répondant instantanément aux questions techniques en citant les sources officielles.",
+				"solution": "L'écosystème se compose de trois composants internes pour que l'équipe SAAS CHATBOT HOC gère ses clients : (1) LBR-API - API REST multi-tenant robuste gérant les widgets de chat, l'authentification double (utilisateurs et widgets), les intégrations avec Stripe/AWS/Brevo, et le contrôle qualité automatisé ; (2) IA Factory - Back Office Admin où l'équipe configure les chatbots, génère des widgets personnalisés, gère les bases de connaissances et surveille les conversations ; (3) Portail Utilisateur - où les professionnels du bâtiment accèdent à l'assistant IA avec historique des conversations et gestion des abonnements. Le lien externe redirige vers le site institutionnel de l'entreprise.",
 				"myRole": "J'ai occupé le rôle de Lead Front End et UI/UX Designer, responsable de toute l'architecture et du développement front-end des deux plateformes (BO et Portail). J'ai créé tout le design d'interface et l'expérience utilisateur, pris des décisions techniques sur le stack et les patterns de code. J'ai également collaboré activement au développement de l'API backend avec l'équipe House of Coding."
 			},
 			"stack": {
